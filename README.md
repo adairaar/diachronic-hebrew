@@ -189,7 +189,7 @@ If you use this code or data, please cite:
 ```
 Aaron Adair (2026). A multivariate Bayesian framework for diachronic dating
 of ancient texts: Validation on Biblical Hebrew and Ancient Greek.
-PLOS ONE. https://github.com/aaronadair/diachronic-hebrew
+PLOS ONE. https://github.com/adairaar/diachronic-hebrew
 ```
 
 ---
