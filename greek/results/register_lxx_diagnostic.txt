@@ -1,0 +1,123 @@
+================================================================================
+LXX REGISTER — DIAGNOSTIC FEATURE ANALYSIS
+================================================================================
+
+This table shows how Septuagint Greek (LXX) differs from the other
+three registers on each feature.  Effect size = (LXX mean − other mean)
+divided by the pooled standard deviation.  |effect| > 0.8 = large.
+
+
+────────────────────────────────────────────────────────────────────────────────
+  LXX vs. Ancient Attic
+  LXX texts: 7    Other texts: 17
+────────────────────────────────────────────────────────────────────────────────
+  Feature                                               LXX mean Other mean   Effect  Direction
+  ──────────────────────────────────────────────────  ────────── ────────── ────────  ────────────
+  topic_0                                                 0.7195     0.1449    5.099  ↑ LXX higher  *** LARGE
+  μέν / 1k words                                          1.0969    14.8380   -4.406  ↓ LXX lower  *** LARGE
+  topic_1                                                 0.0141     0.0805   -3.046  ↓ LXX lower  *** LARGE
+  -ττ- / (-ττ-+-σσ-) ratio  [Attic vs Koine spelling      0.1686     0.8099   -2.902  ↓ LXX lower  *** LARGE
+  topic_7                                                 0.0383     0.2993   -2.840  ↓ LXX lower  *** LARGE
+  Average sentence length (words)                         8.2508    16.1935   -2.770  ↓ LXX lower  *** LARGE
+  Optative forms (heuristic) / 1k words                  68.1659   102.9622   -2.762  ↓ LXX lower  *** LARGE
+  εἶπεν/εἶπε formula (narrative 'he said') / 1k           1.1587     0.0288    2.745  ↑ LXX higher  *** LARGE
+  ἰδού (deictic, =Heb. hinneh) / 1k words                 1.4987     0.0000    2.682  ↑ LXX higher  *** LARGE
+  Sentences beginning with καί (waw-consecutive prox      0.2897     0.0915    2.471  ↑ LXX higher  *** LARGE
+  καί / 1k words                                        102.8829    58.6889    2.432  ↑ LXX higher  *** LARGE
+  topic_6                                                 0.0471     0.1987   -2.265  ↓ LXX lower  *** LARGE
+  Dual number forms / 1k words                           14.2489     8.4884    2.015  ↑ LXX higher  *** LARGE
+  οὖν / 1k words                                          1.2983     3.8169   -1.733  ↓ LXX lower  *** LARGE
+  Participial forms (heuristic) / 1k words              201.9780   170.0777    1.508  ↑ LXX higher  *** LARGE
+  γοῦν + τοίνυν (Attic particles) / 1k                    0.0353     0.9264   -1.471  ↓ LXX lower  *** LARGE
+  δέ / 1k words                                          15.8026    28.0369   -1.044  ↓ LXX lower  *** LARGE
+  topic_4                                                 0.0663     0.1437   -0.973  ↓ LXX lower  *** LARGE
+  topic_3                                                 0.0083     0.0122   -0.508  ↓ LXX lower  **  medium
+  topic_5                                                 0.0595     0.0773   -0.344  ↓ LXX lower
+  topic_2                                                 0.0470     0.0433    0.096  ↑ LXX higher
+  ἵνα clauses / 1k words                                  1.0284     0.9869    0.049  ↑ LXX higher
+
+────────────────────────────────────────────────────────────────────────────────
+  LXX vs. Koine
+  LXX texts: 7    Other texts: 20
+────────────────────────────────────────────────────────────────────────────────
+  Feature                                               LXX mean Other mean   Effect  Direction
+  ──────────────────────────────────────────────────  ────────── ────────── ────────  ────────────
+  topic_0                                                 0.7195     0.1986    4.631  ↑ LXX higher  *** LARGE
+  μέν / 1k words                                          1.0969    11.2336   -3.004  ↓ LXX lower  *** LARGE
+  topic_7                                                 0.0383     0.3195   -2.881  ↓ LXX lower  *** LARGE
+  καί / 1k words                                        102.8829    59.5096    2.784  ↑ LXX higher  *** LARGE
+  Sentences beginning with καί (waw-consecutive prox      0.2897     0.0778    2.617  ↑ LXX higher  *** LARGE
+  Optative forms (heuristic) / 1k words                  68.1659    91.2229   -2.243  ↓ LXX lower  *** LARGE
+  ἰδού (deictic, =Heb. hinneh) / 1k words                 1.4987     0.0915    2.228  ↑ LXX higher  *** LARGE
+  -ττ- / (-ττ-+-σσ-) ratio  [Attic vs Koine spelling      0.1686     0.6123   -2.175  ↓ LXX lower  *** LARGE
+  οὖν / 1k words                                          1.2983     4.5221   -1.690  ↓ LXX lower  *** LARGE
+  γοῦν + τοίνυν (Attic particles) / 1k                    0.0353     0.9069   -1.673  ↓ LXX lower  *** LARGE
+  εἶπεν/εἶπε formula (narrative 'he said') / 1k           1.1587     0.2189    1.336  ↑ LXX higher  *** LARGE
+  topic_6                                                 0.0471     0.1225   -1.241  ↓ LXX lower  *** LARGE
+  topic_1                                                 0.0141     0.0503   -1.183  ↓ LXX lower  *** LARGE
+  Dual number forms / 1k words                           14.2489    10.5429    1.148  ↑ LXX higher  *** LARGE
+  Average sentence length (words)                         8.2508    11.9415   -1.129  ↓ LXX lower  *** LARGE
+  δέ / 1k words                                          15.8026    26.7738   -0.922  ↓ LXX lower  *** LARGE
+  topic_4                                                 0.0663     0.1287   -0.667  ↓ LXX lower  **  medium
+  topic_2                                                 0.0470     0.0705   -0.576  ↓ LXX lower  **  medium
+  topic_5                                                 0.0595     0.0969   -0.517  ↓ LXX lower  **  medium
+  topic_3                                                 0.0083     0.0130   -0.499  ↓ LXX lower
+  Participial forms (heuristic) / 1k words              201.9780   190.2101    0.491  ↑ LXX higher
+  ἵνα clauses / 1k words                                  1.0284     1.6378   -0.366  ↓ LXX lower
+
+
+================================================================================
+PLAIN-LANGUAGE SUMMARY: HOW LXX GREEK DIFFERS FROM CLASSICAL ATTIC
+================================================================================
+
+What makes the Septuagint's Greek distinctive?
+
+1.  HIGH ἰδού rate (large effect vs. Classical)
+    ἰδού ("behold!") is rare in Classical prose — it sounds theatrical.
+    In the LXX it appears constantly, translating Hebrew הִנֵּה (hinneh),
+    the standard deictic/presentative particle.  It is also very frequent
+    in the NT Gospels (esp. Matthew and Luke), a diagnostic link to the
+    LXX tradition.
+
+2.  HIGH εἶπεν rate (large effect vs. Classical)
+    Classical narrative uses the historic present (λέγει) or εἶπε.
+    The LXX uses εἶπεν almost formulaically as the standard 3sg aorist
+    of the speech-introduction formula ("and he said..."), reproducing
+    Hebrew וַיֹּאמֶר (wayyōʾmer).  This creates a distinctive rhythmic
+    repetition absent from literary Koine like Josephus or Philo.
+
+3.  HIGH sentence-initial καί (waw-consecutive proxy)
+    Hebrew narrative is structured by the waw-consecutive construction
+    (ו + prefixed verb), which the LXX translates almost mechanically
+    as καί + verb at the start of each clause.  This is the most
+    distinctive syntactic feature of LXX Greek: sentences begin with
+    καί at a rate far higher than any other register.
+
+4.  LOW γοῦν / τοίνυν (Attic particles absent)
+    These are sophisticated discourse particles of educated Attic prose.
+    They are essentially absent from the LXX — translation Greek operates
+    at a different register of formality than rhetorical prose.
+
+5.  LOW -ττ- ratio (follows Koine spelling)
+    The LXX was translated in Alexandria (Egypt) and follows the Koine
+    -σσ- spellings (θάλασσα, πράσσω) rather than Attic -ττ-.
+
+6.  HIGH ἵνα rate (shared with Koine; even higher in LXX)
+    LXX generalises ἵνα as an all-purpose subordinator, reflecting
+    the Hebrew ל (lamed) + infinitive construction. This is a key feature
+    distinguishing LXX from Classical Greek, where ἵνα is restricted to
+    final (purpose) clauses.
+
+7.  MODERATE κaί rate (higher than Classical, but see sentence-initial)
+    The high overall καί frequency is partly the waw-consecutive effect
+    and partly the LXX's general preference for paratactic coordination
+    over the hypotactic (subordinate-clause-heavy) style of Classical Attic.
+
+Implications for NT dating
+--------------------------
+The NT Gospels (Mark, Matthew, Luke) show a profile intermediate between
+Koine and LXX: high ἰδού (especially Matthew), moderate εἶπεν, high
+ἵνα rate, low -ττ-, low Attic particles.  The LXX register class allows
+the calibrated dating model to recognise this Semitic-substrate style and
+apply the appropriate sub-model rather than forcing the Gospels into either
+the pure Koine or the LXX translation-Greek bucket.

@@ -1,0 +1,64 @@
+id,author,work,holdout,scholarly_date_ce,scholarly_sigma,map_date_ce,ci68_lo,ci68_hi,ci95_lo,ci95_hi
+herodotus_histories,Herodotus,Histories,False,-440,20,-440,-460,-420,-475,-400
+thucydides_history,Thucydides,History of the Peloponnesian War,False,-410,15,-410,-425,-395,-440,-380
+lysias_orations,Lysias,Orations,False,-390,20,-390,-410,-370,-430,-350
+xenophon_anabasis,Xenophon,Anabasis,False,-370,15,-370,-385,-355,-400,-340
+xenophon_hellenica,Xenophon,Hellenica,False,-355,15,-355,-370,-340,-385,-325
+plato_republic,Plato,Republic,False,-375,20,-375,-395,-355,-415,-335
+plato_laws,Plato,Laws,False,-350,15,-350,-365,-335,-380,-320
+isocrates_panegyricus,Isocrates,Panegyricus and selected orations,False,-375,20,-375,-395,-355,-415,-335
+demosthenes_philippics,Demosthenes,Philippics and selected orations,False,-350,15,-350,-365,-335,-380,-320
+aeschines_orations,Aeschines,Orations,False,-345,15,-345,-360,-330,-375,-315
+andocides_orations,Andocides,Orations,False,-400,20,-400,-420,-380,-440,-360
+aristotle_nicomachean,Aristotle,Nicomachean Ethics,False,-335,10,-335,-345,-325,-355,-315
+aristotle_politics,Aristotle,Politics,False,-335,10,-335,-345,-325,-355,-315
+aeneas_tacticus,Aeneas Tacticus,How to Survive Under Siege (Poliorketika),False,-350,20,-350,-370,-330,-390,-310
+hyperides_orations,Hyperides,Orations,False,-340,15,-340,-355,-325,-370,-310
+lxx_genesis,Septuagint (anon. translators),Genesis (LXX),False,-270,20,-270,-290,-250,-310,-230
+lxx_exodus,Septuagint (anon. translators),Exodus (LXX),False,-260,20,-260,-280,-240,-300,-220
+theophrastus_characters,Theophrastus,Characters,False,-315,15,-315,-330,-300,-345,-285
+theophrastus_historia_plantarum,Theophrastus,Historia Plantarum,False,-310,15,-310,-325,-295,-340,-280
+lxx_1kingdoms,Septuagint (anon. translators),1 Kingdoms / 1 Samuel (LXX),False,-240,30,-240,-270,-210,-300,-180
+apollodorus_library,Apollodorus (pseudo-),Bibliotheca (Library of Greek Mythology),False,-150,75,-135,-205,-60,-280,10
+lxx_judith,Septuagint / Jewish author,Judith (LXX),False,-125,40,-120,-160,-80,-200,-45
+lxx_2maccabees,"Jason of Cyrene (epitomized, anon.)",2 Maccabees (LXX),False,-110,25,-110,-135,-85,-155,-60
+lxx_1maccabees,Anon. Jewish historian,1 Maccabees (LXX),False,-100,25,-100,-125,-75,-150,-50
+diodorus_siculus,Diodorus Siculus,"Bibliotheca Historica (Books 1–5, 11–20)",False,-50,20,-50,-70,-30,-90,-10
+dionysius_roman_antiquities,Dionysius of Halicarnassus,Roman Antiquities,False,-20,15,-20,-35,-5,-50,10
+dionysius_thucydides,Dionysius of Halicarnassus,On Thucydides,False,-20,15,-20,-35,-5,-50,10
+strabo_geography,Strabo,Geography,False,-20,15,-20,-35,-5,-50,10
+philo_de_opificio,Philo of Alexandria,De Opificio Mundi,False,40,15,40,25,55,10,70
+philo_de_vita_mosis,Philo of Alexandria,De Vita Mosis,False,40,15,40,25,55,10,70
+josephus_jewish_war,Josephus,Jewish War,False,80,10,80,70,90,60,100
+josephus_antiquities,Josephus,Jewish Antiquities (selected books),False,93,5,95,90,100,85,100
+vita_aesopi,Anonymous,Vita Aesopi (Life of Aesop),False,50,75,70,0,145,-70,215
+john_gospel,John (anonymous),Gospel of John,False,100,20,100,80,120,60,135
+chariton_callirhoe,Chariton of Aphrodisias,Callirhoe (Chaereas and Callirhoe),False,100,40,100,60,140,20,175
+ignatius_letters,Ignatius of Antioch,Seven Genuine Letters,False,108,5,110,105,115,100,115
+testament_abraham,Anonymous (Jewish pseudepigraphon),Testament of Abraham (Recension A),False,100,50,105,55,150,5,200
+plutarch_lives,Plutarch,Parallel Lives (selected),False,100,15,100,85,115,70,130
+plutarch_moralia,Plutarch,Moralia (selected),False,100,15,100,85,115,70,130
+dio_chrysostom_orations,Dio Chrysostom,Orations (selected),False,100,15,100,85,115,70,130
+epictetus_discourses,Arrian / Epictetus,Discourses of Epictetus,False,108,10,110,100,115,90,125
+achilles_tatius,Achilles Tatius,Leucippe and Clitophon,False,150,30,150,120,180,90,205
+arrian_anabasis,Arrian,Anabasis of Alexander,False,145,10,145,135,155,125,165
+appian_roman_history,Appian,Roman History (selected books),False,155,15,155,140,170,125,185
+pausanias_description,Pausanias,Description of Greece,False,160,15,160,145,175,130,190
+lucian_true_history,Lucian,True History and selected dialogues,False,165,15,165,150,180,135,195
+aelius_aristides_sacred,Aelius Aristides,Sacred Tales,False,170,15,170,155,185,140,200
+maximus_tyrius_orations,Maximus of Tyre,Orations (Dialexeis),False,180,15,180,165,195,150,210
+galen_natural_faculties,Galen,On the Natural Faculties,False,180,15,180,165,195,150,210
+clement_stromateis,Clement of Alexandria,Stromateis,False,200,15,200,185,215,170,230
+philostratus_lives_sophists,Philostratus,Lives of the Sophists,False,220,15,220,205,235,190,250
+aelian_various_history,Aelian,Varia Historia,False,220,15,220,205,235,190,250
+cassius_dio_roman,Cassius Dio,Roman History (epitome books),False,220,15,220,205,235,190,250
+plotinus_enneads,Plotinus,Enneads (selected),False,265,10,265,255,275,245,285
+porphyry_life_plotinus,Porphyry,Life of Plotinus,False,290,15,290,275,305,260,320
+iamblichus_pythagorean,Iamblichus,On the Pythagorean Life,False,305,15,305,290,320,275,335
+eusebius_church_history,Eusebius of Caesarea,Ecclesiastical History,False,315,15,315,300,330,285,345
+libanius_orations,Libanius,Orations (selected),False,360,15,360,345,375,330,390
+polybius_histories,Polybius,Histories,True,-160,25,-160,-185,-135,-205,-110
+mark_gospel,Mark (anonymous),Gospel of Mark,True,70,15,70,55,85,40,100
+matthew_gospel,Matthew (anonymous),Gospel of Matthew,True,85,15,85,70,100,55,115
+luke_gospel,Luke (anonymous),Gospel of Luke,True,120,30,120,90,150,60,180
+diogenes_laertius_lives,Diogenes Laërtius,Lives of the Eminent Philosophers,True,230,30,230,200,260,175,290

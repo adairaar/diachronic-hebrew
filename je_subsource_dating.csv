@@ -1,0 +1,4 @@
+unit,map_bce,ci68_lo,ci68_hi,ci95_lo,ci95_hi,n_words,mean_lbh,arch_classification,je_chapters_included
+Gen_JE,416.4,384.2,448.7,351.9,478.7,25207,0.7136,Modern (LBH-like),"{'Genesis': [(2, 4), (6, 13), (15, 16), (18, 22), (24, 35), (37, 48), (50, 50)]}"
+Exo_JE,464.8,421.0,508.6,377.3,550.1,13464,0.5884,Modern (LBH-like),"{'Exodus': [(1, 5), (7, 14), (17, 24), (32, 34)]}"
+Num_JE,478.7,416.4,540.9,356.5,600.8,6609,0.73,Modern (LBH-like),"{'Numbers': [(11, 14), (16, 16), (20, 25)]}"

@@ -1,0 +1,41 @@
+feature,rho,p_raw,n_valid,description,expected_dir,reference,dir_consistent
+rate_impv,-0.6617690990307319,0.0007952680819520699,22,Imperative rate per 1k words,unknown,General morphology,
+rate_lakhen,-0.6515900073509994,0.0010190584206024873,22,"לכן ""therefore"" rate per 1k [LBH↑]",increase,Polzin 1976,False
+rate_inf_con,0.632382256033637,0.0015892405043084824,22,Infinitive construct rate per 1k,unknown,General morphology,
+rate_af,-0.6200697533248144,0.0020815538216539123,22,"אף ""also/indeed"" particle rate per 1k",unknown,General research,
+rate_yiqtol,-0.5939533074989745,0.003562212728834155,22,Yiqtol (imperfect) rate per 1k words,unknown,General morphology,
+rate_hiphil,-0.5769993596160351,0.0049322313562471755,22,Hiphil stem rate per 1k words (causative),unknown,General morphology,
+rate_neg_lo,-0.5498730430033323,0.008021293574725231,22,לא negator rate per 1k words,unknown,General research,
+rate_qatal,-0.5498730430033323,0.008021293574725231,22,Qatal (perfect) rate per 1k words,unknown,General morphology,
+rate_piel,-0.49618554137402443,0.018839196241826922,22,Piel stem rate per 1k words (intensive),unknown,General morphology,
+rate_asher,0.4707546195496154,0.027020536168729455,22,אשר rate per 1k words,decrease,General CBH/LBH research,False
+frac_she,0.4486686641157782,0.03622165312033839,22,Fraction ש/(ש+אשר) — relative particle [LBH↑],increase,Polzin 1976; Rooker 1990,True
+rate_qal,-0.4424980397447165,0.039188657654930965,22,Qal stem rate per 1k words (base stem),unknown,General morphology,
+frac_ani,0.44802925418137135,0.041667787355205974,21,Fraction אני/(אני+אנכי) — 1sg pronoun [LBH↑],increase,Hurvitz 1972; Rezetko & Young 2014,True
+rate_prs,-0.43006514463056095,0.04574239257646571,22,Pronominal-suffix rate per 1k words,unknown,General morphology,
+rate_ki,-0.3995480384412702,0.0654389788868038,22,כי conjunction rate per 1k words,unknown,General CBH/LBH research,
+rate_niphal,-0.3707263270402733,0.08941374604614505,22,Niphal stem rate per 1k words (passive/reflexive),unknown,General morphology,
+frac_neg_al,0.3614638413414059,0.09835398756127378,22,Fraction אל/(אל+לא) negators [CBH form↓],decrease,Hendel & Joosten 2018,False
+rate_neg_al,0.3614638413414059,0.09835398756127378,22,אל prohibition-negator rate per 1k [CBH↓],decrease,Joüon-Muraoka §114; Hendel & Joosten 2018,False
+rate_wayyiqtol,0.3565980371378239,0.10330612929958162,22,Wayyiqtol rate per 1k words [CBH↓],decrease,Polzin 1976; Hendel & Joosten 2018,False
+rate_halak,-0.3469908000041583,0.11361666188037353,22,"הלך ""to go/walk"" rate per 1k words",unknown,General research,
+rate_natan,0.34654608859827424,0.1141113685681371,22,"נתן ""to give"" rate per 1k words",unknown,General research,
+rate_ani,0.33286251010170886,0.13010805548236684,22,אני rate per 1k words [LBH marker↑],increase,Hurvitz 1972,True
+rate_az,-0.2857474678928149,0.19735682915086927,22,"אז ""then"" adverb rate per 1k [CBH↓]",decrease,Hendel & Joosten 2018,True
+rate_anochi,-0.2838749505873136,0.20043856301231172,22,אנכי rate per 1k words [CBH marker↓],decrease,Hurvitz 1972,True
+rate_shaal,0.2756563776361006,0.21434680020106386,22,"שאל ""ask/seek"" rate per 1k words",decrease,Hurvitz 1972,False
+rate_ptca,-0.2627861921855596,0.23738969926860282,22,Active participle rate per 1k [LBH↑],increase,Polzin 1976; Rooker 1990,False
+rate_inf_abs,-0.253744086647992,0.25450915668410823,22,Infinitive absolute rate per 1k [CBH↓],decrease,Joüon-Muraoka §123; Rooker 1990,True
+frac_qahal,0.3546040716334876,0.3887514877079521,8,"Fraction קהל/(קהל+עדה) — ""assembly"" [LBH↑]",increase,Hurvitz 1972,True
+rate_hophal,-0.18179981875313223,0.4180993758267496,22,Hophal stem rate per 1k words (passive causative),unknown,General morphology,
+rate_ptcp,0.18140724234745084,0.41912236855916574,22,Passive participle rate per 1k,unknown,General morphology,
+rate_hayah,-0.1740605315981771,0.43851554595730546,22,"היה ""to be"" rate per 1k words",unknown,General research,
+frac_baqash,-0.14291478838186994,0.5365748855016566,21,"Fraction בקש/(בקש+שאל) — ""seek"" [LBH↑]",increase,Hurvitz 1972,False
+rate_amar,0.12319868794935912,0.5849211329167014,22,"אמר ""to say"" rate per 1k words",unknown,General research,
+rate_f_noun,-0.11811250358447735,0.6006281862069005,22,Feminine noun rate per 1k words,unknown,General morphology,
+rate_gam,-0.11277559744235428,0.6172956193534997,22,"גם ""also/even"" rate per 1k words",unknown,Young et al. 2008,
+rate_hithpael,0.10794013485471374,0.6325559984502641,22,Hithpael stem rate per 1k words (reflexive),unknown,General morphology,
+frac_ein,0.07798816026152092,0.7301164548902834,22,Fraction אין/(אין+לא) — existential neg [LBH↑],increase,Hurvitz 1972,True
+rate_baqash,0.071691838401644,0.7512100083844093,22,"בקש ""seek"" rate per 1k words",increase,Hurvitz 1972,True
+rate_pl_noun,-0.054252633225405855,0.8104932074948429,22,Plural noun rate per 1k words,unknown,General morphology,
+rate_const,0.031647369381486753,0.8888108230796563,22,Construct-state noun rate per 1k words,unknown,General morphology,

@@ -1,0 +1,9 @@
+unit,mean_lbh,classification,n_words
+Jer_DTR,0.6944415031942809,Modern (LBH-like),15197
+Jer_oracle,0.15811165281131218,Archaic (CBH-like),14539
+Song_Sea,-0.32549018027513854,Archaic (CBH-like),433
+Song_Deborah,0.45407196729113,Mixed/selective,462
+Exod_full,0.6446322685283763,Mixed/selective,23748
+Exod_no_song,0.6628072502614037,Modern (LBH-like),23315
+Judg_full,0.7288325252883386,Modern (LBH-like),14086
+Judg_no_song,0.7420628855472501,Modern (LBH-like),13624

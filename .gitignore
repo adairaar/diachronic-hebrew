@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Pickle / compiled model files
+*.pkl
+*.pickle
+
+# Large cached outputs (not needed for reproducibility)
+mc_cache_*.json
+mc_cache_verse_data.json
+
+# Greek processed text files (large; Perseus texts redistributed separately)
+greek/data/processed/
+greek/data/raw/
+
+# Bulk per-text posterior JSONs (summary CSVs in results/ are sufficient)
+greek/results/posteriors/
+greek/results/calibrated_posteriors/
+
+# Raw text inputs
+ben_sira_flat.txt
+data_intake_spec_new_texts.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# LaTeX build artifacts (methods_paper/ can be committed as-is but ignore aux files)
+methods_paper/*.aux
+methods_paper/*.log
+methods_paper/*.out
+methods_paper/*.toc
+methods_paper/*.fls
+methods_paper/*.fdb_latexmk
+methods_paper/*.synctex.gz
+methods_paper/*.bbl
+methods_paper/*.blg

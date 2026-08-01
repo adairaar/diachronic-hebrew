@@ -1,0 +1,6 @@
+id,author,work,scholarly_date_ce,scholarly_sigma,map_date_ce,posterior_mean_ce,posterior_std,ci68_lo,ci68_hi,ci95_lo,ci95_hi,in_68ci,in_95ci,z_score,prior_pct_precision,lik_only_map_ce,lik_only_mean_ce,lik_only_std,lik_only_ci68_lo,lik_only_ci68_hi,lik_only_ci95_lo,lik_only_ci95_hi,lik_only_in_68ci,lik_only_z_score
+polybius_histories,Polybius,Histories,-160,25,-160,-159,25,-185,-135,-205,-110,True,True,0.0,99.5,135,30,231,-140,350,-380,410,False,1.272
+mark_gospel,Mark (anonymous),Gospel of Mark,70,15,70,69,15,55,85,40,100,True,True,0.0,99.8,-275,-134,226,-490,-30,-490,280,False,-1.521
+matthew_gospel,Matthew (anonymous),Gospel of Matthew,85,15,85,85,15,70,100,55,115,True,True,0.0,99.8,165,42,229,-100,375,-370,410,True,0.349
+luke_gospel,Luke (anonymous),Gospel of Luke,120,30,120,121,30,90,150,60,180,True,True,0.0,99.3,275,83,220,-15,405,-330,410,True,0.699
+diogenes_laertius_lives,Diogenes Laërtius,Lives of the Eminent Philosophers,230,30,230,232,30,200,260,175,290,True,True,0.0,99.3,410,165,190,105,410,-215,410,True,0.934

@@ -1,0 +1,32 @@
+======================================================================
+COMPARISON: Hierarchical Bayes VI  vs.  MLE-MVN (Script 10)
+======================================================================
+
+── ALL TEXTS (n=63) ──────────────────────────────────────────────
+  HB-VI  :  MAE=   7.6 yr  RMSE=  16.9 yr  68%-cov=95%  median CI width=30 yr
+  MLE-MVN:  MAE=   8.0 yr  RMSE=  15.7 yr  68%-cov=89%  median CI width=29 yr
+
+── HOLDOUTS ONLY (n=5) ──────────────────────────────────────────────
+  HB-VI  :  MAE=   4.3 yr  RMSE=   4.8 yr  68%-cov=100%  median CI width=48 yr
+  MLE-MVN:  MAE=   8.7 yr  RMSE=  12.8 yr  68%-cov=100%  median CI width=48 yr
+
+── PER-HOLDOUT DETAIL ──────────────────────────────────────────────
+Text                                           Scholarly      HB MAP  In?     MLE MAP  In?    HB-MLE
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+polybius_histories                              160 BCE     155 BCE    ✓     148 BCE    ✓      -7yr
+mark_gospel                                       70 CE       73 CE    ✓       69 CE    ✓      +4yr
+matthew_gospel                                    85 CE       80 CE    ✓       80 CE    ✓      -0yr
+luke_gospel                                      120 CE      128 CE    ✓      120 CE    ✓      +8yr
+diogenes_laertius_lives                          230 CE      229 CE    ✓      256 CE    ✓     -27yr
+
+── CI WIDTH COMPARISON (median, all texts by group) ─────────────────
+  classical   :  HB=30 yr   MLE=22 yr   ratio=1.35
+  atticizing  :  HB=30 yr   MLE=29 yr   ratio=1.03
+  koine       :  HB=35 yr   MLE=34 yr   ratio=1.01
+
+── INTERPRETATION ───────────────────────────────────────────────────
+  HB-VI propagates uncertainty in (α, β, σ) into date posteriors.
+  Wider CI vs. MLE = model correctly inflating uncertainty where
+  the regression parameters themselves are uncertain.
+  Narrower CI = HB regularised noisy features, tightening inference.
+  68% CI coverage near 68% → well-calibrated posterior uncertainty.

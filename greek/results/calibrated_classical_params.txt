@@ -1,0 +1,38 @@
+========================================================================
+CALIBRATED MODEL PARAMETERS — CLASSICAL (ancient_Attic + Atticizing)
+========================================================================
+  Training texts              : 31
+  Features (p)                : 31
+  Ridge λ                     : 0.001
+  Σ condition number           : 1.0
+  β̂ range                      : [-0.00000, 0.00000]
+  β̂ median |β|                 : 0.00000
+
+Top 25 features by |β̂|:
+  Feature                                                α̂          β̂  Direction
+  ---------------------------------------------------------------------------
+  c3_τὸν                                             0.0036     0.00000  ↑ increasing
+  c3_τοῦ                                             0.0058     0.00000  ↑ increasing
+  c3_τος                                             0.0024     0.00000  ↑ increasing
+  c3_τῆς                                             0.0032     0.00000  ↑ increasing
+  c4_νδρε                                            0.0006    -0.00000  ↓ decreasing
+  c3_ὅτι                                             0.0011    -0.00000  ↓ decreasing
+  c4_δρες                                            0.0004    -0.00000  ↓ decreasing
+  bg_ἄνδρες_ἀθηναῖοι,                                0.0002    -0.00000  ↓ decreasing
+  c3_δρε                                             0.0004    -0.00000  ↓ decreasing
+  c4_ντος                                            0.0012     0.00000  ↑ increasing
+  bg_ἐν_τῇ                                           0.0014    -0.00000  ↓ decreasing
+  c3_ος,                                             0.0013     0.00000  ↑ increasing
+  c4_οντα                                            0.0020    -0.00000  ↓ decreasing
+  bg_καὶ_ὡς                                          0.0002    -0.00000  ↓ decreasing
+  bg_τῇ_πόλει                                        0.0003    -0.00000  ↓ decreasing
+  c4_ατος                                            0.0008     0.00000  ↑ increasing
+  bg_δὲ_μή,                                          0.0001    -0.00000  ↓ decreasing
+  c3_όλε                                             0.0006    -0.00000  ↓ decreasing
+  bg_καὶ_διὰ                                         0.0004     0.00000  ↑ increasing
+  c3_φύσ                                             0.0004    -0.00000  ↓ decreasing
+  c4_κόσμ                                            0.0002     0.00000  ↑ increasing
+  c3_σοῦ                                             0.0003     0.00000  ↑ increasing
+  bg_καὶ_κατὰ                                        0.0002    -0.00000  ↓ decreasing
+  bg_τῶν_ὅλων                                        0.0001     0.00000  ↑ increasing
+  c3_πόλ                                             0.0012    -0.00000  ↓ decreasing

@@ -1,0 +1,15 @@
+removed_unit,date_bce,rho_full,rho_loo,p_loo,delta_rho,sign_change,p_crosses_05
+Amos,760,-0.1121,-0.2253,0.4593,-0.1132,False,False
+Hosea,725,-0.1121,-0.1209,0.694,-0.0088,False,False
+Micah,720,-0.1121,-0.1429,0.6415,-0.0308,False,False
+Isaiah_1,700,-0.1121,-0.1319,0.6676,-0.0198,False,False
+Zephaniah,630,-0.1121,-0.1264,0.6808,-0.0143,False,False
+Nahum,620,-0.1121,-0.0769,0.8028,0.0352,False,False
+Habakkuk,605,-0.1121,-0.1044,0.7343,0.0077,False,False
+Jeremiah,590,-0.1121,-0.1484,0.6286,-0.0363,False,False
+Ezekiel,570,-0.1121,-0.0275,0.929,0.0846,False,False
+Isaiah_2,550,-0.1121,-0.0275,0.929,0.0846,False,False
+Haggai,520,-0.1121,-0.2308,0.4481,-0.1187,False,False
+Zechariah_1,518,-0.1121,-0.033,0.9149,0.0791,False,False
+Isaiah_3,500,-0.1121,-0.2692,0.3737,-0.1571,False,False
+Malachi,460,-0.1121,0.1099,0.7208,0.222,True,False

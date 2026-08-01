@@ -1,0 +1,14 @@
+unit,label,n_words,expected_date,map_char,char_p16,char_p84,map_word,word_p16,word_p84
+B_1QS,Community Rule (1QS),6107,150.0,759.8,803.6,718.3,215.9,285.1,149.1
+B_1QM,War Scroll (1QM),5964,100.0,787.5,829.0,743.7,308.1,377.3,239.0
+B_1QHa,Hodayot (1QHa) [poetry],10999,150.0,755.2,796.7,713.7,368.0,437.2,298.9
+Pirqe,Pirqe Avot (~200 CE),6201,,782.9,824.3,739.1,361.1,430.3,292.0
+Shirata,"Shirata (Rabbinic, poetry)",8788,,780.6,824.3,739.1,379.6,448.7,310.4
+Mesa,Mesha Stela (~840 BCE),492,840.0,789.8,831.3,748.3,538.6,607.7,469.4
+Balaam,Balaam/Deir Alla (~800 BCE) ⚠non-BH,372,800.0,755.2,796.7,713.7,411.8,481.0,342.7
+Ajrud,Kuntillet Ajrud (~800 BCE),76,800.0,607.7,651.5,566.2,50.0,103.0,54.6
+Arad,Arad ostraca (~600 BCE),172,600.0,683.8,727.6,642.3,126.1,199.8,82.3
+Lachish,Lachish letters (~587 BCE),391,587.0,423.3,467.1,381.9,755.2,824.3,686.1
+Mesad_Hashavyahu,Mesad Hashavyahu (~630 BCE),123,630.0,130.7,174.4,91.5,750.6,819.7,681.5
+Ketef_Hinnom,Ketef Hinnom (~625 BCE),89,625.0,722.9,766.7,681.5,596.2,667.6,527.1
+Siloam,Siloam inscription (~700 BCE),88,700.0,925.8,967.2,884.3,937.3,1006.4,868.1

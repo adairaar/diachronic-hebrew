@@ -1,0 +1,248 @@
+{
+  "training": [
+    {
+      "id": "Amos",
+      "date_bce": 760,
+      "date_sigma": 15,
+      "register": "SBH",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Hosea",
+      "date_bce": 725,
+      "date_sigma": 20,
+      "register": "SBH",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Micah",
+      "date_bce": 720,
+      "date_sigma": 20,
+      "register": "SBH",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Isaiah_1",
+      "date_bce": 700,
+      "date_sigma": 15,
+      "register": "SBH",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Zephaniah",
+      "date_bce": 630,
+      "date_sigma": 15,
+      "register": "SBH",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Nahum",
+      "date_bce": 620,
+      "date_sigma": 20,
+      "register": "SBH",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Habakkuk",
+      "date_bce": 605,
+      "date_sigma": 20,
+      "register": "SBH",
+      "genre": "prophecy",
+      "holdout": true
+    },
+    {
+      "id": "Jeremiah",
+      "date_bce": 590,
+      "date_sigma": 15,
+      "register": "Transitional",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Lamentations",
+      "date_bce": 586,
+      "date_sigma": 20,
+      "register": "Transitional",
+      "genre": "poetry",
+      "holdout": false
+    },
+    {
+      "id": "Ezekiel",
+      "date_bce": 570,
+      "date_sigma": 15,
+      "register": "Transitional",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Isaiah_2",
+      "date_bce": 550,
+      "date_sigma": 20,
+      "register": "Transitional",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Haggai",
+      "date_bce": 520,
+      "date_sigma": 5,
+      "register": "Transitional",
+      "genre": "prophecy",
+      "holdout": true
+    },
+    {
+      "id": "Zechariah_1",
+      "date_bce": 518,
+      "date_sigma": 5,
+      "register": "Transitional",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Isaiah_3",
+      "date_bce": 500,
+      "date_sigma": 100,
+      "register": "Transitional",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Malachi",
+      "date_bce": 460,
+      "date_sigma": 20,
+      "register": "Transitional",
+      "genre": "prophecy",
+      "holdout": false
+    },
+    {
+      "id": "Jonah",
+      "date_bce": 400,
+      "date_sigma": 50,
+      "register": "LBH",
+      "genre": "narrative",
+      "holdout": false
+    },
+    {
+      "id": "Chronicles",
+      "date_bce": 350,
+      "date_sigma": 30,
+      "register": "LBH",
+      "genre": "narrative",
+      "holdout": false
+    },
+    {
+      "id": "Esther",
+      "date_bce": 350,
+      "date_sigma": 50,
+      "register": "LBH",
+      "genre": "narrative",
+      "holdout": false
+    },
+    {
+      "id": "Ezra",
+      "date_bce": 350,
+      "date_sigma": 75,
+      "register": "LBH",
+      "genre": "narrative",
+      "holdout": false
+    },
+    {
+      "id": "Nehemiah",
+      "date_bce": 350,
+      "date_sigma": 75,
+      "register": "LBH",
+      "genre": "narrative",
+      "holdout": false
+    },
+    {
+      "id": "Ecclesiastes",
+      "date_bce": 330,
+      "date_sigma": 80,
+      "register": "LBH",
+      "genre": "wisdom",
+      "holdout": false
+    },
+    {
+      "id": "Daniel",
+      "date_bce": 167,
+      "date_sigma": 10,
+      "register": "LBH",
+      "genre": "mixed",
+      "holdout": true
+    }
+  ],
+  "test_targets": [
+    {
+      "id": "D_source",
+      "prior_bce": 625,
+      "prior_sigma": 100,
+      "description": "Deuteronomistic source (D) — whole book"
+    },
+    {
+      "id": "P_source",
+      "prior_bce": 600,
+      "prior_sigma": 100,
+      "description": "Priestly source (P) — whole source"
+    },
+    {
+      "id": "JE_source",
+      "prior_bce": 800,
+      "prior_sigma": 75,
+      "description": "Yahwist/Elohist source (JE) — whole source"
+    },
+    {
+      "id": "D_Code",
+      "prior_bce": 625,
+      "prior_sigma": 100,
+      "description": "Deuteronomic Code (D), ch. 12–26 [needs BHSA morpho]"
+    },
+    {
+      "id": "D_Frame",
+      "prior_bce": 600,
+      "prior_sigma": 100,
+      "description": "D framing speeches, ch. 1–11 + 27–34 [needs BHSA morpho]"
+    },
+    {
+      "id": "D_Song",
+      "prior_bce": 900,
+      "prior_sigma": 200,
+      "description": "Song of Moses, Deut. 32 — archaic poem [noisy]"
+    },
+    {
+      "id": "Lev_Holiness",
+      "prior_bce": 575,
+      "prior_sigma": 75,
+      "description": "Holiness Code (H), Lev. 17–26 [needs BHSA morpho]"
+    },
+    {
+      "id": "Lev_Priestly",
+      "prior_bce": 600,
+      "prior_sigma": 100,
+      "description": "Core Priestly laws, Lev. 1–16 [needs BHSA morpho]"
+    },
+    {
+      "id": "Gen_JE",
+      "prior_bce": 800,
+      "prior_sigma": 100,
+      "description": "Genesis JE narrative [needs BHSA morpho]"
+    },
+    {
+      "id": "Exo_JE",
+      "prior_bce": 800,
+      "prior_sigma": 100,
+      "description": "Exodus JE narrative [needs BHSA morpho]"
+    },
+    {
+      "id": "Num_JE",
+      "prior_bce": 800,
+      "prior_sigma": 100,
+      "description": "Numbers JE narrative [needs BHSA morpho]"
+    }
+  ]
+}

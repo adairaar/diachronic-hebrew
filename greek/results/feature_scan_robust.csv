@@ -1,0 +1,6 @@
+feature,family,rho,p_value,abs_rho,direction,pass_p,loo_frac,robust
+ean_rate,gram,-0.4139,0.00124,0.4139,decreases,True,1.0,True
+hoti_rate,gram,-0.3522,0.006693,0.3522,decreases,True,1.0,True
+goun_toinun_rate,gram,0.2254,0.08894,0.2254,increases,True,1.0,True
+an_rate,gram,-0.2126,0.109148,0.2126,decreases,True,1.0,True
+opt_rate,gram,-0.1808,0.174469,0.1808,decreases,True,0.7241,True

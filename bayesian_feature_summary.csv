@@ -1,0 +1,5 @@
+feature,spearman_r,spearman_p,wls_slope,wls_slope_se,chi2_p,n_units,low_count_units,direction_consistent
+Pronoun אנכי→אני,0.7182,0.0005,8.57e-05,7.5e-05,0.0,19,Micah; Zephaniah; Habakkuk; Lamentations; Haggai,yes
+Relative אשר→ש,-0.2282,0.3475,6.6e-06,1.83e-05,0.0118,19,Zephaniah; Nahum; Habakkuk; Haggai,no
+Wayyiqtol decline,-0.1903,0.4216,-0.0002643,1.92e-05,0.0,20,Micah; Zephaniah; Nahum; Habakkuk; Haggai; Malachi; Jonah,no
+Negator לא→אין,0.1143,0.6313,2.31e-05,3.44e-05,0.0,20,Zephaniah; Nahum; Habakkuk; Haggai; Zechariah_1; Malachi; Jonah,yes

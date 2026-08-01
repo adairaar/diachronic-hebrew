@@ -1,0 +1,7 @@
+feature,n_units,spearman_r,spearman_p,direction_ok,loo_robust,pct_loo_sig,most_influential,delta_rho,verdict
+Pronoun אנכי→אני,13,0.7143,0.0061,True,True,100.0,Amos,-0.0779,CREDIBLE
+Relative אשר→ש,14,-0.1692,0.563,False,False,0.0,Isaiah_1,-0.122,NOT SIGNIFICANT
+Wayyiqtol fraction,14,-0.1253,0.6696,False,False,0.0,Isaiah_3,-0.1934,NOT SIGNIFICANT
+Negator לא→אין,14,0.2835,0.326,True,False,0.0,Hosea,0.1396,NOT SIGNIFICANT
+Infinitive absolute rate,14,-0.1121,0.7028,True,False,0.0,Malachi,0.222,NOT SIGNIFICANT
+Participle rate,14,0.156,0.5942,True,False,0.0,Malachi,-0.167,NOT SIGNIFICANT

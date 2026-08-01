@@ -1,0 +1,33 @@
+========================================================================
+CALIBRATED MODEL PARAMETERS — KOINE
+========================================================================
+  Training texts              : 20
+  Features (p)                : 20
+  Ridge λ                     : 0.001
+  Σ condition number           : 1.0
+  β̂ range                      : [-0.00001, 0.00000]
+  β̂ median |β|                 : 0.00000
+
+Top 25 features by |β̂|:
+  Feature                                                α̂          β̂  Direction
+  ---------------------------------------------------------------------------
+  c3_σοῦ                                             0.0024    -0.00001  ↓ decreasing
+  c3_τὸν                                             0.0050    -0.00000  ↓ decreasing
+  bg_ἐν_τῇ                                           0.0019    -0.00000  ↓ decreasing
+  c3_πόλ                                             0.0010    -0.00000  ↓ decreasing
+  c3_τος                                             0.0024     0.00000  ↑ increasing
+  c3_ὅτι                                             0.0009    -0.00000  ↓ decreasing
+  c4_ατος                                            0.0007     0.00000  ↑ increasing
+  c3_τοῦ                                             0.0077     0.00000  ↑ increasing
+  c3_ος,                                             0.0013     0.00000  ↑ increasing
+  bg_καὶ_κατὰ                                        0.0004    -0.00000  ↓ decreasing
+  c4_οντα                                            0.0016    -0.00000  ↓ decreasing
+  bg_τῶν_ὅλων                                        0.0002    -0.00000  ↓ decreasing
+  c4_ντος                                            0.0012     0.00000  ↑ increasing
+  c4_κόσμ                                            0.0005    -0.00000  ↓ decreasing
+  bg_τῇ_πόλει                                        0.0002    -0.00000  ↓ decreasing
+  c3_δρε                                             0.0001     0.00000  ↑ increasing
+  bg_τὴν_τοῦ                                         0.0004     0.00000  ↑ increasing
+  c4_δρες                                            0.0000    -0.00000  ↓ decreasing
+  bg_δὲ_χρήματα                                      0.0000    -0.00000  ↓ decreasing
+  bg_ἄνδρες_ἀθηναῖοι,                                0.0000    -0.00000  ↓ decreasing
