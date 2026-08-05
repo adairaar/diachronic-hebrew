@@ -2209,13 +2209,19 @@ with their normalized archaism scores (Eq.~\ref{eq:lbh_score}): $s=0$ = CBH-like
 LBH-like, $s<0$ = more archaic than the SBH anchor, $s>1$ = more LBH-like than the LBH
 anchor.  ``Genre flag'' marks features whose value in this source is plausibly driven by prose
 genre rather than date (see text).  All features are computed directly from BHSA morphological
-tags and can be verified without running the model.}
+tags and can be verified without running the model.  Each source heading reports both model
+estimates: MAP$_{\text{MVN}}$ is the \mvn{} posterior mode under the agnostic prior (the
+quantity plotted in Fig.~\ref{fig:corpus_timeline}), and MAP$_{\text{HB-VI}}$ is the
+corresponding \hbvi{} estimate.  The two models differ by 40--100~yr for these composites
+because \hbvi{} pools information across register groups and propagates coefficient
+uncertainty, which pulls prior-dominated sources toward their group mean; both models place
+all three sources in the Persian-to-Hellenistic period.}
 \label{tab:s3_features}
 \begin{tabular}{llp{5.5cm}rp{3.8cm}}
 \hline
 \textbf{Source} & \textbf{Direction} & \textbf{Feature} & \textbf{Score} & \textbf{Note} \\
 \hline
-\multicolumn{5}{l}{\textit{D source composite (Deuteronomist; MAP$_{\text{HB-VI}}$ = 698--737~BCE, MAP$_{\text{MVN}}$ = 292~BCE)}} \\
+\multicolumn{5}{p{15cm}}{\textit{D source composite (Deuteronomist; MAP$_{\text{MVN}}$ = 292~BCE, MAP$_{\text{HB-VI}}$ = 394~BCE; prior-dominated Class~P, $|\Delta_{AB}|=178$~yr)}} \\
 D & Late & \textit{asher} relative particle rate & $+3.31$ & Genre flag: high rate reflects legal-prose relative-clause density, not late date \\
 D & Late & \textit{eleh} ``these'' rate         & $+1.26$ & Consistent LBH lexical marker \\
 D & Late & Infinitive-construct fraction             & $+1.25$ & LBH syntactic feature \\
@@ -2223,7 +2229,7 @@ D & Early & \textit{anoki} vs.\ \textit{ani} 1sg pronoun & $-1.20$ & Classic SBH
 D & Early & \textit{sham} ``there'' rate          & $-1.27$ & Classic SBH marker \\
 D & Early & \textit{lema'an} ``in order that'' rate & $-1.97$ & Classic SBH marker \\
 \hline
-\multicolumn{5}{l}{\textit{P source composite (Priestly; MAP$_{\text{HB-VI}}$ = 402--406~BCE, data-driven Class~D, $|\Delta_{AB}|=4$~yr)}} \\
+\multicolumn{5}{p{15cm}}{\textit{P source composite (Priestly; MAP$_{\text{MVN}}$ = 361~BCE, MAP$_{\text{HB-VI}}$ = 404~BCE; data-driven Class~D, $|\Delta_{AB}|=4$~yr)}} \\
 P & Late & Niphal stem rate                          & $+1.39$ & Consistent LBH morphological marker \\
 P & Late & Abstract nominal rate                     & $+1.32$ & Consistent LBH feature (high nominal density) \\
 P & Late & \textit{eleh} ``these'' rate           & $+1.28$ & Consistent LBH lexical marker \\
@@ -2231,7 +2237,7 @@ P & Early & Infinitive-construct rate                & $+0.15$ & Low inf.\ const
 P & Early & \textit{she-} relative particle rate    & $-0.06$ & Classic SBH marker; no late relative pronoun \\
 P & Early & Construct-state noun count               & $-0.04$ & High construct ratio (SBH nominal style) \\
 \hline
-\multicolumn{5}{l}{\textit{JE source composite (Jahwist-Elohist; MAP$_{\text{HB-VI}}$ $\approx$ 435~BCE, prior-dominated Class~P, $|\Delta_{AB}|=172$~yr)}} \\
+\multicolumn{5}{p{15cm}}{\textit{JE source composite (Jahwist-Elohist; MAP$_{\text{MVN}}$ = 435~BCE, MAP$_{\text{HB-VI}}$ = 531~BCE; prior-dominated Class~P, $|\Delta_{AB}|=172$~yr)}} \\
 JE & Late & Wayyiqtol fraction of narrative verbs    & $+1.51$ & Genre flag: high rate reflects narrative genre, not exclusively date \\
 JE & Late & \textit{bet} preposition rate          & $+1.42$ & Consistent LBH prose marker \\
 JE & Late & \textit{waw} conjunction rate          & $+1.28$ & Consistent LBH narrative marker \\

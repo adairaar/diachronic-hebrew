@@ -59,12 +59,22 @@ Both models are validated on Biblical Hebrew (22 training texts, ~750 BCE–167 
 │       ├── 02_compare.py          HB-VI vs MLE-MVN comparison
 │       └── results/
 │
+├── methods_paper/                 Manuscript source
+│   ├── main.tex                   PLOS ONE manuscript (LaTeX)
+│   ├── main.pdf                   Compiled manuscript
+│   └── figures/                   All 23 figures (300 DPI, PLOS ONE compliant)
+│
+├── 06_feature_mining.py           Full lexeme/morphology scan + LOO screening
 ├── 08_theoretical_features.py     ETCBC extraction: function words, verb forms
 ├── 10_morphosyntactic_dating.py   ETCBC extraction: Tier-1/2 morphosyntactic rates
 ├── 12_tier3_clause_features.py    ETCBC extraction: Tier-3 clause/phrase features
 ├── 17_word_ngram_dating.py        Word POS-tag n-gram dating instrument
 ├── 18_archaism_diagnostic.py      Full vs. resistant model archaism scatter
 ├── 19_torah_source_analysis.py    Chapter-level Torah source classification
+│
+├── master_dating_results.csv      Consolidated MLE-MVN results (all units)
+├── feature_scan_full.csv          All ~550 screened feature candidates
+├── feature_scan_robust.csv        LOO-robust subset used for dating
 │
 ├── requirements.txt
 └── .gitignore
@@ -170,15 +180,37 @@ TLG texts are not included in this repository. The `greek/data/processed/` direc
 
 ## Key results
 
-| Text | MLE-MVN MAP | HB-VI MAP (Mode A) | Classification |
-|------|-------------|---------------------|----------------|
+### Hebrew
+
+| Text | MLE-MVN MAP | HB-VI MAP | Prior-sensitivity class |
+|------|-------------|-----------|-------------------------|
 | Oracle Jeremiah (holdout) | 562 BCE | 637 BCE | Data-driven |
-| Song of the Sea (Exod 15) | 852 BCE (full) / 460 BCE (resistant) | 712 BCE | Archaizing |
-| P source | 402 BCE | 406 BCE | Data-driven |
-| D Frame | 716 BCE | 716 BCE | Data-driven |
-| Haggai (holdout) | 361 BCE ❌ | 522 BCE ✓ | Transitional |
+| Song of the Sea (Exod 15) | 852 BCE (full) / 460 BCE (resistant) | 768 BCE | Data-driven (archaizing) |
+| P source | 361 BCE | 404 BCE | Data-driven (\|Δ<sub>AB</sub>\| = 4 yr) |
+| D source | 292 BCE | 394 BCE | Prior-dominated (\|Δ<sub>AB</sub>\| = 178 yr) |
+| JE source | 435 BCE | 531 BCE | Prior-dominated (\|Δ<sub>AB</sub>\| = 172 yr) |
+| D Frame | 274 BCE | 716 BCE | Data-driven |
+| Haggai (holdout) | 361 BCE ❌ | 522 BCE ✓ | Prior-dominated |
+
+MLE-MVN values are posterior modes under the agnostic prior (`master_dating_results.csv`, `map_full`); HB-VI values are from the main variational run (`hb_vi_dating.csv`, `hb_map_bce`). The two models differ by 40–100 yr on the source composites because HB-VI pools across register groups and propagates coefficient uncertainty. Both place all three Torah sources in the Persian-to-Hellenistic period.
 
 HB-VI holdout MAE: **16.8 yr** vs. MLE-MVN: **134.2 yr** (improvement driven by soft register assignment).
+
+The P source result is the most robustly data-driven finding in the paper: a prior sweep from a flat prior through a Mosaic-authorship prior *N*(1200, 100²) returns a Persian-period MAP under every scenario (see S6 Table).
+
+### Ancient Greek (cross-language validation)
+
+All five holdouts are recovered within ~30 yr of their independently established dates by the register-conditioned model (`greek/results/hard_register_dating.csv`):
+
+| Holdout | Established date | MAP | Error |
+|---------|------------------|-----|-------|
+| Polybius, *Histories* | 160 BCE | 148 BCE | 12 yr |
+| Mark | 70 CE | 69 CE | 1 yr |
+| Matthew | 85 CE | 80 CE | 5 yr |
+| Luke | 120 CE | 120 CE | <1 yr |
+| Diogenes Laërtius | 230 CE | 256 CE | 26 yr |
+
+Note that the *unconditioned* likelihood (no register assignment, `holdout_validation.csv`, `lik_only_map_ce`) is 80–345 yr off for these same texts. Register conditioning is what makes the temporal signal recoverable — the raw feature likelihood alone is not sufficient.
 
 ---
 
