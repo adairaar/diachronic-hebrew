@@ -1,0 +1,48 @@
+{
+  "_comment": "Corpus v2 (2026-08). Rebuilt after audit found Table 1 of the manuscript and corpus_manifest.json described different corpora. Adds Obadiah, Joel, Zechariah 9-14, Lamentations, Ecclesiastes to training (Haggai retained as holdout). Jeremiah whole-book removed from training to eliminate leakage into the Jer_oracle holdout. Consensus midpoints with widened sigmas on disputed texts.",
+  "_sigma_policy": "Sigma widened ~2x relative to prior manifest on all texts whose date rests on literary-critical rather than synchronistic grounds.",
+
+  "training": [
+    {"id": "Amos",         "date_bce": 760, "date_sigma": 20,  "register": "SBH",          "genre": "prophecy",  "anchor": "Uzziah/Jeroboam II synchronism (Amos 1:1)"},
+    {"id": "Hosea",        "date_bce": 745, "date_sigma": 25,  "register": "SBH",          "genre": "prophecy",  "anchor": "Ephraimite kings named in superscription"},
+    {"id": "Micah",        "date_bce": 725, "date_sigma": 25,  "register": "SBH",          "genre": "prophecy",  "anchor": "Jotham/Ahaz/Hezekiah superscription"},
+    {"id": "Isaiah_1",     "date_bce": 720, "date_sigma": 30,  "register": "SBH",          "genre": "prophecy",  "anchor": "Isa 1-39; Assyrian-crisis synchronisms"},
+    {"id": "Zephaniah",    "date_bce": 630, "date_sigma": 20,  "register": "SBH",          "genre": "prophecy",  "anchor": "Josiah superscription"},
+    {"id": "Nahum",        "date_bce": 650, "date_sigma": 25,  "register": "SBH",          "genre": "prophecy",  "anchor": "Before fall of Nineveh 612 BCE"},
+    {"id": "Habakkuk",     "date_bce": 605, "date_sigma": 20,  "register": "SBH",          "genre": "prophecy",  "anchor": "Neo-Babylonian rise; HB-VI holdout", "hbvi_holdout": true},
+    {"id": "Lamentations", "date_bce": 570, "date_sigma": 50,  "register": "Transitional", "genre": "poetry",    "anchor": "Post-586 destruction lament; sigma widened"},
+    {"id": "Ezekiel",      "date_bce": 580, "date_sigma": 20,  "register": "Transitional", "genre": "prophecy",  "anchor": "13 explicit regnal dates vs Babylonian records"},
+    {"id": "Obadiah",      "date_bce": 585, "date_sigma": 80,  "register": "Transitional", "genre": "prophecy",  "anchor": "Edom oracle presupposes 586 sack; sigma widened (21 vv.)"},
+    {"id": "Isaiah_2",     "date_bce": 545, "date_sigma": 20,  "register": "Transitional", "genre": "prophecy",  "anchor": "Isa 40-55; Cyrus named (44:28, 45:1)"},
+    {"id": "Zechariah_1",  "date_bce": 518, "date_sigma": 10,  "register": "Transitional", "genre": "prophecy",  "anchor": "Zech 1-8; explicit Darius regnal dates"},
+    {"id": "Malachi",      "date_bce": 460, "date_sigma": 25,  "register": "Transitional", "genre": "prophecy",  "anchor": "Second-temple cult presupposed"},
+    {"id": "Joel",         "date_bce": 400, "date_sigma": 150, "register": "Transitional", "genre": "prophecy",  "anchor": "No king; Greeks named (4:6); sigma widened"},
+    {"id": "Jonah",        "date_bce": 400, "date_sigma": 60,  "register": "Transitional", "genre": "narrative", "anchor": "Aramaisms; late didactic narrative"},
+    {"id": "Isaiah_3",     "date_bce": 400, "date_sigma": 100, "register": "Transitional", "genre": "prophecy",  "anchor": "Isa 56-66; post-460, wide margin per revision"},
+    {"id": "Ezra",         "date_bce": 380, "date_sigma": 60,  "register": "LBH",          "genre": "narrative", "anchor": "Late-Persian to early-Hellenistic final form"},
+    {"id": "Nehemiah",     "date_bce": 380, "date_sigma": 60,  "register": "LBH",          "genre": "narrative", "anchor": "Late-Persian to early-Hellenistic final form"},
+    {"id": "Zechariah_2",  "date_bce": 350, "date_sigma": 150, "register": "LBH",          "genre": "prophecy",  "anchor": "Zech 9-14; Greek-period allusions; sigma widened"},
+    {"id": "Chronicles",   "date_bce": 330, "date_sigma": 40,  "register": "LBH",          "genre": "narrative", "anchor": "Genealogy depth to Persian period"},
+    {"id": "Esther",       "date_bce": 300, "date_sigma": 60,  "register": "LBH",          "genre": "narrative", "anchor": "Persian loanwords; late-Persian/Hellenistic"},
+    {"id": "Ecclesiastes", "date_bce": 250, "date_sigma": 120, "register": "LBH",          "genre": "wisdom",    "anchor": "Persian loanwords, Grecisms; sigma widened"},
+    {"id": "Daniel",       "date_bce": 167, "date_sigma": 10,  "register": "LBH",          "genre": "apocalyptic","anchor": "Heb. chs 1, 8-12; Maccabean crisis; HB-VI holdout", "hbvi_holdout": true}
+  ],
+
+  "holdouts": [
+    {"id": "Jer_oracle", "date_bce": 605, "date_sigma": 30, "register": "SBH",          "genre": "prophecy", "anchor": "Jer 1-6,8-10,12-16,19-20,22-23,30-31,46-51. Held out of BOTH models. Jeremiah whole-book removed from training to prevent leakage."},
+    {"id": "Haggai",     "date_bce": 520, "date_sigma": 10, "register": "Transitional", "genre": "prophecy", "anchor": "Explicit Darius year-2 date (Hag 1:1). Held out of BOTH models; carries the register-assignment comparison."}
+  ],
+
+  "diagnostic_units": [
+    {"id": "Jer_DTR", "anchor": "Jer 7,11,17-18,21,24-29,32-45,52. Diagnostic only, never trained."}
+  ],
+
+  "test_targets": [
+    "D_source", "P_source", "JE_source",
+    "D_Code", "D_Frame", "D_Song",
+    "Lev_Holiness", "Lev_Priestly",
+    "Gen_JE", "Exo_JE", "Num_JE",
+    "Song_Sea", "Song_Deborah",
+    "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy"
+  ]
+}
