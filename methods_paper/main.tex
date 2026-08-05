@@ -1415,45 +1415,40 @@ eliminate circularity --- the corpus dates remain grounded in scholarly
 tradition --- but it identifies, for each text, whether the circularity
 is approximately benign or materially compromising.
 
-To make this critique concrete, we conduct a \emph{prior-sweep
-experiment}: the linguistic feature vectors for P, D, and JE
-(reconstructed from MLE-MVN archaism scores; see Methods) are held
-fixed, while the Gaussian prior $\mathcal{N}(\mu_0,\sigma_0^2)$ on the
-date grid is varied across six scenarios, ranging from an uninformative
-flat (data-only) prior through the agnostic Mode-B prior
+The critique can be made quantitative.  We hold the linguistic feature
+vectors for P, D, and JE fixed (reconstructed from MLE-MVN archaism
+scores; see Methods) and vary only the Gaussian prior
+$\mathcal{N}(\mu_0,\sigma_0^2)$ across six scenarios: an uninformative
+flat (data-only) prior, the agnostic Mode-B prior
 $\mathcal{N}(575,400^2)$, a tight scholarly prior
-$\mathcal{N}(625,100^2)$ reflecting the Josianic--Persian consensus, and
-two explicitly traditionalist assumptions: an early-monarchy prior
+$\mathcal{N}(625,100^2)$ reflecting the Josianic--Persian consensus,
+and two explicitly traditionalist assumptions, an early-monarchy prior
 $\mathcal{N}(850,150^2)$ and a Mosaic-authorship prior
 $\mathcal{N}(1200,100^2)$ centered on the conventional Exodus date
 (Fig.~S14; S6~Table).  The feature likelihoods are identical across
-all rows; only the assumed prior changes.
+all rows; only the prior changes.
 
 Under the data-only (flat) prior, the MLE-MVN MAP dates are 357~BCE
 (P), 294~BCE (D), and 434~BCE (JE) --- all within the Persian period.
 Under the Mosaic prior $\mathcal{N}(1200,100^2)$ these shift to
 444~BCE (P), 403~BCE (D), and 511~BCE (JE) --- still entirely within
-the Persian period (539--332~BCE).  The Mosaic prior cannot move any
-source into pre-exilic territory because the linguistic signal is too
-strongly inconsistent with a pre-exilic date.  For P, which carries
-the strongest data signal ($n = 53{,}645$~words), the total
-prior-induced shift across the full range from flat to Mosaic is
-87~yr, confirming the data-driven classification from the prior
-sensitivity analysis.
+the Persian period (539--332~BCE).  The prior cannot move any source
+into pre-exilic territory because the linguistic signal is too
+strongly inconsistent with such a date.  For P, which carries the
+strongest data signal ($n = 53{,}645$~words), the total prior-induced
+shift across the full range from flat to Mosaic is 87~yr, confirming
+the data-driven classification from the prior sensitivity analysis.
 
-The practical conclusion is direct.  An investigator who imposes
-Mosaic-authorship assumptions on our uncontaminated feature vectors
-still recovers Persian-period dates.  Pre-exilic Torah dates are
-obtainable only by one of two routes: (a)~fixing the prior so
-extremely that it overwhelms a contradictory data signal, or
-(b)~including the Torah in the training corpus so that ``Classical
-Biblical Hebrew'' features are extracted partly from passages assumed
-to be early --- the traditional procedure, and precisely the vicious
-circle identified above.  Our model uses neither route: the training
-corpus excludes Torah and DH texts entirely, and the prior is set
-before fitting.  The circularity is not a philosophical abstraction
-but a quantifiable discrepancy between prior assumptions and
-linguistic evidence.
+A pre-exilic Torah date would require, on this account, either forcing
+a prior so extreme that it overwhelms a directly contradictory data
+signal, or including Torah texts in the training corpus so that
+``Classical Biblical Hebrew'' features are extracted partly from
+passages assumed to be early --- the traditional procedure, and
+precisely the vicious circle identified above.  The present model uses
+neither route: the training corpus excludes Torah and DH texts
+entirely, and the prior is set before fitting.  The circularity is
+thus not a philosophical abstraction but a measurable discrepancy
+between prior assumptions and the linguistic record.
 
 \textbf{Oral prehistory.}  The framework dates the written linguistic
 surface.  Oral traditions preserved in written texts --- possible for
@@ -1473,47 +1468,46 @@ as indicative.
 
 \textbf{Legal prose genre gap.}  The training corpus covers prophetic,
 poetic, narrative, and wisdom texts but contains no legal prose.  The
-three Torah source composites include substantial legal sections (apodictic
-and casuistic law, cultic regulations, purity codes) whose register may
-differ from narrative prose for reasons unrelated to date.  Features with
-strong genre bias (genre ratio $\gamma_j > 1.5$; S1~Table) are excluded
-from the model feature set, and the archaism diagnostic is restricted to
-the resistant-model subset that is least genre-sensitive.  Nevertheless,
-genre confounds not captured by the three-level register classification
-cannot be ruled out.  The results for D and P should be interpreted in
-light of this gap; the consistent post-exilic direction across both models
-and across multiple feature exclusion schemes (S4~Table) provides some
-assurance that the genre gap is not driving the headline finding, but it
-remains a genuine limitation.
+three Torah source composites include substantial legal sections ---
+apodictic and casuistic law, cultic regulations, purity codes --- whose
+register may differ from narrative prose for reasons unrelated to date.
+Features with strong genre bias (genre ratio $\gamma_j > 1.5$; S1~Table)
+are excluded from the model feature set, and the archaism diagnostic is
+restricted to the resistant-model subset that is least genre-sensitive.
+However, genre confounds not captured by the three-level register
+classification cannot be ruled out.  The results for D and P should be
+read in light of this gap; the consistent post-exilic direction across
+both models and across multiple feature exclusion schemes (S4~Table)
+provides some assurance that the gap is not driving the headline finding,
+but it remains a genuine limitation.
 
 \textbf{Source-decomposition uncertainty.}  The documentary source
-composites follow the standard critical partition of Baden~\cite{Baden2012}.  Any
-mis-assigned verses alter the feature vector and through it the MAP date.
-The robustness check in S4~Table suggests dates are stable to
+composites follow the standard critical partition of Baden~\cite{Baden2012}.
+Any mis-assigned verses alter the feature vector and through it the MAP
+date.  The robustness check in S4~Table suggests dates are stable to
 $\sim$20~yr under moderate feature perturbations; however, a systematic
 re-assignment of a major block --- for example, treating the Holiness Code
 as a pre-Priestly stratum independent of P --- could shift MAP estimates
-by a larger amount.  Users who adopt a different documentary partition
+by a larger amount.  Scholars who adopt a different documentary partition
 should re-extract feature vectors from their preferred source boundaries
 before interpreting the model output.
 
 \textbf{Training boundary and extrapolation.}  The corpus spans
 760--330~BCE.  MAP dates near the lower boundary (Daniel: 167~BCE) are
-already mild extrapolations; dates for texts genuinely composed before
-760~BCE or after 167~BCE have no calibration constraint and should be
-treated accordingly.  The date grid imposes hard boundaries at
-50~BCE and 1200~BCE; any composition outside this range would be pinned
-to the nearest edge.
+already mild extrapolations; dates for texts composed before 760~BCE or
+after 167~BCE carry no calibration constraint and should be interpreted
+accordingly.  The date grid imposes hard boundaries at 50~BCE and
+1200~BCE; a composition outside this range would be pinned to the
+nearest edge.
 
 \textbf{Posterior overconfidence and calibration.}  The word-count
 scaling factor $\mathrm{clip}(n/5000,1,5)$ sharpens posteriors for large
 texts in a way that is not fully calibrated.  The LOO analysis
 (Fig.~S13) shows that nominal 68\% credible intervals achieve only 32\%
 actual coverage; a nominal 97.5\% CI is required to reach 68\% actual
-coverage.  Any quoted credible interval should be understood against this
-overconfidence background; for policy-relevant or high-stakes applications,
-the calibration-corrected interval should be used in preference to the
-nominal one.
+coverage.  Any quoted credible interval should be read with this in mind;
+for high-stakes applications the calibration-corrected interval is
+preferable to the nominal one.
 
 \subsection*{Scholarly context for late Torah dating}
 
@@ -1534,43 +1528,42 @@ editorial stages~\cite{CarrFormation2011,Romer2005}, so the question at
 issue is not whether post-exilic editing occurred but how much of the
 final written form it accounts for.
 
-Three recent, methodologically independent lines of evidence converge on
-the same late-composition window.  First, Adler's comprehensive
-archaeological survey of the material record finds no evidence for
-widespread observance of Torah regulations --- dietary prohibitions,
-miqvaot, stone-vessel purity practice --- before the mid-Hasmonean period
-(mid-2nd century~BCE)~\cite{Adler2022}.  If the Torah had functioned as a
-widely observed legal code since the pre-exilic or early post-exilic
-period, the near-total absence of its material correlates for several
-subsequent centuries requires explanation; Adler concludes instead that
-the Torah achieved normative authority only in the Hasmonean period,
-consistent with our model returning Persian-period dates for the final
-written forms of P and D.  Second, epigraphic analysis of Achaemenid-era
-Aramaic sources places the crystallization of distinctively Jewish legal
-practice --- including Passover regulations that the Priestly source
-legislates --- under Persian imperial influence in the 5th--4th
-centuries~BCE, pointing to that same window as the formative period of
-the Torah's legal traditions~\cite{Barnea2026}.  Third, independent study
-of the Moses tradition traces the figure to a 4th-century~BCE literary
-construction drawing on Egyptian folk-heroic conventions, locating even
-the narrative scaffolding of the Pentateuch in the late Persian or early
-Hellenistic period~\cite{Adair2025}.  An older body of historical-critical
-scholarship has similarly argued for Persian or Hellenistic final
-composition on literary-historical grounds~\cite{Thompson1999,Lemche2008,Davies1992};
-the three empirical lines above are independent of that tradition and rest
-on material and philological evidence rather than literary-critical
+The results find independent support from several recent lines of
+inquiry, perhaps the more striking for involving entirely different
+methods.  Adler's comprehensive archaeological survey of the material
+record finds no evidence for widespread observance of Torah regulations
+--- dietary prohibitions, miqvaot, stone-vessel purity practice ---
+before the mid-Hasmonean period (mid-2nd century~BCE)~\cite{Adler2022}.
+If the Torah had functioned as a widely observed legal code since the
+pre-exilic or early post-exilic period, the near-total absence of its
+material correlates for several subsequent centuries would require
+explanation; Adler concludes instead that the Torah achieved normative
+authority only in the Hasmonean period, consistent with our model
+returning Persian-period dates for the final written forms of P and D.
+Epigraphic analysis of Achaemenid-era Aramaic sources similarly places
+the crystallization of distinctively Jewish legal practice --- including
+Passover regulations that the Priestly source legislates --- under
+Persian imperial influence in the 5th--4th centuries~BCE~\cite{Barnea2026}.
+On the other hand, independent study of the Moses tradition traces the
+figure to a 4th-century~BCE literary construction drawing on Egyptian
+folk-heroic conventions, locating even the narrative scaffolding of the
+Pentateuch in the late Persian or early Hellenistic
+period~\cite{Adair2025}.  An older body of historical-critical scholarship
+has argued for Persian or Hellenistic final composition on
+literary-historical grounds~\cite{Thompson1999,Lemche2008,Davies1992};
+the empirical lines above are independent of that tradition and rest on
+material and philological evidence rather than literary-critical
 inference.
 
-Taken together, these strands of evidence --- material archaeology,
-epigraphy, comparative mythology, and now computational linguistics ---
-converge on the same chronological window under entirely different methods.
-Our results constitute a fourth independent line of confirmation, drawn
-from morphosyntactic and lexical feature distributions with no assumption
-about Torah composition date built into the inference.  Precisely because
-the computational method makes no use of historical, archaeological, or
-narrative-critical evidence, agreement with those independent traditions
-cannot be an artifact of shared assumptions; it constitutes a consilience
-that strengthens each individual line of argument.
+What the convergence suggests is something stronger than any single line
+of evidence could provide on its own: the agreement cannot be an artifact
+of shared assumptions, since the computational method makes no use of
+historical, archaeological, or narrative-critical evidence in its
+inference.  The present results would thus appear to constitute a fourth
+independent line of confirmation --- from morphosyntactic and lexical
+feature distributions, with no assumption about Torah composition date
+built in --- agreeing with what archaeology, epigraphy, and comparative
+mythology have separately indicated.
 
 \subsection*{Extensibility}
 
