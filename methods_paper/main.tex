@@ -2053,13 +2053,21 @@ showing the large genre contamination for D and the convergence for P.}
 \includegraphics[width=\linewidth]{figures/fig7_hbvi_comparison.png}
 \caption{\textbf{HB-VI versus MLE-MVN: MAP dates and 68\% credible
 intervals for all training and comparison texts.}
-Connected pairs of dots show \mvn{} (triangles) and \hbvi{} (circles) MAP
-dates for each text; vertical bars indicate 68\% HDCIs.  The comparison
-texts (Habakkuk, Haggai, Daniel; shaded region) illustrate the key
-improvement: \hbvi{} correctly assigns Haggai to the Transitional group
-(MAP~=~522~BCE) while \mvn{} miscategorizes it as LBH (MAP~=~361~BCE).
-\hbvi{} CIs are systematically wider and better-calibrated than \mvn{}
-CIs.}
+(\textbf{A})~Scholarly date versus MAP date for all texts: filled symbols
+= \hbvi{}; open symbols (same shape) = \mvn{}; diamonds = holdout texts;
+circles = training texts; vertical bars = \hbvi{} 68\% CI.  The three
+comparison texts (Habakkuk, Haggai, Daniel) appear as connected
+filled--open diamond pairs: \hbvi{} correctly assigns Haggai to the
+Transitional group (MAP~=~522~BCE), whereas \mvn{} miscategorizes it as
+LBH (MAP~=~361~BCE).
+(\textbf{B})~MAP error distributions for \hbvi{} (blue) and \mvn{}
+(orange): \hbvi{} errors are more tightly centred on zero.
+(\textbf{C})~68\% CI widths: \hbvi{} intervals are systematically wider,
+reflecting propagated uncertainty in the regression coefficients rather
+than under-coverage.
+(\textbf{D})~Sub-source \hbvi{} MAP dates (filled dots) with 68\% CI bars
+and prior means (tick marks) for the nine sub-sources; the Exile (586~BCE)
+and Haggai~(520~BCE) reference lines are shown.}
 \label{fig:hbvi_comparison}
 \end{figure}
 
@@ -2244,22 +2252,23 @@ $\Delta$ is the primary quantity of interest.  R2 and R3 produce results identic
 confirming that \textit{asher} is the sole high-leverage outlier.  All sources remain in the
 Persian-to-Hellenistic period under all exclusion schemes.}
 \label{tab:s4_robustness}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lrrrrr}
 \hline
 \textbf{Source} & \textbf{Baseline (BCE)} & \textbf{R1: drop \textit{asher} (BCE)} & \textbf{$\Delta$ (yr)} & \textbf{R2 = R3 (BCE)} & \textbf{Period} \\
 \hline
 D (Deuteronomist)     & 313 & 387 & $+74$ & 387 & Persian \\
 P (Priestly)          & 347 & 368 & $+21$ & 368 & Persian \\
-JE (Jahwist-Elohist)  & 442 & 456 & $+14$ & 456 & Persian--early Hellenistic \\
+JE (Jahwist-Elohist)  & 442 & 456 & $+14$ & 456 & Persian/Hellenistic \\
 \hline
-\multicolumn{6}{p{14.5cm}}{\small Baseline dates use agnostic prior (Mode~B, $\mathcal{N}(575,400^2)$~BCE) to isolate
+\multicolumn{6}{p{0.96\linewidth}}{\small Baseline dates use agnostic prior (Mode~B, $\mathcal{N}(575,400^2)$~BCE) to isolate
 the data signal from prior assumptions.  Positive $\Delta$ indicates shift toward more
-recent date after feature exclusion.  ``Persian period'' = 539--332~BCE; ``Persian--early
-Hellenistic'' = 539--300~BCE.  The 74~yr shift for D after excluding \textit{asher} confirms
+recent date after feature exclusion.  ``Persian period'' = 539--332~BCE; ``Persian/Hellenistic''
+= 539--300~BCE.  The 74~yr shift for D after excluding \textit{asher} confirms
 that the dominant late signal in D is genre-confounded; the remaining Persian-period date
 reflects the contribution of the remaining late lexical markers (\textit{eleh}, infinitive
 construct; see S3~Table).} \\
-\end{tabular}
+\end{tabular}}%
 \end{table}
 
 \begin{table}[!ht]
@@ -2363,13 +2372,18 @@ sensitivity analysis ($|\Delta_{AB}|=4$~yr; Table~3).} \\
 \includegraphics[width=\linewidth,height=0.93\textheight,keepaspectratio]{figures/fig9_greek_validation.png}
 \caption{\textbf{Cross-language validation on Ancient Greek (five
 holdouts).}
-Each holdout is plotted at its independently established date (x-axis)
-versus the \mvn{} MAP date (y-axis) with 68\% CI whiskers.  All five
-holdouts fall within $\sim$30~yr of the diagonal.  Register class
-(ancient Attic, Koine, LXX, Atticizing) is indicated by symbol shape.
-The inset shows the LXX register diagnostic features for Mark and Luke,
-confirming the Semitic-substrate signal is correctly isolated from the
-temporal signal.}
+Each holdout is plotted at its independently established date ($x$-axis)
+versus the \mvn{} MAP date ($y$-axis) with 68\% CI whiskers; the dashed
+diagonal marks perfect accuracy and the shaded band shows the $\pm30$~yr
+region.  All five holdouts were assigned to the Koine register class by
+the hierarchical register classifier; all five MAP estimates fall within
+$\sim$30~yr of the diagonal.  The inset compares three key
+LXX-register diagnostic features for Mark and Luke against the Koine
+training-text mean and the LXX mean: both Gospels display an elevated
+Semitic-substrate signature (high rates of the Hebraising deictic
+particle, the narrative speech formula, and waw-consecutive \textit{kai}
+sentence openings), confirming that the temporal and register signals are
+correctly isolated from one another.}
 \label{fig:greek_validation}
 \end{figure}
 
