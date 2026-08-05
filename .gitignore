@@ -44,5 +44,5 @@ methods_paper/*.toc
 methods_paper/*.fls
 methods_paper/*.fdb_latexmk
 methods_paper/*.synctex.gz
-methods_paper/*.bbl
 methods_paper/*.blg
+# Note: .bbl is tracked (compiled bibliography needed for reproducible builds)

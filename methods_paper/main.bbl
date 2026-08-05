@@ -1,0 +1,323 @@
+\begin{thebibliography}{10}
+
+\bibitem{Hurvitz1982}
+Hurvitz A.
+\newblock A Linguistic Study of the Relationship between the Priestly Source
+  and the Book of {Ezekiel}: A New Approach to an Old Problem.
+\newblock No.~20 in Cahiers de la Revue Biblique. Paris: Gabalda; 1982.
+
+\bibitem{Rooker1990}
+Rooker MF.
+\newblock Biblical {Hebrew} in Transition: The Language of the Book of
+  {Ezekiel}.
+\newblock No.~90 in Journal for the Study of the Old Testament Supplement
+  Series. Sheffield: JSOT Press; 1990.
+
+\bibitem{Polzin1976}
+Polzin R.
+\newblock Late Biblical {Hebrew}: Toward an Historical Typology of Biblical
+  {Hebrew} Prose.
+\newblock No.~12 in Harvard Semitic Monographs. Missoula: Scholars Press; 1976.
+
+\bibitem{Horrocks2010}
+Horrocks G.
+\newblock {Greek}: A History of the Language and Its Speakers.
+\newblock 2nd ed. Oxford: Wiley-Blackwell; 2010.
+
+\bibitem{Faigenbaum2025}
+Faigenbaum-Golovin S, Kipnis A, B{\"u}hler A, Piasetzky E, R{\"o}mer T,
+  Finkelstein I.
+\newblock Critical Biblical Studies via Word Frequency Analysis: Unveiling Text
+  Authorship.
+\newblock PLOS One. 2025;20(6):e0322905.
+\newblock \href {http://dx.doi.org/10.1371/journal.pone.0322905}
+  {doi:10.1371/journal.pone.0322905}.
+
+\bibitem{BHSA2021}
+{Eep Talstra Centre for Bible and Computer}. Biblia {Hebraica Stuttgartensia
+  Amstelodamensis} ({BHSA}), version 2021; 2021.
+\newblock Amsterdam: ETCBC, Vrije Universiteit Amsterdam.
+\newblock \url{https://github.com/ETCBC/bhsa}.
+
+\bibitem{Roorda2018}
+Roorda D.
+\newblock Coding the {Hebrew Bible}.
+\newblock Research Data Journal for the Humanities and Social Sciences.
+  2018;3:27-41.
+
+\bibitem{Kingma2014}
+Kingma DP, Ba J. Adam: A Method for Stochastic Optimization; 2014.
+\newblock Presented at ICLR 2015.
+\newblock arXiv:1412.6980.
+
+\bibitem{Blei2017}
+Blei DM, Kucukelbir A, McAuliffe JD.
+\newblock Variational Inference: A Review for Statisticians.
+\newblock Journal of the American Statistical Association.
+  2017;112(518):859-77.
+
+\bibitem{Wellhausen1885}
+Wellhausen J.
+\newblock Prolegomena to the History of {Israel}.
+\newblock Edinburgh: Adam \& Charles Black; 1885.
+\newblock Translation of \textit{Geschichte Israels}, 1878.
+
+\bibitem{CarrFormation2011}
+Carr DM.
+\newblock The Formation of the {Hebrew Bible}: A New Reconstruction.
+\newblock New York: Oxford University Press; 2011.
+
+\bibitem{Romer2005}
+R{\"o}mer T.
+\newblock The So-Called {Deuteronomistic History}: A Sociological, Historical
+  and Literary Introduction.
+\newblock London: T\&T Clark; 2005.
+
+\bibitem{Hurvitz1997}
+Hurvitz A.
+\newblock The Historical Quest for {`Ancient Israel'} and the Linguistic
+  Evidence of the {Hebrew Bible}: Some Methodological Observations.
+\newblock Vetus Testamentum. 1997;47:301-15.
+
+\bibitem{Young2003}
+Young I, editor.
+\newblock Biblical {Hebrew}: Studies in Chronology and Typology.
+\newblock No. 369 in Journal for the Study of the Old Testament Supplement
+  Series. London: T\&T Clark; 2003.
+
+\bibitem{Hornkohl2013}
+Hornkohl AD.
+\newblock Ancient {Hebrew} Periodization and the Language of the Book of
+  {Jeremiah}: The Case for a Sixth-Century Date of Composition.
+\newblock No.~74 in Studies in Semitic Languages and Linguistics. Leiden:
+  Brill; 2013.
+
+\bibitem{Young2008}
+Young I, Rezetko R, Ehrensv{\"a}rd M.
+\newblock Linguistic Dating of Biblical Texts. vol.~2.
+\newblock London: Equinox; 2008.
+
+\bibitem{Rezetko2014}
+Rezetko R, Young I.
+\newblock Historical Linguistics and Biblical {Hebrew}: Steps toward an
+  Integrated Approach.
+\newblock No.~9 in Ancient Near East Monographs. Atlanta: SBL Press; 2014.
+
+\bibitem{Hurvitz2014}
+Hurvitz A.
+\newblock A Concise Lexicon of Late Biblical {Hebrew}: Linguistic Innovations
+  in the Writings of the Second Temple Period.
+\newblock No. 160 in Supplements to Vetus Testamentum. Leiden: Brill; 2014.
+
+\bibitem{Robertson1972}
+Robertson DA.
+\newblock Linguistic Evidence in Dating Early {Hebrew} Poetry.
+\newblock No.~3 in SBL Dissertation Series. Missoula: Scholars Press; 1972.
+
+\bibitem{Schniedewind2004}
+Schniedewind WM.
+\newblock How the {Bible} Became a Book: The Textualization of Ancient
+  {Israel}.
+\newblock Cambridge: Cambridge University Press; 2004.
+
+\bibitem{Mosteller1984}
+Mosteller F, Wallace DL.
+\newblock Applied {Bayesian} and Classical Inference: The Case of The
+  Federalist Papers.
+\newblock 2nd ed. New York: Springer; 1984.
+
+\bibitem{Holmes1998}
+Holmes DI.
+\newblock The Evolution of Stylometry in Humanities Scholarship.
+\newblock Literary and Linguistic Computing. 1998;13:111-7.
+
+\bibitem{Burrows2002}
+Burrows J.
+\newblock `{Delta}': A Measure of Stylistic Difference and a Guide to Likely
+  Authorship.
+\newblock Literary and Linguistic Computing. 2002;17:267-87.
+
+\bibitem{Hurvitz1999}
+Hurvitz A.
+\newblock The Relevance of Biblical {Hebrew} Linguistics for the Historical
+  Study of Ancient {Israel}.
+\newblock In: Proceedings of the Twelfth World Congress of Jewish Studies.
+  Jerusalem: World Union of Jewish Studies; 1999. p. 21-34.
+
+\bibitem{Roorda2014}
+Roorda D, Kalkman G, Naaijer M, van Cranenburgh A.
+\newblock {LAF-Fabric}: A Data Analysis Tool for Linguistic Annotation
+  Framework with an Application to the {Hebrew Bible}.
+\newblock Computational Linguistics in the Netherlands Journal. 2014;4:105-20.
+
+\bibitem{Benjamini1995}
+Benjamini Y, Hochberg Y.
+\newblock Controlling the False Discovery Rate: A Practical and Powerful
+  Approach to Multiple Testing.
+\newblock Journal of the Royal Statistical Society, Series~B.
+  1995;57(1):289-300.
+
+\bibitem{Manning1999}
+Manning CD, Sch{\"u}tze H.
+\newblock Foundations of Statistical Natural Language Processing.
+\newblock Cambridge: MIT Press; 1999.
+
+\bibitem{Jurafsky2023}
+Jurafsky D, Martin JH.
+\newblock Speech and Language Processing.
+\newblock 3rd ed. Upper Saddle River: Prentice Hall; 2023.
+
+\bibitem{Hoerl1970}
+Hoerl AE, Kennard RW.
+\newblock Ridge Regression: Biased Estimation for Nonorthogonal Problems.
+\newblock Technometrics. 1970;12:55-67.
+
+\bibitem{Tibshirani1996}
+Tibshirani R.
+\newblock Regression Shrinkage and Selection via the Lasso.
+\newblock Journal of the Royal Statistical Society, Series~B. 1996;58:267-88.
+
+\bibitem{Bishop2006}
+Bishop CM.
+\newblock Pattern Recognition and Machine Learning.
+\newblock New York: Springer; 2006.
+
+\bibitem{Gelman2014}
+Gelman A, Carlin JB, Stern HS, Dunson DB, Vehtari A, Rubin DB.
+\newblock Bayesian Data Analysis.
+\newblock 3rd ed. Boca Raton: CRC Press; 2014.
+
+\bibitem{Jordan1999}
+Jordan MI, Ghahramani Z, Jaakkola TS, Saul LK.
+\newblock An Introduction to Variational Methods for Graphical Models.
+\newblock Machine Learning. 1999;37:183-233.
+
+\bibitem{Ranganath2014}
+Ranganath R, Gerrish S, Blei DM.
+\newblock Black Box Variational Inference.
+\newblock In: Proceedings of the 17th International Conference on Artificial
+  Intelligence and Statistics. vol.~33 of JMLR W\&CP; 2014. p. 814-22.
+
+\bibitem{Maclaurin2015}
+Maclaurin D, Duvenaud D, Adams RP. Autograd: Effortless Gradients in {NumPy};
+  2015.
+\newblock ICML 2015 AutoML Workshop.
+
+\bibitem{Baden2012}
+Baden JS.
+\newblock The Composition of the {Pentateuch}: Renewing the Documentary
+  Hypothesis.
+\newblock The Anchor Yale Bible Reference Library. New Haven: Yale University
+  Press; 2012.
+
+\bibitem{CrossFreedman1975}
+Cross FM, Freedman DN.
+\newblock Studies in Ancient {Yahwistic} Poetry.
+\newblock No.~21 in SBL Dissertation Series. Missoula: Scholars Press; 1975.
+
+\bibitem{Biber1988}
+Biber D.
+\newblock Variation across Speech and Writing.
+\newblock Cambridge: Cambridge University Press; 1988.
+
+\bibitem{Biber2009}
+Biber D, Conrad S.
+\newblock Register, Genre, and Style.
+\newblock Cambridge Approaches to Linguistics. Cambridge: Cambridge University
+  Press; 2009.
+
+\bibitem{Jobes2015}
+Jobes KH, Silva M.
+\newblock Invitation to the {Septuagint}.
+\newblock 2nd ed. Grand Rapids: Baker Academic; 2015.
+
+\bibitem{Marcos2001}
+Marcos NF.
+\newblock The {Septuagint} in Context: Introduction to the {Greek} Version of
+  the {Bible}.
+\newblock Leiden: Brill; 2001.
+
+\bibitem{Law2013}
+Law TM.
+\newblock When {God} Spoke {Greek}: The {Septuagint} and the Making of the
+  {Christian Bible}.
+\newblock New York: Oxford University Press; 2013.
+
+\bibitem{Swain1996}
+Swain S.
+\newblock Hellenism and Empire: Language, Classicism and Power in the {Greek
+  World} {AD} 50--250.
+\newblock Oxford: Clarendon; 1996.
+
+\bibitem{Mussies1971}
+Mussies G.
+\newblock The Morphology of {Koine Greek} as Used in the Apocalypse of St.\
+  {John}: A Study in Bilingualism.
+\newblock No.~27 in Supplements to Novum Testamentum. Leiden: Brill; 1971.
+
+\bibitem{Evans2001}
+Evans TV.
+\newblock Verbal Syntax in the {Greek Pentateuch}: Natural {Greek} Usage and
+  {Hebrew} Interference.
+\newblock Oxford: Oxford University Press; 2001.
+
+\bibitem{Hendel2018}
+Hendel R, Joosten J.
+\newblock How Old Is the {Hebrew Bible}? A Linguistic, Textual, and Historical
+  Study.
+\newblock Anchor Yale Bible Reference Library. New Haven: Yale University
+  Press; 2018.
+
+\bibitem{Thompson1999}
+Thompson TL.
+\newblock The Mythic Past: Biblical Archaeology and the Myth of {Israel}.
+\newblock New York: Basic Books; 1999.
+
+\bibitem{Lemche2008}
+Lemche NP.
+\newblock The {Old Testament} Between Theology and History: A Critical Survey.
+\newblock Louisville: Westminster John Knox Press; 2008.
+
+\bibitem{Davies1992}
+Davies PR.
+\newblock In Search of `{Ancient Israel}'.
+\newblock No. 148 in Journal for the Study of the Old Testament Supplement
+  Series. Sheffield: JSOT Press; 1992.
+
+\bibitem{Adler2022}
+Adler Y.
+\newblock The Origins of {Judaism}: An Archaeological-Historical Reappraisal.
+\newblock The Anchor Yale Bible Reference Library. New Haven: Yale University
+  Press; 2022.
+
+\bibitem{Barnea2026}
+Barnea G.
+\newblock Thwarting the `{Evil Eye}': Pesah Through the Prism of {Achaemenid}
+  {Aramaic} Sources.
+\newblock Religions. 2026;17(1):1.
+
+\bibitem{Adair2025}
+Adair A.
+\newblock The Name of {Moses} in an {Egyptian} Context---{A} Hypothetical
+  Etymology.
+\newblock Scandinavian Journal of the Old Testament. 2025;39(1):60-78.
+\newblock \href {http://dx.doi.org/10.1080/09018328.2025.2452454}
+  {doi:10.1080/09018328.2025.2452454}.
+
+\bibitem{Koppel2011}
+Koppel M, Akiva N, Dershowitz I, Dershowitz N.
+\newblock Unsupervised Decomposition of a Document into Authorial Components.
+\newblock In: Proceedings of the 49th Annual Meeting of the Association for
+  Computational Linguistics. Portland; 2011. p. 1356-64.
+
+\bibitem{Perseus}
+Crane GR. Perseus Digital Library;.
+\newblock Medford: Tufts University.
+\newblock \url{http://www.perseus.tufts.edu}.
+
+\bibitem{TLG}
+Pantelia M. Thesaurus {Linguae Graecae};.
+\newblock Irvine: University of California.
+\newblock \url{http://stephanus.tlg.uci.edu}.
+
+\end{thebibliography}
