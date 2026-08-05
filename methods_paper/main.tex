@@ -1973,15 +1973,21 @@ S12~Fig.}
 
 \begin{figure}[!h]
 \includegraphics[width=\linewidth]{figures/fig2_feature_correlations.png}
-\caption{\textbf{Top-10 morphosyntactic features by Spearman $|\rho|$
-with date.}
-Each panel shows the rate of one feature (y-axis) versus date BCE (x-axis)
-across the 22 training units, with OLS regression line and 95\% confidence
-band.  Features are color-coded by tier (Tier~1~=~lexical,
-Tier~2~=~morphological, Tier~3~=~clause/phrase resistant).  The
-\textit{ank\={\i}/an\={\i}} ratio and wayyiqtol fraction show the steepest
-monotonic declines; infinitive-construct fraction (Tier~3) shows the most
-scatter but is retained as a resistant-model feature.}
+\caption{\textbf{Top 16 LOO-robust diachronic features from the full
+lexeme and morphological scan of the dated prophetic corpus.}
+Each panel plots the per-1,000-word rate of one feature ($y$-axis) against
+scholarly date BCE ($x$-axis; older texts at left) across all 22 training
+units, with OLS trend line.  Spearman $\rho$, raw $p$-value, and
+leave-one-out robustness fraction (LOO; proportion of LOO resamplings
+returning the same sign and significance) appear above each panel; all
+16 features achieve LOO~=~100\%.  Features marked SBH~$\downarrow$ are
+characteristic of pre-exilic Classical Biblical Hebrew and decline toward
+the post-exilic period; LBH~$\uparrow$ features show the reverse pattern.
+The term \textit{malkut} (`kingdom'; a hallmark Late Biblical Hebrew noun)
+and the rate of the preposition \textit{lamed} are the two LBH~$\uparrow$
+markers in this set; the remaining 14 features are SBH markers that
+decrease monotonically with date.  The feature labeled BVX is an
+unidentified rare prophetic root in the BHSA lexicon.}
 \label{fig:feature_correlations}
 \end{figure}
 
