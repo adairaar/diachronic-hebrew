@@ -28,44 +28,51 @@ def esc(s):
 
 # ── Table 1: training corpus ────────────────────────────────────────────
 ANCHOR = {
-    "Amos": "Superscription: Uzziah of Judah / Jeroboam II of Israel",
-    "Hosea": "Superscription: Uzziah to Hezekiah / Jeroboam II",
-    "Micah": "Superscription: Jotham, Ahaz, Hezekiah",
-    "Isaiah_1": "Superscription: Uzziah to Hezekiah; Assyrian campaigns",
-    "Nahum": "Fall of Nineveh, 612 BCE",
-    "Zephaniah": "Superscription: Josiah",
-    "Habakkuk": "Neo-Babylonian ascendancy",
-    "Jer_oracle": "Superscription: Josiah to Zedekiah; 597 and 586 BCE",
-    "Obadiah": "Edomite conduct at the fall of Jerusalem, 586 BCE",
-    "Ezekiel": "Thirteen regnal dates from Jehoiachin's deportation, 597 BCE",
-    "Lamentations": "Destruction of Jerusalem, 586 BCE",
-    "Isaiah_2": "Cyrus named; fall of Babylon, 539 BCE",
-    "Haggai": "Regnal dates, second year of Darius I, 520 BCE",
-    "Zechariah_1": "Regnal dates, second to fourth year of Darius I",
-    "Malachi": "Persian governor (\\textit{peha}); second-temple cult",
-    "Joel": "Second-temple setting; post-exilic references",
-    "Jonah": "Late linguistic profile; post-exilic novella",
-    "Isaiah_3": "Restored temple cult; Persian period",
-    "Ezra": "Persian regnal dates, Cyrus to Artaxerxes",
-    "Nehemiah": "Twentieth year of Artaxerxes I, 445 BCE",
-    "Zechariah_2": "Greek (\\textit{Yawan}) reference; late Persian",
-    "Chronicles": "Genealogies to the Persian period; Cyrus decree",
-    "Esther": "Achaemenid court setting; Xerxes",
-    "Ecclesiastes": "Persian loanwords (\\textit{pardes}, \\textit{pitgam})",
-    "Daniel": "Antiochene persecution, 167 BCE",
+    # (anchor text, type)  E = external synchronism or datable event
+    #                      L = literary/contextual judgment
+    "Amos": ("Superscription: Uzziah of Judah / Jeroboam II of Israel", "E"),
+    "Hosea": ("Superscription: Uzziah to Hezekiah / Jeroboam II", "E"),
+    "Micah": ("Superscription: Jotham, Ahaz, Hezekiah", "E"),
+    "Isaiah_1": ("Superscription: Uzziah to Hezekiah; Assyrian campaigns", "E"),
+    "Nahum": ("Fall of Nineveh, 612 BCE", "E"),
+    "Zephaniah": ("Superscription: Josiah", "E"),
+    "Habakkuk": ("Neo-Babylonian ascendancy", "E"),
+    "Jer_oracle": ("Superscription: Josiah to Zedekiah; 597 and 586 BCE", "E"),
+    "Obadiah": ("Edomite conduct at the fall of Jerusalem, 586 BCE", "E"),
+    "Ezekiel": ("Thirteen regnal dates from Jehoiachin's deportation, 597 BCE", "E"),
+    "Lamentations": ("Destruction of Jerusalem, 586 BCE", "E"),
+    "Isaiah_2": ("Cyrus named; fall of Babylon, 539 BCE", "E"),
+    "Haggai": ("Regnal dates, second year of Darius I, 520 BCE", "E"),
+    "Zechariah_1": ("Regnal dates, second to fourth year of Darius I", "E"),
+    "Malachi": ("Persian governor (\\textit{peha}); second-temple cult", "L"),
+    "Joel": ("Second-temple setting; post-exilic references", "L"),
+    "Jonah": ("Post-exilic novella; late linguistic profile", "L"),
+    "Isaiah_3": ("Restored temple cult; Persian period", "L"),
+    "Ezra": ("Persian regnal dates, Cyrus to Artaxerxes", "E"),
+    "Nehemiah": ("Twentieth year of Artaxerxes I, 445 BCE", "E"),
+    "Zechariah_2": ("Greek (\\textit{Yawan}) reference; late Persian", "L"),
+    "Chronicles": ("Genealogies to the Persian period; Cyrus decree", "E"),
+    "Esther": ("Achaemenid court setting; Xerxes", "E"),
+    "Ecclesiastes": ("Persian loanwords (\\textit{pardes}, \\textit{pitgam})", "L"),
+    "Daniel": ("Antiochene persecution, 167 BCE", "E"),
 }
+
 B = pd.read_csv(need(f"{R}/final_lobo_books.csv")).sort_values("truth", ascending=False)
 rows = ["\\textbf{Unit} & \\textbf{Date} & \\textbf{Words} & \\textbf{Pass.} & "
-        "\\textbf{External anchor} \\\\\n\\midrule\n"]
+        "\\textbf{Type} & \\textbf{Basis of the date} \\\\\n\\midrule\n"]
 for _, r in B.iterrows():
+    a, kind = ANCHOR.get(r.book, ("---", "L"))
     rows.append(f"{esc(r.book)} & {int(r.truth)} & {int(r.n_words):,} & "
-                f"{int(r.n_chunks)} & {ANCHOR.get(r.book,'---')} \\\\\n")
+                f"{int(r.n_chunks)} & {kind} & {a} \\\\\n")
 open(f"{T}/tab_corpus.tex", "w").write(wrap(
     "".join(rows),
-    "\\textbf{The anchored training corpus.}  Dates are BCE.  Every date rests "
-    "on a synchronism or event external to the biblical tradition.  "
-    "``Pass.'' is the number of $\\sim$500-word passages.",
-    "tab:corpus", "llrrp{5.4cm}"))
+    "\\textbf{The training corpus.}  Dates are BCE; ``Pass.'' is the number of "
+    "$\\sim$500-word passages.  Type~E marks the 19 units whose date is fixed by a "
+    "synchronism or event external to the biblical tradition.  Type~L marks the 6 "
+    "whose date rests on literary or contextual judgment, and which are therefore "
+    "less independent of the features under analysis; the sensitivity of every "
+    "reported result to their removal is given in Table~\\ref{tab:anchors}.",
+    "tab:corpus", "llrrcp{4.6cm}"))
 
 # ── Table 2: prior leakage ──────────────────────────────────────────────
 L = pd.read_csv(need(f"{R}/leakage_generative.csv")).sort_values("sigma_u")
@@ -186,3 +193,21 @@ open(f"{T}/tab_greek.tex", "w").write(wrap(
     "tab:greek", "llrrrr"))
 
 print("wrote:", ", ".join(sorted(os.listdir(T))))
+
+# ── Table 7: anchor sensitivity ─────────────────────────────────────────
+AS = json.load(open(need(f"{R}/anchor_sensitivity.json")))
+rows = ["\\textbf{Training set} & \\textbf{Units} & \\textbf{MAE} & "
+        "\\textbf{Baseline} & \\textbf{$\\rho$} & \\textbf{Pairwise} \\\\\n\\midrule\n"]
+for v in AS:
+    rows.append(f"{esc(v['label'][3:])} & {v['n']} & {v['mae']:.0f} & "
+                f"{v['base']:.0f} & {v['rho']:+.2f} & {100*v['pair']:.1f}\\% \\\\\n")
+open(f"{T}/tab_anchors.tex", "w").write(wrap(
+    "".join(rows),
+    "\\textbf{Sensitivity to the less securely anchored units.}  Six of the 25 "
+    "training units are dated by literary or contextual judgment rather than by "
+    "an external synchronism (Table~\\ref{tab:corpus}), and two of those, Jonah "
+    "and Ecclesiastes, are dated partly by the linguistic profile that this model "
+    "measures.  The pipeline was re-run without them.  MAE and baseline are in "
+    "years; the baseline is the constant predictor on the same subset.",
+    "tab:anchors", "lrrrrr"))
+print("wrote tab_anchors")

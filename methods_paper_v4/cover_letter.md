@@ -46,11 +46,12 @@ is not, and the Atticizers managed it only because an entire educational
 apparatus existed to teach them how. The objection to linguistic dating therefore
 becomes conditional and historically testable rather than rhetorical: for any
 disputed text, the question is whether its milieu supported the expensive kind of
-imitation. I should note that this reverses the conclusion I expected when I
-began, and the manuscript states as much.
+imitation.
 
-The dating model itself is built on 146,059 words of Hebrew anchored by
-synchronisms external to the biblical tradition. Its one consequential design
+The dating model itself is built on 146,059 words of Hebrew, of which nineteen
+of the twenty-five units are anchored by synchronisms external to the biblical
+tradition and six by literary context; the manuscript reports how every result
+behaves when the latter are removed. Its one consequential design
 choice is that features are extracted from passages of about 500 words rather
 than from whole books, which turns 25 observations into 285 and forces the model
 onto grammatical rates that can actually be measured in a few hundred words.
@@ -75,18 +76,17 @@ directly on the archaic poems, and with one securely dated poetic book in the
 corpus that confound cannot be separated from date. The Greek transfer is an
 analogy rather than a measurement of Hebrew.
 
-The paper also documents a failure mode in holdout validation that affects
-designs of this kind, and does so partly at my own expense. When a held-out text
-is dated under a prior centered on its own scholarly date, the model returns
-approximately that date regardless of the text's content, and does so most
-convincingly for the texts whose dates are best established. Across this corpus
-the linguistic evidence supplies a median 11.7% of posterior precision, and 4.5%
-for the most tightly anchored texts, where a leaky design reports errors of a few
-years against an honest 189. Reported accuracies of a decade or two, for models
-of this class, are a signature of the design rather than an achievement. I note
-for the editors that the public repository retains superseded analyses run under
-that design in `archive/` for provenance; the manuscript reports only the
-corrected results.
+The paper also identifies a validation artifact that explains why the accuracies
+reported here are lower than several published figures for models of this class.
+When a held-out text is dated under a prior centered on its own scholarly date,
+the model returns approximately that date regardless of the text's content, and
+does so most convincingly for the texts whose dates are best established. Across
+this corpus the linguistic evidence supplies a median 11.7% of posterior
+precision, and 4.5% for the most tightly anchored texts, where such a design
+reports errors of a few years against an honest 189. Accuracies of a decade or
+two, for models of this class, are a signature of the design rather than a
+measurement of the language. The comparison matters for reading the present
+results against the existing literature.
 
 The manuscript is submitted exclusively to PLOS ONE and has not been published or
 submitted elsewhere. All code, extracted feature matrices, model outputs, and the

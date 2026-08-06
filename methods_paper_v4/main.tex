@@ -255,10 +255,14 @@ Dating methods that use features identified by comparing texts of assumed date
 risk circularity: the assumed dates shape the feature set, and the feature set
 is then used to infer unknown dates.  Three safeguards are adopted.
 
-First, the training corpus is restricted to books with \emph{independent}
-historical anchoring via synchronisms with datable rulers in Assyrian,
-Babylonian, and Persian king-lists.  Torah texts are excluded from training
-entirely, so all Torah date estimates are genuine out-of-sample predictions.
+First, the training corpus is drawn from books with historical anchoring
+independent of any linguistic judgment.  Nineteen of the \HBbooks{} units are
+fixed by synchronisms with datable rulers in Assyrian, Babylonian, and Persian
+king-lists or by a datable event; the remaining six rest on literary or
+contextual grounds and are marked as such in Table~\ref{tab:corpus}.  Every
+reported result is checked against their removal
+(Table~\ref{tab:anchors}).  Torah texts are excluded from training entirely,
+so all Torah date estimates are genuine out-of-sample predictions.
 
 Second, no feature is selected using date information.  The feature set is
 fixed in advance by frequency rank in the corpus as a whole (Data section),
@@ -371,15 +375,32 @@ Bible and Computer and are independent of any dating hypothesis.
 \subsection*{The Anchored Corpus}
 
 The training corpus comprises \HBbooks{} units spanning \HBoldest--\HBlatest{}
-BCE, listed with their anchors in Table~\ref{tab:corpus}.  Every date rests on
-a synchronism external to the biblical tradition or on an event whose date is
-fixed by external record.  Books with disputed internal composition
+BCE, listed in Table~\ref{tab:corpus}.  Books with disputed internal composition
 histories are split into the conventional scholarly divisions (Isaiah into
-three, Zechariah into two) and the oracular core of Jeremiah is separated from
+three, Zechariah into two), and the oracular core of Jeremiah is separated from
 its Deuteronomistic prose frame, which is treated as an undated target rather
 than an anchor.
 
+The units differ in how securely they are anchored, and the difference matters
+enough to be marked in the table.  Nineteen have dates fixed by an event or
+synchronism external to the biblical tradition.  Six do not: Malachi, Joel,
+Isaiah$_3$, and Zechariah$_2$ are placed by their second-temple setting, while
+Jonah and Ecclesiastes are placed partly by their linguistic profile, which is
+the quantity this model is meant to estimate independently.  Retaining the
+latter two would be circular were their dates load-bearing.
+
+Table~\ref{tab:anchors} therefore re-runs the entire pipeline on reduced
+training sets.  Dropping all six contextually dated units leaves the result
+intact and improves the error against its baseline.  Dropping only Jonah and
+Ecclesiastes lowers the rank correlation to $+0.51$ and the pairwise accuracy to
+66.8\%, which is the more informative number: at \HBbooks{} units, individual
+books carry enough leverage to move the headline statistic by that much, and any
+single reported correlation should be read against that spread rather than as a
+point estimate.
+
 \input{tables/tab_corpus}
+
+\input{tables/tab_anchors}
 
 \subsection*{Why Passages Rather Than Books}
 
@@ -558,9 +579,9 @@ guarantee and makes no distributional assumption.
 \subsection*{A Failure Mode That Inflates Reported Accuracy}
 
 Reported accuracies for linguistic dating models of this class vary by two
-orders of magnitude.  Part of that variation is a design artifact worth
-naming, not least because I committed it myself in an earlier version of this
-analysis.
+orders of magnitude.  Much of that variation is not a difference in the
+underlying signal but an artifact of how the models are validated, and the
+artifact is worth naming because it is easy to commit and hard to see.
 
 In a Bayesian dating model, the posterior over a held-out text's date combines
 a likelihood from the linguistic features with a prior.  Should the prior for
@@ -626,11 +647,13 @@ $\HBnullrho$), the pairwise ordering accuracy of \HBpair\% has $p =
 \HBpermpair$ (null median \HBnullpair\%), and the mean absolute error of
 \HBmae~yr has $p = \HBpermmae$ (null median \HBnullmae~yr).
 
-One arithmetic trap deserves explicit warning, as I fell into it myself.  The \HBnpair{} pairs formed from \HBbooks{} books are
-not independent, as each book appears in \HBbooks$-1$ of them.  Treating
-pairwise ordering accuracy as a binomial proportion over \HBnpair{} independent
-trials gives $p$-values wrong by ten orders of magnitude.  The permutation
-figures above are the correct ones.
+One arithmetic point deserves emphasis, since pairwise ordering accuracy is
+commonly reported in this literature without it.  The \HBnpair{} pairs formed
+from \HBbooks{} books are not independent, as each book appears in
+\HBbooks$-1$ of them.  Treating the accuracy as a binomial proportion over
+\HBnpair{} independent trials gives $p$-values wrong by ten orders of magnitude.
+The permutation figures above are the correct ones, and any comparison with
+pairwise accuracies reported elsewhere should take this into account.
 
 \subsection*{Two-Sidedness and Calibration}
 
@@ -771,9 +794,10 @@ The Song of Moses (Deut~32:1--43) is placed at \poemMoses{} BCE
 two and straddling the exile.  A reading of its contents would not predict this.
 Its divine-council theology, in which Elyon apportions the nations among the
 gods and YHWH receives Israel as his share (32:8--9), is usually taken as among
-the most archaic material in the Hebrew Bible.  But the model sees the language
-rather than the theology, and it places the language late.  The discrepancy is
-reported here rather than explained away.
+the most archaic material in the Hebrew Bible.  But the model sees the language rather than the theology, and the language is
+late.  Whether the archaic theology of these verses was preserved in a later
+idiom, or whether the linguistic estimate is simply wrong for a text this short,
+cannot be settled from the present evidence.
 
 \subsection*{Genre as the Dominant Confound}
 
@@ -871,8 +895,10 @@ than choices of vocabulary.
 Moreover, these are the features that the passage-level design forces the model
 to rely on.  Requiring a feature to be measurable within 500 words demotes the rare
 diagnostic vocabulary, which is the manipulable part of the language, and
-promotes high-frequency morphology, which is not.  Resistance to archaizing was
-not designed into this model.  It fell out of the constraint on sample size.
+promotes high-frequency morphology, which is not.  The resistance to archaizing documented below is therefore a structural
+consequence of the passage-level design rather than an additional assumption:
+any model constrained to features estimable in a few hundred words will rest on
+the same high-frequency morphology.
 
 \begin{figure}[!ht]
 \centering
@@ -1016,14 +1042,14 @@ closest analogue, and it is a good deal thinner.  The sectarian scrolls mix
 grammar, which on the evidence here would displace their apparent date by tens
 of years rather than hundreds.
 
-For the results of the previous section, this means the early placement of the
-Song of the Sea and the Song of Deborah is not immune to an archaizing
-explanation, and no such immunity is claimed.  It means instead that any
-archaizing explanation must posit sustained morphosyntactic imitation of a kind
-for which Second Temple Judaism offers no attested institutional support, rather
-than the lexical substitution that the \cbh{}/\lbh{} literature actually
-describes.  That is a weaker defense than immunity would have been, but it is
-the one the evidence supports.
+This bears directly on the archaic poems.  An archaizing account of the early
+placement of the Song of the Sea or the Song of Deborah is not excluded by these
+results, but it carries a specific and demanding burden.  It must posit
+sustained morphosyntactic imitation, of the kind that took the Second Sophistic
+a formal curriculum to achieve, rather than the lexical substitution that the
+\cbh{}/\lbh{} literature describes and that is measured above at \arcMeanAbs~yr.
+No comparable institution is attested for Second Temple Judaism.  The burden is
+therefore a heavy one, and it now has a number attached to it.
 
 % =====================================================================
 \section*{Discussion}
