@@ -13,12 +13,12 @@ def rep(old, new, label):
 
 TITLE_OLD = ("A multivariate Bayesian framework for diachronic dating of ancient\n"
              "texts: Validation on Biblical Hebrew and Ancient Greek")
-TITLE_NEW = ("The resolution of linguistic dating in Biblical Hebrew:\n"
+TITLE_NEW = ("Resolving diachronic linguistic changes in Biblical Hebrew:\n"
              "calibrated ranges for the Pentateuchal sources, with\n"
              "cross-linguistic replication in Ancient Greek")
 rep(TITLE_OLD, TITLE_NEW, "title (flushleft)")
 rep("% Ancient Texts: Validation on Biblical Hebrew and Ancient Greek\"",
-    "% The resolution of linguistic dating in Biblical Hebrew\"", "title comment")
+    "% Resolving diachronic linguistic changes in Biblical Hebrew\"", "title comment")
 
 # ── contribution list: replace the three withdrawn items ─────────────────────
 rep(r"""  \item A resistant model using only four clause-level features below

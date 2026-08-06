@@ -83,9 +83,14 @@ print("  figures now:", sorted(set(re.findall(r"figures/(\S+?)\.png", t))))
 # ── swap in the regenerated S-tables ─────────────────────────────────────────
 import pathlib as _pl
 t = p.read_text()
+END = "\\end{document}"
+if END not in t:
+    sys.exit("no \\end{document} found - cannot place S-tables")
 for old_label, newfile in [("tab:s2_power", "tab_s2_power.tex"),
                            ("tab:s5_words", "tab_s5_words.tex")]:
     if old_label not in t:
-        t = t.rstrip() + "\n\n" + _pl.Path(newfile).read_text()
+        # must go BEFORE \end{document} or LaTeX never sees the label
+        i = t.rfind(END)
+        t = t[:i] + _pl.Path(newfile).read_text() + "\n" + t[i:]
 p.write_text(t)
 print("  appended regenerated S2/S5 tables")

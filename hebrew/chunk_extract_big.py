@@ -1,0 +1,189 @@
+"""
+Expanded feature extraction at chunk level.
+
+Feature families (all computed per chunk, rates per 1000 words unless noted):
+  LEX   top-K lexeme rates
+  POS   part-of-speech unigram + bigram rates
+  VERB  verb tense, stem, and tense x stem cross rates
+  AGR   person / number / gender / state / pronominal-suffix rates
+  PHR   phrase type and phrase function rates
+  CLS   clause relation rates, clause-type bigrams
+  STRUCT  mean phrase length, clause length, clauses per sentence, etc.
+
+Everything is derived from BHSA node features, so nothing here depends on the
+hand-picked 64-feature set the earlier work used.
+"""
+import os, json, argparse, collections
+import numpy as np, pandas as pd
+from tf.fabric import Fabric
+
+TF_PATH = os.path.expanduser("~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
+HB = "/mnt/user-data/uploads/Diachronic Hebrew/hebrew"
+BHSA_NAME = {"Numbers":"Numeri","Deuteronomy":"Deuteronomium","Lamentations":"Threni",
+             "Ezekiel":"Ezechiel","Obadiah":"Obadia","Jonah":"Jona","Malachi":"Maleachi",
+             "Zephaniah":"Zephania","Habakkuk":"Habakuk","Micah":"Micha","Isaiah":"Jesaia",
+             "Jeremiah":"Jeremia","Zechariah":"Sacharia","Ezra":"Esra","Nehemiah":"Nehemia",
+             "1_Chronicles":"Chronica_I","2_Chronicles":"Chronica_II","Judges":"Judices"}
+RANGED = {
+    "Isaiah_1":[("Jesaia",[(1,39)])], "Isaiah_2":[("Jesaia",[(40,55)])],
+    "Isaiah_3":[("Jesaia",[(56,66)])], "Zechariah_1":[("Sacharia",[(1,8)])],
+    "Zechariah_2":[("Sacharia",[(9,14)])],
+    "Chronicles":[("Chronica_I",[(1,29)]),("Chronica_II",[(1,36)])],
+    "Daniel":[("Daniel",[(1,1),(8,12)])],
+    "Jer_oracle":[("Jeremia",[(1,6),(8,10),(12,16),(19,20),(22,23),(30,31),(46,51)])],
+}
+WHOLE = ["Amos","Hosea","Micah","Zephaniah","Nahum","Habakkuk","Lamentations",
+         "Ezekiel","Obadiah","Joel","Jonah","Malachi","Haggai","Ezra","Nehemiah",
+         "Esther","Ecclesiastes"]
+
+
+def load():
+    TF = Fabric(locations=[TF_PATH], silent="deep")
+    return TF.load("book chapter verse lex sp pdp vt vs ps nu gn prs st typ "
+                   "function rela language", silent="deep")
+
+
+def unit_words(api, spec):
+    F, L, T = api.F, api.L, api.T
+    ws = []
+    for book, ranges in spec:
+        bn = T.nodeFromSection((book,))
+        if bn is None:
+            print(f"   !! book not found: {book}"); continue
+        for ch in L.d(bn, "chapter"):
+            c = int(F.chapter.v(ch))
+            if any(s <= c <= e for s, e in ranges):
+                ws.extend(L.d(ch, "word"))
+    return ws
+
+
+def chunk_feats(words, api, top_lex, top_pos, top_typ, top_fun, top_rela):
+    F, L = api.F, api.L
+    n = len(words)
+    f = {}
+    R = lambda c: c / n * 1000.0
+
+    lex = [F.lex.v(w) for w in words]
+    sp  = [F.sp.v(w) for w in words]
+    pdp = [F.pdp.v(w) for w in words]
+
+    lc = collections.Counter(lex)
+    for k in top_lex:
+        f[f"lex_{k}"] = R(lc.get(k, 0))
+
+    pc = collections.Counter(sp)
+    for k in top_pos:
+        f[f"pos_{k}"] = R(pc.get(k, 0))
+    bg = collections.Counter(zip(sp, sp[1:]))
+    for a in top_pos:
+        for b in top_pos:
+            f[f"pb_{a}_{b}"] = R(bg.get((a, b), 0))
+
+    pdc = collections.Counter(pdp)
+    for k in top_pos:
+        f[f"pdp_{k}"] = R(pdc.get(k, 0))
+
+    vb = [w for w in words if F.sp.v(w) == "verb"]
+    nv = max(len(vb), 1)
+    vt = collections.Counter(F.vt.v(w) for w in vb)
+    vs = collections.Counter(F.vs.v(w) for w in vb)
+    vx = collections.Counter((F.vt.v(w), F.vs.v(w)) for w in vb)
+    f["verb_rate"] = R(len(vb))
+    for k in ["perf","impf","wayq","impv","infc","infa","ptca","ptcp","weqt"]:
+        f[f"vt_{k}"] = R(vt.get(k, 0)); f[f"vtf_{k}"] = vt.get(k, 0) / nv
+    for k in ["qal","hif","piel","nif","pual","hit","hof","hsht","poal","poel"]:
+        f[f"vs_{k}"] = R(vs.get(k, 0)); f[f"vsf_{k}"] = vs.get(k, 0) / nv
+    for a in ["perf","impf","wayq","impv","ptca"]:
+        for b in ["qal","hif","piel","nif"]:
+            f[f"vx_{a}_{b}"] = vx.get((a, b), 0) / nv
+
+    for feat, vals in [("ps", ["p1","p2","p3"]), ("nu", ["sg","pl","du"]),
+                       ("gn", ["m","f"]), ("st", ["a","c","e"])]:
+        c = collections.Counter(getattr(F, feat).v(w) for w in words)
+        for v in vals:
+            f[f"{feat}_{v}"] = R(c.get(v, 0))
+    prs = collections.Counter(F.prs.v(w) for w in words)
+    f["prs_any"] = R(sum(v for k, v in prs.items() if k not in ("absent", "n/a", None)))
+    for k in ["W","J","M","K","H","HM","NW","MW"]:
+        f[f"prs_{k}"] = R(prs.get(k, 0))
+
+    phrases = sorted({p for w in words for p in L.u(w, "phrase")})
+    clauses = sorted({c for w in words for c in L.u(w, "clause")})
+    sents   = sorted({s for w in words for s in L.u(w, "sentence")})
+    tc = collections.Counter(F.typ.v(p) for p in phrases)
+    fc = collections.Counter(F.function.v(p) for p in phrases)
+    rc = collections.Counter(F.rela.v(c) for c in clauses)
+    npz = max(len(phrases), 1); ncl = max(len(clauses), 1)
+    for k in top_typ: f[f"typ_{k}"] = tc.get(k, 0) / npz
+    for k in top_fun: f[f"fun_{k}"] = fc.get(k, 0) / npz
+    for k in top_rela: f[f"rela_{k}"] = rc.get(k, 0) / ncl
+    ctyp = [F.typ.v(c) for c in clauses]
+    cbg = collections.Counter(zip(ctyp, ctyp[1:]))
+    for a in top_rela[:6]:
+        for b in top_rela[:6]:
+            f[f"cb_{a}_{b}"] = cbg.get((a, b), 0) / ncl
+
+    f["phrase_len"]   = n / npz
+    f["clause_len"]   = n / ncl
+    f["cl_per_sent"]  = ncl / max(len(sents), 1)
+    f["ph_per_clause"] = npz / ncl
+    f["sent_len"]     = n / max(len(sents), 1)
+    return f
+
+
+def main(target, k_lex):
+    api = load(); F, L = api.F, api.L
+    allw = [w for w in F.otype.s("word") if F.language.v(w) == "Hebrew"]
+    top_lex  = [k for k, _ in collections.Counter(F.lex.v(w) for w in allw).most_common(k_lex)]
+    top_pos  = [k for k, _ in collections.Counter(F.sp.v(w) for w in allw).most_common(14)]
+    ph = list(F.otype.s("phrase")); cl = list(F.otype.s("clause"))
+    top_typ  = [k for k, _ in collections.Counter(F.typ.v(p) for p in ph).most_common(12)]
+    top_fun  = [k for k, _ in collections.Counter(F.function.v(p) for p in ph).most_common(16)]
+    top_rela = [k for k, _ in collections.Counter(F.rela.v(c) for c in cl).most_common(12)]
+    print(f"vocab: {len(top_lex)} lex, {len(top_pos)} pos, {len(top_typ)} typ, "
+          f"{len(top_fun)} fun, {len(top_rela)} rela")
+
+    man = json.load(open(os.path.join(HB, "corpus_manifest_v2.json")))
+    rows = []
+    for grp in ("training", "holdouts"):
+        for t in man[grp]:
+            uid = t["id"]
+            spec = RANGED.get(uid) or ([(BHSA_NAME.get(uid, uid), [(1, 999)])]
+                                       if uid in WHOLE else None)
+            if spec is None:
+                print(f"  skip {uid}"); continue
+            words = unit_words(api, spec)
+            if not words: continue
+            verses, cur, curv = [], [], None
+            for w in words:
+                v = L.u(w, "verse"); v = v[0] if v else None
+                if v != curv and cur: verses.append(cur); cur = []
+                curv = v; cur.append(w)
+            if cur: verses.append(cur)
+            chunks, buf = [], []
+            for v in verses:
+                buf.extend(v)
+                if len(buf) >= target: chunks.append(buf); buf = []
+            if buf:
+                if chunks and len(buf) < target * 0.5: chunks[-1].extend(buf)
+                else: chunks.append(buf)
+            for i, ch in enumerate(chunks):
+                fe = chunk_feats(ch, api, top_lex, top_pos, top_typ, top_fun, top_rela)
+                rows.append(dict(chunk_id=f"{uid}_c{i:03d}", unit=uid,
+                                 date_bce=t["date_bce"], genre=t.get("genre"),
+                                 register=t.get("register"), n_words=len(ch), **fe))
+            print(f"  {uid:<15} {len(words):6d} w -> {len(chunks):3d} chunks")
+    D = pd.DataFrame(rows)
+    out = f"/home/claude/big_features_{target}.csv"
+    D.to_csv(out, index=False)
+    nf = len([c for c in D.columns if c not in
+              ("chunk_id","unit","date_bce","genre","register","n_words")])
+    print(f"\n{len(D)} chunks x {nf} features -> {out}")
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--target", type=int, default=1000)
+    ap.add_argument("--klex", type=int, default=250)
+    a = ap.parse_args()
+    main(a.target, a.klex)

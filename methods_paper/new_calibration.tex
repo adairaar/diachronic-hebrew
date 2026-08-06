@@ -1,0 +1,82 @@
+\subsection*{Does $P$(post-exilic) mean what it says?}
+\label{sec:postexilic_cal}
+
+The errors in Table~\ref{tab:leakage} are large: the likelihood-only estimate
+misses by 156~yr on average and by up to 334~yr on individual units, and
+there is no detectable improvement with text length
+($\rho = -0.23$ between $|$error$|$ and word count, $p = 0.27$).  A reader
+who stops there will conclude that no claim resting on this model can be
+trusted, and the conclusion would be correct for any claim about a
+\emph{date}.
+
+The substantive claim of this paper is not about a date.  It is that a unit's
+predictive mass lies on one side of a single boundary, and that is a much
+coarser question.  Whether it is answerable is an empirical matter, so we
+test it directly rather than argue for it.
+
+\subsection*{Protocol}
+
+For each of the 25 dated units the model is fitted on the other 24, and the
+conformal residual set is computed by a second, inner leave-one-out
+\emph{within} those 24.  The held-out unit therefore contributes neither to
+its point estimate nor to the residuals that give that estimate its spread.
+The predictive distribution is the point estimate displaced by that residual
+set, and $P_{\text{post}}$ is the fraction of it later than 586~BCE.  Each
+unit's true side of the boundary is then compared with the probability the
+model assigned before seeing it.
+
+\subsection*{Result}
+
+The probabilities are calibrated (Fig~\ref{fig:calibration}).  In the
+highest bin the generative family predicts a mean 0.95 and 100\% of those
+units are post-exilic; ridge predicts 0.92 against an observed 0.89.  Of the
+units on which either family is confident --- $P_{\text{post}} \geq 0.8$ or
+$\leq 0.2$ --- the generative family is correct on 9 of 9 and ridge on 8 of
+9.  Brier skill scores against the corpus base rate are $+0.200$ and
+$+0.187$; under a permutation null in which the true labels are shuffled,
+$p = 0.005$ and $p = 0.014$.
+
+Restricting to units more than 200~yr from the boundary --- the regime the
+P source occupies, at 242--322~yr --- the generative family is correct on 5
+of 5 confident calls and ridge on 4 of 4.
+
+The two findings are the same finding.  Because the typical error is of
+order 150~yr, the model reaches $P_{\text{post}} \geq 0.9$ only when a unit
+sits well over 200~yr from the boundary.  The large errors of
+Table~\ref{tab:leakage} are not in tension with the probability of
+Table~\ref{tab:targets}: they are what produces it.  A 334~yr error on
+Haggai and a 0.92 on the P source are consequences of the same residual
+distribution, and the second already accounts for the first.
+
+\subsection*{Where this test cannot reach}
+
+Three limits should be stated plainly.
+
+First, one confident call is wrong.  Ridge assigns $P_{\text{post}} = 1.00$
+to Nahum, which is pre-exilic on a secure terminus (before the fall of
+Nineveh in 612~BCE).  That is one error in 25, it is not shared by the
+generative family, and it is the kind of failure a corpus this size cannot
+rule out.
+
+Second, units close to the boundary are decided by arithmetic rather than by
+evidence.  Obadiah is dated 585~BCE, one year into the post-exilic side; both
+families place it post-exilic and are scored correct, but no method
+distinguishing 585 from 587 on linguistic grounds is doing real work.
+Excluding units within 25~yr of the boundary leaves the generative family at
+7 of 7 and ridge at 3 of 4.
+
+Third, and most consequentially, the test is asymmetric and cannot be made
+otherwise.  The earliest dated unit in the corpus is Amos at 760~BCE, only
+174~yr before the boundary, while the P source estimate lies 242--322~yr
+\emph{after} it.  Confident post-exilic calls can therefore be validated at
+the distance the claim requires; confident pre-exilic calls at that distance
+cannot be, because no Hebrew text of sufficient length exists that early.
+This is not a limitation of corpus selection that further work could
+remedy.  Morphologically tagged Hebrew of the kind this method requires
+exists for the Masoretic text and essentially nowhere else, and the
+non-biblical corpora that might one day be tagged --- Qumran, Ben Sira ---
+are themselves late, so they would deepen the asymmetry rather than correct
+it.  Any linguistic dating of Biblical Hebrew inherits this constraint.  It
+bears directly on how the present results should be read: the framework can
+support a claim that a text is later than a boundary far better than it can
+support a claim that a text is earlier than one.

@@ -1,6 +1,6 @@
 # Cover Letter — PLOS ONE Submission
 
-**Manuscript title:** The resolution of linguistic dating in Biblical Hebrew: calibrated ranges for the Pentateuchal sources, with cross-linguistic replication in Ancient Greek
+**Manuscript title:** Resolving diachronic linguistic changes in Biblical Hebrew: calibrated ranges for the Pentateuchal sources, with cross-linguistic replication in Ancient Greek
 
 **Corresponding author:** Aaron Adair (adairaar@gmail.com)
 **Affiliation:** MIT Physics
@@ -9,7 +9,7 @@
 
 Dear Editors,
 
-I am submitting for your consideration a paper that measures the resolution of linguistic dating — how finely a text can actually be placed in time from its morphosyntax — and applies the answer to the composition of the Pentateuch.
+I am submitting for your consideration a paper that measures how finely an ancient text can be placed in time from its morphosyntax, and applies the answer to the composition of the Pentateuch.
 
 Whether Biblical Hebrew morphosyntax carries a usable chronological signal has been disputed for two decades. One side treats linguistic dating as an established instrument; the other argues that its apparent successes are circular, because the models are validated against dates that are themselves partly linguistic judgements. The paper addresses this with a design in which no text contributes to its own prediction — feature screening, standardisation and model fitting all occur inside each cross-validation fold — and in which significance is established by permuting the date labels through the entire pipeline rather than by parametric assumption. Two model families are fitted and both are reported throughout, including where they disagree.
 
@@ -17,7 +17,7 @@ The positive result is that the signal is real. Across 25 dated units the models
 
 The negative result is that this signal does not support absolute dating. Leave-one-out mean absolute error is 121–156 years in Hebrew against 137 years for the trivial predictor that assigns every text the corpus mean date; in Greek it is 205–295 years against 211 for the same trivial predictor. Four-way period assignment reaches 40–48%, and the exilic period — a 47-year window — is not resolvable at all.
 
-I want to be explicit with the editors about one aspect of this submission. The analysis identifies a failure mode in holdout validation that I had previously fallen into myself: when a held-out text is dated under a prior centred on its own scholarly date, the model returns approximately that date regardless of the text's content, and does so most convincingly for the texts whose dates are best established. For the most securely anchored units in this corpus, the linguistic evidence contributes under 6% of posterior precision. An earlier version of this work reported holdout accuracies near 17 years on that basis; corrected, the same design yields roughly 104 years in Hebrew and 121 in Greek. The paper documents this in full, with the algebra and a per-text decomposition, because I think the failure mode is unlikely to be confined to my own work and because a reader is owed the correction alongside the claim.
+The paper also documents a failure mode in holdout validation that affects designs of this kind: when a held-out text is dated under a prior centred on its own scholarly date, the model returns approximately that date regardless of the text's content, and does so most convincingly for the texts whose dates are best established. Across the units in this corpus the linguistic evidence supplies a median 12% of posterior precision, and under 6% for the most tightly anchored texts. I note for the editors that the public repository contains superseded analyses run under that design, retained under `archive/` for provenance; the manuscript reports only the corrected results.
 
 What survives is narrower and, I think, more useful. Applied to the Pentateuchal sources under corrected conditions with distribution-free conformal intervals, the framework supports one substantive conclusion — that the Priestly, Deuteronomic and JE composites are post-exilic with probability at least 0.92 under both model families, and under a correction for the genre imbalance of the training corpus — while declining to place any of them in a particular post-exilic century. This finds independent corroboration in recent archaeological work (Adler 2022) and epigraphic analysis of Achaemenid-era sources (Barnea 2026). As a check on the ordinal signal, the Song of the Sea and the Song of Deborah emerge as the two earliest of nineteen undated units under both families, without having been used in training.
 
@@ -25,7 +25,7 @@ The manuscript is submitted exclusively to PLOS ONE and has not been published o
 
 I have no financial or personal competing interests to declare. The paper has one author; no co-author conflicts apply.
 
-**Suggested reviewers.** The paper sits at the intersection of Bayesian statistics, corpus linguistics, and Hebrew Bible studies, and reviewers familiar with at least two of those areas would be best placed to evaluate it. Because the paper's central claims are now negative as well as positive, I would welcome reviewers on both sides of the underlying dispute.
+**Suggested reviewers.** The paper sits at the intersection of Bayesian statistics, corpus linguistics, and Hebrew Bible studies, and reviewers familiar with at least two of those areas would be best placed to evaluate it. Because the paper's claims are negative as well as positive, I would welcome reviewers on both sides of the underlying dispute.
 
 - **Prof. Stephen Portnoy** (University of Illinois, Statistics Emeritus) — has published on statistical analysis of CBH/LBH feature distributions (Rachmuth, Portnoy & Wright, *Journal of Semitic Studies* 67.2, 2022) and would be well placed to evaluate the cross-validation and permutation methodology independently of the biblical studies content.
 
@@ -35,9 +35,10 @@ I have no financial or personal competing interests to declare. The paper has on
 
 - **Dr. Martijn Naaijer** (University of Zurich) — has argued that existing linguistic dating methods rest on unsound statistical assumptions (Rezetko, Young, Ehrensvärd & Naaijer, *Bible and Interpretation*, 2025). Much of that critique is vindicated by the present analysis, and he is well placed to judge whether the corrections go far enough.
 
-- **Prof. Aaron D. Hornkohl** (University of Cambridge) — has recently defended the methodology of linguistic dating (Hornkohl, *Bible and Interpretation*, 2026). Since this paper reports a failure mode affecting validation designs in that tradition, a reviewer disposed to defend the field's methods is exactly the right adversarial test, and I would rather the argument be examined by someone motivated to find its weaknesses than avoid that scrutiny.
 
 - **Prof. Jacob L. Wright** (Emory University, Candler School of Theology) — whose recent work (*Why the Bible Began*, 2023) engages the compositional questions the results bear on.
+
+**Requested exclusion.** I would ask that the paper not be sent to **Prof. Aaron D. Hornkohl** (University of Cambridge). This is not a matter of disagreement over conclusions. The paper's argument is statistical — cross-validation design, permutation inference, and the decomposition of posterior precision — and Prof. Hornkohl's work does not engage linguistic dating on those terms. He has also argued for a pre-exilic date for the Pentateuchal sources and for the detectability of chronological stratification *within* them, a position this paper's central result contradicts directly. A reviewer whose published position is incompatible with the finding, and whose methodological training lies outside the framework used to reach it, is unlikely to be able to assess the statistical argument on its merits.
 
 Thank you for your time and consideration.
 

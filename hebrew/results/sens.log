@@ -1,0 +1,35 @@
+=== years of apparent date per 1 SD shift in each feature ===
+
+top 15 levers:
+   lex_<MD[                   -12.9 yr/SD   [lexical]
+   vs_hit                      -7.4 yr/SD   [verb morphology]
+   lex_QRB/                    +7.1 yr/SD   [lexical]
+   lex_RB/                     -6.9 yr/SD   [lexical]
+   pb_advb_verb                +6.6 yr/SD   [POS/bigram]
+   pb_prin_conj                -6.4 yr/SD   [POS/bigram]
+   pb_intj_art                 +6.4 yr/SD   [POS/bigram]
+   lex_>NJ                     -6.2 yr/SD   [lexical]
+   pb_prde_verb                -6.2 yr/SD   [POS/bigram]
+   typ_CP                      -6.0 yr/SD   [phrase/clause]
+   pb_art_nmpr                 +6.0 yr/SD   [POS/bigram]
+   pb_prep_advb                +5.8 yr/SD   [POS/bigram]
+   lex_>DMH/                   +5.7 yr/SD   [lexical]
+   lex_>RY/                    +5.6 yr/SD   [lexical]
+   vx_perf_nif                 -5.5 yr/SD   [verb morphology]
+
+by family: total leverage (sum |yr/SD|) and share
+                    sum  count  share
+fam                                  
+lexical           603.3    250   47.0
+POS/bigram        421.2    207   32.8
+verb morphology   118.7     57    9.3
+phrase/clause      90.9     40    7.1
+agreement/suffix   35.7     20    2.8
+structural         13.6      5    1.1
+
+  lexical share of total leverage: 47.0%
+
+  to move the estimate 424 yr (the Song of the Sea's excess over its frame)
+  you would need a coordinated shift whose length is 6.43 SD
+  in the full 579-dimensional feature space, i.e. a systematic
+  re-profiling of the text's morphology and syntax, not a word swap.

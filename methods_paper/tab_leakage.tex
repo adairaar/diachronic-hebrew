@@ -1,33 +1,35 @@
 \begin{table}[!ht]
 \centering
-\caption{\textbf{Decomposition of posterior precision for dated units.}
-$\sigma_{\text{prior}}$ is the stated uncertainty on the scholarly date;
-$\sigma_{\text{post}}$ is the posterior standard deviation returned when that
-date is used as the prior mean.  The implied likelihood width is recovered as
-$\sigma_L = (\sigma_{\text{post}}^{-2} - \sigma_{\text{prior}}^{-2})^{-1/2}$,
-and the final column gives the share of posterior precision contributed by the
-linguistic data.  The near-exact recoveries reported for Haggai,
-Zechariah~1--8 and Daniel in earlier versions of this work correspond to data
-shares below 6\%.  Median over all 25 dated units:
-$\sigma_{\text{post}}/\sigma_{\text{prior}} = 0.851$, median
-$|{\rm MAP} - d_u| = 10.4$~yr.}
-\begin{tabular}{lrrrrr}
+\caption{\textbf{What a scholarly prior contributes to a reported date.}
+For each dated unit the model is fitted leave-one-out, giving a likelihood
+over the date grid from the linguistic evidence alone (width
+$\sigma_L$, mode $\mathrm{MAP}_L$).  Multiplying that likelihood by
+$\mathcal{N}(d_u, \sigma_u^2)$ --- the unit's own scholarly date used as a
+prior --- gives the posterior a holdout design of this kind would report.
+``Data share'' is the fraction of posterior precision supplied by the
+likelihood, $\sigma_L^{-2}/(\sigma_L^{-2}+\sigma_u^{-2})$.  Where the
+scholarly date is tightly specified the share falls below 10\%, and the
+reported error collapses toward zero while the error from the evidence
+alone does not.  Units are ordered by $\sigma_u$.}
+\begin{tabular}{lrrrrrr}
 \hline
-\textbf{Unit} & $\mathbf{d_u}$ & $\mathbf{\sigma_{\text{prior}}}$ & $\mathbf{\sigma_{\text{post}}}$ & $\mathbf{\sigma_L}$ & \textbf{data share} \\
- & (BCE) & (yr) & (yr) & (yr) & (\%) \\
+\textbf{Unit} & $\mathbf{\sigma_u}$ & $\mathbf{\sigma_L}$ & \textbf{data} & $\mathbf{\mathrm{MAP}_L}$ & \textbf{err.\ reported} & \textbf{err.\ actual} \\
+ & (yr) & (yr) & (\%) & (BCE) & (yr) & (yr) \\
 \hline
-Zechariah 1--8      & 518 & 10 & 9.8 & 53 & 3.4 \\
-Haggai              & 520 & 10 & 9.9 & 58 & 2.8 \\
-Daniel (Heb.)       & 167 & 10 & 9.7 & 41 & 5.5 \\
-Amos                & 760 & 20 & 18.7 & 52 & 12.9 \\
-Ezekiel             & 580 & 20 & 18.5 & 49 & 14.5 \\
-Habakkuk            & 605 & 20 & 18.4 & 46 & 15.7 \\
-Jeremiah oracle     & 605 & 30 & 25.5 & 49 & 27.6 \\
-Chronicles          & 330 & 40 & 28.7 & 41 & 48.4 \\
-Isaiah 56--66       & 400 & 100 & 45.0 & 50 & 79.8 \\
-Ecclesiastes        & 250 & 120 & 40.7 & 43 & 88.5 \\
-Joel                & 400 & 150 & 46.5 & 49 & 90.4 \\
-Zechariah 9--14     & 350 & 150 & 39.4 & 41 & 93.1 \\
+Haggai            & 10 & 65 & 2.3 & 186 & 6 & 334 \\
+Daniel (Heb.)     & 10 & 76 & 1.7 & 400 & 3 & 233 \\
+Zechariah 1--8    & 10 & 80 & 1.5 & 282 & 4 & 236 \\
+Amos              & 20 & 80 & 5.8 & 616 & 8 & 144 \\
+Habakkuk          & 20 & 84 & 5.4 & 656 & 3 & 51 \\
+Isaiah 40--55     & 20 & 68 & 8.0 & 812 & 15 & 267 \\
+Ezekiel           & 20 & 80 & 5.9 & 422 & 10 & 158 \\
+Zephaniah         & 20 & 82 & 5.6 & 720 & 4 & 90 \\
+Malachi           & 25 & 80 & 8.9 & 652 & 18 & 192 \\
+Micah             & 25 & 76 & 9.7 & 764 & 3 & 39 \\
+Nahum             & 25 & 81 & 8.6 & 602 & 4 & 48 \\
+Hosea             & 25 & 78 & 9.2 & 750 & 1 & 5 \\
+Isaiah 1--39      & 30 & 81 & 12.0 & 580 & 16 & 140 \\
+Jeremiah oracle   & 30 & 82 & 11.7 & 710 & 11 & 105 \\
 \hline
 \end{tabular}
 \label{tab:leakage}

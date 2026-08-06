@@ -107,12 +107,12 @@ validation designs frequently supply a text's expected date to the model
 that is then asked to recover it.  The present paper reports a
 leakage-free reassessment.""")
 new = ("""The linguistic dating of ancient texts from internal morphosyntactic
-evidence is central to biblical studies and classical philology, but its
-resolution --- how finely a text can actually be placed in time --- has
-never been measured.  Reported accuracies vary by two orders of magnitude,
+evidence is central to biblical studies and classical philology, but how
+finely such a text can actually be placed in time has not been measured
+directly.  Reported accuracies vary by two orders of magnitude,
 in part because validation designs in this area frequently supply a text's
 expected date to the model that is then asked to recover it.  The present
-paper measures the resolution directly.""")
+paper measures it.""")
 if old not in t: sys.exit("ANCHOR NOT FOUND (final): abstract opening")
 p.write_text(t.replace(old, new))
 print("abstract opening realigned to the resolution framing")
