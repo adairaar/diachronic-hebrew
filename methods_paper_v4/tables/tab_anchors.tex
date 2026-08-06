@@ -1,15 +1,21 @@
 \begin{table}[!ht]
 \centering
 \footnotesize
-\caption{\textbf{Sensitivity to the less securely anchored units.}  Six of the 25 training units are dated by literary or contextual judgment rather than by an external synchronism (Table~\ref{tab:corpus}), and two of those, Jonah and Ecclesiastes, are dated partly by the linguistic profile that this model measures.  The pipeline was re-run without them.  MAE and baseline are in years; the baseline is the constant predictor on the same subset.}
+\caption{\textbf{Robustness of the headline statistics.}  MAE and baseline are in years, the baseline being the constant predictor on the same subset.  The jackknife drops each anchored unit in turn and re-runs the entire pipeline on the remaining 24; its spread is the leverage any single unit carries at this corpus size, and the full-corpus $\rho$ should be read against it rather than as a point estimate.  The lower block removes the units whose dates are least independent of the language: Jonah, the one unit dated principally on typological grounds, together with Ecclesiastes, and then all six units lacking an explicit synchronism.}
 \label{tab:anchors}
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrrrcr}
 \toprule
-\textbf{Training set} & \textbf{Units} & \textbf{MAE} & \textbf{Baseline} & \textbf{$\rho$} & \textbf{Pairwise} \\
+\textbf{Fit} & \textbf{Units} & \textbf{MAE} & \textbf{Baseline} & \textbf{$\rho$} & \textbf{Pairwise} \\
 \midrule
-all 25 anchors (as published) & 25 & 114 & 137 & +0.70 & 74.9\% \\
-drop the 2 linguistically dated & 23 & 120 & 130 & +0.51 & 66.8\% \\
-drop all 6 non-external anchors & 19 & 95 & 127 & +0.69 & 74.6\% \\
+Full corpus & 25 & 114 & 137 & +0.70 & 74.9\% \\
+\midrule
+\multicolumn{6}{l}{\textit{Leave-one-unit-out jackknife, all 25 fits}} \\
+\quad median & 24 & --- & --- & +0.66 & 73.1\% \\
+\quad range & 24 & --- & --- & +0.53 to +0.73 & 68.0--76.0\% \\
+\midrule
+\multicolumn{6}{l}{\textit{Removing the less securely anchored units}} \\
+\quad without Jonah and Ecclesiastes & 23 & 120 & 130 & +0.51 & 66.8\% \\
+\quad without all 6 non-synchronism units & 19 & 95 & 127 & +0.69 & 74.6\% \\
 \bottomrule
 \end{tabular}
 \end{table}

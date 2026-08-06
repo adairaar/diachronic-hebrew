@@ -1,0 +1,30 @@
+full corpus:  rho +0.702  pair 74.9%  MAE 114.4
+
+  without Amos           rho +0.652 (-0.050)  pair 73.1%  MAE 112.0
+  without Hosea          rho +0.690 (-0.012)  pair 76.0%  MAE 109.9
+  without Micah          rho +0.678 (-0.023)  pair 74.5%  MAE 112.6
+  without Isaiah_1       rho +0.726 (+0.024)  pair 76.0%  MAE  99.2
+  without Zephaniah      rho +0.714 (+0.012)  pair 74.9%  MAE 117.9
+  without Nahum          rho +0.701 (-0.001)  pair 74.5%  MAE 117.8
+  without Habakkuk       rho +0.702 (+0.000)  pair 74.6%  MAE 117.7
+  without Lamentations   rho +0.729 (+0.028)  pair 75.6%  MAE 116.7
+  without Ezekiel        rho +0.659 (-0.042)  pair 73.4%  MAE 115.1
+  without Obadiah        rho +0.672 (-0.029)  pair 73.4%  MAE 120.9
+  without Isaiah_2       rho +0.733 (+0.032)  pair 75.6%  MAE 116.8
+  without Zechariah_1    rho +0.678 (-0.023)  pair 74.5%  MAE 116.8
+  without Malachi        rho +0.565 (-0.137)  pair 69.7%  MAE 122.5
+  without Joel           rho +0.620 (-0.082)  pair 71.8%  MAE 116.2
+  without Jonah          rho +0.556 (-0.145)  pair 69.2%  MAE 123.0
+  without Isaiah_3       rho +0.600 (-0.102)  pair 70.3%  MAE 117.3
+  without Ezra           rho +0.558 (-0.143)  pair 69.5%  MAE 121.1
+  without Nehemiah       rho +0.530 (-0.171)  pair 68.0%  MAE 124.6
+  without Zechariah_2    rho +0.691 (-0.010)  pair 74.9%  MAE 110.2
+  without Chronicles     rho +0.595 (-0.106)  pair 70.8%  MAE 116.7
+  without Esther         rho +0.533 (-0.169)  pair 69.0%  MAE 126.1
+  without Ecclesiastes   rho +0.660 (-0.041)  pair 72.3%  MAE 112.6
+  without Daniel         rho +0.544 (-0.158)  pair 68.6%  MAE 108.4
+  without Jer_oracle     rho +0.651 (-0.051)  pair 72.8%  MAE 124.4
+  without Haggai         rho +0.547 (-0.155)  pair 68.3%  MAE 121.6
+
+rho across all 25 leave-one-out fits: min +0.530 (Nehemiah), median +0.659, max +0.733
+pairwise: min 68.0%  median 73.1%  max 76.0%

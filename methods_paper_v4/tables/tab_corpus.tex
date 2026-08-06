@@ -1,37 +1,37 @@
 \begin{table}[!ht]
 \centering
 \footnotesize
-\caption{\textbf{The training corpus.}  Dates are BCE; ``Pass.'' is the number of $\sim$500-word passages.  Type~E marks the 19 units whose date is fixed by a synchronism or event external to the biblical tradition.  Type~L marks the 6 whose date rests on literary or contextual judgment, and which are therefore less independent of the features under analysis; the sensitivity of every reported result to their removal is given in Table~\ref{tab:anchors}.}
+\caption{\textbf{The training corpus.}  Dates are BCE; ``Pass.'' is the number of $\sim$500-word passages.  Type~S dates rest on an explicit synchronism, a named ruler or regnal year checkable against Assyrian, Babylonian or Persian records.  Type~H dates rest on a datable event, institution, or language contact documented outside the biblical tradition.  Neither depends on the feature cline this model estimates.  Type~T marks the one unit dated principally by resemblance to Hebrew of supposed date; Table~\ref{tab:anchors} reports the effect of removing it.}
 \label{tab:corpus}
 \begin{tabular}{llrrcp{4.6cm}}
 \toprule
 \textbf{Unit} & \textbf{Date} & \textbf{Words} & \textbf{Pass.} & \textbf{Type} & \textbf{Basis of the date} \\
 \midrule
-Amos & 760 & 2,780 & 5 & E & Superscription: Uzziah of Judah / Jeroboam II of Israel \\
-Hosea & 745 & 3,146 & 6 & E & Superscription: Uzziah to Hezekiah / Jeroboam II \\
-Micah & 725 & 1,895 & 4 & E & Superscription: Jotham, Ahaz, Hezekiah \\
-Isaiah\_1 & 720 & 13,504 & 26 & E & Superscription: Uzziah to Hezekiah; Assyrian campaigns \\
-Nahum & 650 & 746 & 1 & E & Fall of Nineveh, 612 BCE \\
-Zephaniah & 630 & 1,037 & 2 & E & Superscription: Josiah \\
-Habakkuk & 605 & 897 & 2 & E & Neo-Babylonian ascendancy \\
-Jer\_oracle & 605 & 14,539 & 29 & E & Superscription: Josiah to Zedekiah; 597 and 586 BCE \\
-Obadiah & 585 & 392 & 1 & E & Edomite conduct at the fall of Jerusalem, 586 BCE \\
-Ezekiel & 580 & 26,182 & 51 & E & Thirteen regnal dates from Jehoiachin's deportation, 597 BCE \\
-Lamentations & 570 & 1,945 & 4 & E & Destruction of Jerusalem, 586 BCE \\
-Isaiah\_2 & 545 & 5,738 & 11 & E & Cyrus named; fall of Babylon, 539 BCE \\
-Haggai & 520 & 877 & 2 & E & Regnal dates, second year of Darius I, 520 BCE \\
-Zechariah\_1 & 518 & 2,484 & 5 & E & Regnal dates, second to fourth year of Darius I \\
-Malachi & 460 & 1,187 & 2 & L & Persian governor (\textit{peha}); second-temple cult \\
-Joel & 400 & 1,318 & 3 & L & Second-temple setting; post-exilic references \\
-Jonah & 400 & 985 & 2 & L & Post-exilic novella; late linguistic profile \\
-Isaiah\_3 & 400 & 3,689 & 7 & L & Restored temple cult; Persian period \\
-Ezra & 380 & 5,268 & 10 & E & Persian regnal dates, Cyrus to Artaxerxes \\
-Nehemiah & 380 & 7,842 & 15 & E & Twentieth year of Artaxerxes I, 445 BCE \\
-Zechariah\_2 & 350 & 1,987 & 4 & L & Greek (\textit{Yawan}) reference; late Persian \\
-Chronicles & 330 & 35,330 & 69 & E & Genealogies to the Persian period; Cyrus decree \\
-Esther & 300 & 4,621 & 9 & E & Achaemenid court setting; Xerxes \\
-Ecclesiastes & 250 & 4,233 & 8 & L & Persian loanwords (\textit{pardes}, \textit{pitgam}) \\
-Daniel & 167 & 3,437 & 7 & E & Antiochene persecution, 167 BCE \\
+Amos & 760 & 2,780 & 5 & S & Superscription: Uzziah of Judah / Jeroboam II of Israel \\
+Hosea & 745 & 3,146 & 6 & S & Superscription: Uzziah to Hezekiah / Jeroboam II \\
+Micah & 725 & 1,895 & 4 & S & Superscription: Jotham, Ahaz, Hezekiah \\
+Isaiah\_1 & 720 & 13,504 & 26 & S & Superscription: Uzziah to Hezekiah; Assyrian campaigns \\
+Nahum & 650 & 746 & 1 & H & Fall of Nineveh, 612 BCE \\
+Zephaniah & 630 & 1,037 & 2 & S & Superscription: Josiah \\
+Habakkuk & 605 & 897 & 2 & H & Neo-Babylonian ascendancy \\
+Jer\_oracle & 605 & 14,539 & 29 & S & Superscription: Josiah to Zedekiah; 597 and 586 BCE \\
+Obadiah & 585 & 392 & 1 & H & Edomite conduct at the fall of Jerusalem, 586 BCE \\
+Ezekiel & 580 & 26,182 & 51 & S & Thirteen regnal dates from Jehoiachin's deportation, 597 BCE \\
+Lamentations & 570 & 1,945 & 4 & H & Destruction of Jerusalem, 586 BCE \\
+Isaiah\_2 & 545 & 5,738 & 11 & S & Cyrus named; fall of Babylon, 539 BCE \\
+Haggai & 520 & 877 & 2 & S & Regnal dates, second year of Darius I, 520 BCE \\
+Zechariah\_1 & 518 & 2,484 & 5 & S & Regnal dates, second to fourth year of Darius I \\
+Malachi & 460 & 1,187 & 2 & H & Persian governor (\textit{peha}); second-temple cult \\
+Joel & 400 & 1,318 & 3 & H & Functioning second temple; no monarchy \\
+Jonah & 400 & 985 & 2 & T & Nineveh already fallen (3:3); post-exilic novella \\
+Isaiah\_3 & 400 & 3,689 & 7 & H & Restored temple cult; Persian-period institutions \\
+Ezra & 380 & 5,268 & 10 & S & Persian regnal dates, Cyrus to Artaxerxes \\
+Nehemiah & 380 & 7,842 & 15 & S & Twentieth year of Artaxerxes I, 445 BCE \\
+Zechariah\_2 & 350 & 1,987 & 4 & H & Greek (\textit{Yawan}) as a military power \\
+Chronicles & 330 & 35,330 & 69 & H & Genealogies to the Persian period; Cyrus decree \\
+Esther & 300 & 4,621 & 9 & H & Achaemenid court and administration; Xerxes \\
+Ecclesiastes & 250 & 4,233 & 8 & H & Persian loanwords (\textit{pardes}, \textit{pitgam}) \\
+Daniel & 167 & 3,437 & 7 & H & Antiochene persecution, 167 BCE \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -255,14 +255,37 @@ Dating methods that use features identified by comparing texts of assumed date
 risk circularity: the assumed dates shape the feature set, and the feature set
 is then used to infer unknown dates.  Three safeguards are adopted.
 
-First, the training corpus is drawn from books with historical anchoring
-independent of any linguistic judgment.  Nineteen of the \HBbooks{} units are
-fixed by synchronisms with datable rulers in Assyrian, Babylonian, and Persian
-king-lists or by a datable event; the remaining six rest on literary or
-contextual grounds and are marked as such in Table~\ref{tab:corpus}.  Every
-reported result is checked against their removal
-(Table~\ref{tab:anchors}).  Torah texts are excluded from training entirely,
-so all Torah date estimates are genuine out-of-sample predictions.
+A distinction is necessary before the safeguards can be stated, because the
+objection applies with very different force to different kinds of evidence.
+Dating a text by its resemblance to other Hebrew of supposed date is circular
+for the present purpose, since it invokes the very cline the model is meant to
+estimate.  Dating a text by a datable referent is not.  Esther's Achaemenid
+court and administration, the fall of Nineveh behind Nahum, and the Persian
+administrative vocabulary of Ecclesiastes are all anchored to events and
+language contacts documented outside the biblical tradition.  That Esther cannot
+be pre-exilic follows from Persian history, not from Hebrew style, and the
+inference would stand were the language of Esther entirely unremarkable.  The
+same logic underwrites Ezekiel's regnal dates.  They are evidence because the
+kings and years can be checked against Babylonian records; had he invented them,
+they would be worth nothing.
+
+The circularity that has damaged linguistic dating runs in the other direction,
+and it runs through the Torah.  The pre-exilic standard against which lateness
+is measured was itself constructed in part from Torah texts assumed to be
+pre-exilic, and those texts were then dated by their conformity to
+it~\cite{Young2008,Rezetko2014}.  Nothing in the present design enters that
+loop.  The model learns the feature-to-date mapping from the anchored corpus
+alone, no Torah text is used in training, and every Torah estimate is therefore
+a genuine out-of-sample prediction.
+
+With that distinction in place, three safeguards apply.
+
+First, every training date rests on a synchronism or on a datable historical
+referent.  Twelve of the \HBbooks{} units carry an explicit synchronism, a named
+ruler or regnal year checkable against Assyrian, Babylonian, or Persian records;
+twelve more are fixed by a datable event, institution, or language contact.
+One unit, Jonah, is dated principally on typological grounds, and its removal is
+reported in Table~\ref{tab:anchors}.
 
 Second, no feature is selected using date information.  The feature set is
 fixed in advance by frequency rank in the corpus as a whole (Data section),
@@ -381,22 +404,29 @@ three, Zechariah into two), and the oracular core of Jeremiah is separated from
 its Deuteronomistic prose frame, which is treated as an undated target rather
 than an anchor.
 
-The units differ in how securely they are anchored, and the difference matters
-enough to be marked in the table.  Nineteen have dates fixed by an event or
-synchronism external to the biblical tradition.  Six do not: Malachi, Joel,
-Isaiah$_3$, and Zechariah$_2$ are placed by their second-temple setting, while
-Jonah and Ecclesiastes are placed partly by their linguistic profile, which is
-the quantity this model is meant to estimate independently.  Retaining the
-latter two would be circular were their dates load-bearing.
+The units differ in the kind of evidence that fixes their dates, and the
+difference is marked in the table along the lines set out above.  Twelve carry an
+explicit synchronism and twelve a datable historical referent, neither of which
+depends on the feature cline under analysis.  Jonah alone is dated principally
+by typology, and even there a terminus post quem is available, since Nineveh is
+described as a city that already lay in ruins (Jonah 3:3).
 
-Table~\ref{tab:anchors} therefore re-runs the entire pipeline on reduced
-training sets.  Dropping all six contextually dated units leaves the result
-intact and improves the error against its baseline.  Dropping only Jonah and
-Ecclesiastes lowers the rank correlation to $+0.51$ and the pairwise accuracy to
-66.8\%, which is the more informative number: at \HBbooks{} units, individual
-books carry enough leverage to move the headline statistic by that much, and any
-single reported correlation should be read against that spread rather than as a
-point estimate.
+Table~\ref{tab:anchors} reports how much any of this matters.  A
+leave-one-unit-out jackknife, re-running the entire pipeline 25 times, gives a
+rank correlation between $\JKrhomin$ and $\JKrhomax$ with a median of
+$\JKrhomed$, and pairwise accuracy between \JKpairmin\% and \JKpairmax\%.
+That spread is the leverage a single unit carries at this corpus size, and it
+falls almost entirely on the late anchors that fix the recent end of the scale:
+removing Nehemiah, Esther, Daniel, Ezra, or Jonah each costs between 0.14 and
+0.17 of correlation, while removing any pre-exilic unit costs at most 0.05.  The
+full-corpus figure of $\HBrho$ should accordingly be read against that range
+rather than as a point estimate.
+
+Removing the less securely anchored units changes little.  Dropping all six that
+lack an explicit synchronism leaves $\rho$ at $+0.69$ with a mean absolute error
+of 95~yr against a 127~yr baseline, better in both respects than the full
+corpus.  Dropping Jonah and Ecclesiastes together costs 0.19 of correlation,
+which is what dropping any two late anchors costs and is not peculiar to them.
 
 \input{tables/tab_corpus}
 

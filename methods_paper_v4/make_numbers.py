@@ -67,6 +67,12 @@ lam_ = B[B.book == "Lamentations"].iloc[0]
 put("lamTruth", int(lam_.truth)); put("lamPred", int(lam_.pred))
 put("lamErr", int(abs(lam_.resid)))
 
+JK = json.load(open(need(f"{R}/jackknife.json")))
+put("JKrhomin", signed(JK["rho_min"], 2)); put("JKrhomax", signed(JK["rho_max"], 2))
+put("JKrhomed", signed(JK["rho_med"], 2))
+put("JKpairmin", JK["pair_min"] * 100, "{:.1f}")
+put("JKpairmax", JK["pair_max"] * 100, "{:.1f}")
+
 LK = pd.read_csv(need(f"{R}/leakage_generative.csv"))
 tight = LK[LK.sigma_u <= 20]
 put("leakShare", LK.data_share.median(), "{:.1f}")

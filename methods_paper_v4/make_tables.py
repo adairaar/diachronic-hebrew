@@ -28,33 +28,37 @@ def esc(s):
 
 # ── Table 1: training corpus ────────────────────────────────────────────
 ANCHOR = {
-    # (anchor text, type)  E = external synchronism or datable event
-    #                      L = literary/contextual judgment
-    "Amos": ("Superscription: Uzziah of Judah / Jeroboam II of Israel", "E"),
-    "Hosea": ("Superscription: Uzziah to Hezekiah / Jeroboam II", "E"),
-    "Micah": ("Superscription: Jotham, Ahaz, Hezekiah", "E"),
-    "Isaiah_1": ("Superscription: Uzziah to Hezekiah; Assyrian campaigns", "E"),
-    "Nahum": ("Fall of Nineveh, 612 BCE", "E"),
-    "Zephaniah": ("Superscription: Josiah", "E"),
-    "Habakkuk": ("Neo-Babylonian ascendancy", "E"),
-    "Jer_oracle": ("Superscription: Josiah to Zedekiah; 597 and 586 BCE", "E"),
-    "Obadiah": ("Edomite conduct at the fall of Jerusalem, 586 BCE", "E"),
-    "Ezekiel": ("Thirteen regnal dates from Jehoiachin's deportation, 597 BCE", "E"),
-    "Lamentations": ("Destruction of Jerusalem, 586 BCE", "E"),
-    "Isaiah_2": ("Cyrus named; fall of Babylon, 539 BCE", "E"),
-    "Haggai": ("Regnal dates, second year of Darius I, 520 BCE", "E"),
-    "Zechariah_1": ("Regnal dates, second to fourth year of Darius I", "E"),
-    "Malachi": ("Persian governor (\\textit{peha}); second-temple cult", "L"),
-    "Joel": ("Second-temple setting; post-exilic references", "L"),
-    "Jonah": ("Post-exilic novella; late linguistic profile", "L"),
-    "Isaiah_3": ("Restored temple cult; Persian period", "L"),
-    "Ezra": ("Persian regnal dates, Cyrus to Artaxerxes", "E"),
-    "Nehemiah": ("Twentieth year of Artaxerxes I, 445 BCE", "E"),
-    "Zechariah_2": ("Greek (\\textit{Yawan}) reference; late Persian", "L"),
-    "Chronicles": ("Genealogies to the Persian period; Cyrus decree", "E"),
-    "Esther": ("Achaemenid court setting; Xerxes", "E"),
-    "Ecclesiastes": ("Persian loanwords (\\textit{pardes}, \\textit{pitgam})", "L"),
-    "Daniel": ("Antiochene persecution, 167 BCE", "E"),
+    # (basis of the date, type)
+    #   S = explicit synchronism: named ruler or regnal year, checkable against
+    #       Assyrian, Babylonian or Persian records
+    #   H = historical reference: a datable event, institution, or language
+    #       contact documented outside the biblical tradition
+    #   T = typological: dated by resemblance to Hebrew of supposed date
+    "Amos": ("Superscription: Uzziah of Judah / Jeroboam II of Israel", "S"),
+    "Hosea": ("Superscription: Uzziah to Hezekiah / Jeroboam II", "S"),
+    "Micah": ("Superscription: Jotham, Ahaz, Hezekiah", "S"),
+    "Isaiah_1": ("Superscription: Uzziah to Hezekiah; Assyrian campaigns", "S"),
+    "Nahum": ("Fall of Nineveh, 612 BCE", "H"),
+    "Zephaniah": ("Superscription: Josiah", "S"),
+    "Habakkuk": ("Neo-Babylonian ascendancy", "H"),
+    "Jer_oracle": ("Superscription: Josiah to Zedekiah; 597 and 586 BCE", "S"),
+    "Obadiah": ("Edomite conduct at the fall of Jerusalem, 586 BCE", "H"),
+    "Ezekiel": ("Thirteen regnal dates from Jehoiachin's deportation, 597 BCE", "S"),
+    "Lamentations": ("Destruction of Jerusalem, 586 BCE", "H"),
+    "Isaiah_2": ("Cyrus named; fall of Babylon, 539 BCE", "S"),
+    "Haggai": ("Regnal dates, second year of Darius I, 520 BCE", "S"),
+    "Zechariah_1": ("Regnal dates, second to fourth year of Darius I", "S"),
+    "Malachi": ("Persian governor (\\textit{peha}); second-temple cult", "H"),
+    "Joel": ("Functioning second temple; no monarchy", "H"),
+    "Jonah": ("Nineveh already fallen (3:3); post-exilic novella", "T"),
+    "Isaiah_3": ("Restored temple cult; Persian-period institutions", "H"),
+    "Ezra": ("Persian regnal dates, Cyrus to Artaxerxes", "S"),
+    "Nehemiah": ("Twentieth year of Artaxerxes I, 445 BCE", "S"),
+    "Zechariah_2": ("Greek (\\textit{Yawan}) as a military power", "H"),
+    "Chronicles": ("Genealogies to the Persian period; Cyrus decree", "H"),
+    "Esther": ("Achaemenid court and administration; Xerxes", "H"),
+    "Ecclesiastes": ("Persian loanwords (\\textit{pardes}, \\textit{pitgam})", "H"),
+    "Daniel": ("Antiochene persecution, 167 BCE", "H"),
 }
 
 B = pd.read_csv(need(f"{R}/final_lobo_books.csv")).sort_values("truth", ascending=False)
@@ -67,11 +71,13 @@ for _, r in B.iterrows():
 open(f"{T}/tab_corpus.tex", "w").write(wrap(
     "".join(rows),
     "\\textbf{The training corpus.}  Dates are BCE; ``Pass.'' is the number of "
-    "$\\sim$500-word passages.  Type~E marks the 19 units whose date is fixed by a "
-    "synchronism or event external to the biblical tradition.  Type~L marks the 6 "
-    "whose date rests on literary or contextual judgment, and which are therefore "
-    "less independent of the features under analysis; the sensitivity of every "
-    "reported result to their removal is given in Table~\\ref{tab:anchors}.",
+    "$\\sim$500-word passages.  Type~S dates rest on an explicit synchronism, a "
+    "named ruler or regnal year checkable against Assyrian, Babylonian or Persian "
+    "records.  Type~H dates rest on a datable event, institution, or language "
+    "contact documented outside the biblical tradition.  Neither depends on the "
+    "feature cline this model estimates.  Type~T marks the one unit dated "
+    "principally by resemblance to Hebrew of supposed date; "
+    "Table~\\ref{tab:anchors} reports the effect of removing it.",
     "tab:corpus", "llrrcp{4.6cm}"))
 
 # ── Table 2: prior leakage ──────────────────────────────────────────────
@@ -194,20 +200,38 @@ open(f"{T}/tab_greek.tex", "w").write(wrap(
 
 print("wrote:", ", ".join(sorted(os.listdir(T))))
 
-# ── Table 7: anchor sensitivity ─────────────────────────────────────────
+# ── Table: robustness of the headline statistics ────────────────────────
 AS = json.load(open(need(f"{R}/anchor_sensitivity.json")))
-rows = ["\\textbf{Training set} & \\textbf{Units} & \\textbf{MAE} & "
-        "\\textbf{Baseline} & \\textbf{$\\rho$} & \\textbf{Pairwise} \\\\\n\\midrule\n"]
-for v in AS:
-    rows.append(f"{esc(v['label'][3:])} & {v['n']} & {v['mae']:.0f} & "
-                f"{v['base']:.0f} & {v['rho']:+.2f} & {100*v['pair']:.1f}\\% \\\\\n")
+JK = json.load(open(need(f"{R}/jackknife.json")))
+rows = ["\\textbf{Fit} & \\textbf{Units} & \\textbf{MAE} & \\textbf{Baseline} & "
+        "\\textbf{$\\rho$} & \\textbf{Pairwise} \\\\\n\\midrule\n"]
+rows.append(f"Full corpus & 25 & {JK['full_mae']:.0f} & 137 & "
+            f"{JK['full_rho']:+.2f} & {100*JK['full_pair']:.1f}\\% \\\\\n")
+rows.append("\\midrule\n\\multicolumn{6}{l}{\\textit{Leave-one-unit-out jackknife, "
+            "all 25 fits}} \\\\\n")
+rows.append(f"\\quad median & 24 & --- & --- & {JK['rho_med']:+.2f} & "
+            f"{100*JK['pair_med']:.1f}\\% \\\\\n")
+rows.append(f"\\quad range & 24 & --- & --- & {JK['rho_min']:+.2f} to "
+            f"{JK['rho_max']:+.2f} & {100*JK['pair_min']:.1f}--"
+            f"{100*JK['pair_max']:.1f}\\% \\\\\n")
+rows.append("\\midrule\n\\multicolumn{6}{l}{\\textit{Removing the less securely "
+            "anchored units}} \\\\\n")
+LBL = {1: "\\quad without Jonah and Ecclesiastes",
+       2: "\\quad without all 6 non-synchronism units"}
+for i, v in enumerate(AS):
+    if i == 0: continue
+    rows.append(f"{LBL[i]} & {v['n']} & {v['mae']:.0f} & {v['base']:.0f} & "
+                f"{v['rho']:+.2f} & {100*v['pair']:.1f}\\% \\\\\n")
 open(f"{T}/tab_anchors.tex", "w").write(wrap(
     "".join(rows),
-    "\\textbf{Sensitivity to the less securely anchored units.}  Six of the 25 "
-    "training units are dated by literary or contextual judgment rather than by "
-    "an external synchronism (Table~\\ref{tab:corpus}), and two of those, Jonah "
-    "and Ecclesiastes, are dated partly by the linguistic profile that this model "
-    "measures.  The pipeline was re-run without them.  MAE and baseline are in "
-    "years; the baseline is the constant predictor on the same subset.",
-    "tab:anchors", "lrrrrr"))
-print("wrote tab_anchors")
+    "\\textbf{Robustness of the headline statistics.}  MAE and baseline are in "
+    "years, the baseline being the constant predictor on the same subset.  The "
+    "jackknife drops each anchored unit in turn and re-runs the entire pipeline "
+    "on the remaining 24; its spread is the leverage any single unit carries at "
+    "this corpus size, and the full-corpus $\\rho$ should be read against it "
+    "rather than as a point estimate.  The lower block removes the units whose "
+    "dates are least independent of the language: Jonah, the one unit dated "
+    "principally on typological grounds, together with Ecclesiastes, and then all "
+    "six units lacking an explicit synchronism.",
+    "tab:anchors", "lrrrcr"))
+print("wrote tab_anchors (jackknife + anchor removal)")
