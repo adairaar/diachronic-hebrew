@@ -1,0 +1,40 @@
+\begin{table}[!ht]
+\centering
+\footnotesize
+\caption{\textbf{Prior leakage inflates reported holdout accuracy.}  ``Prior $\sigma$'' is the standard deviation of the scholarly prior in years; ``data share'' is the fraction of posterior precision contributed by the linguistic features; the two error columns are mean absolute errors in years under a prior centred on the unit's own scholarly date and under an agnostic prior, with the pipeline otherwise identical.}
+\label{tab:leakage}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Unit} & \textbf{Prior $\sigma$} & \textbf{Data share} & \textbf{Leaky err.} & \textbf{Honest err.} \\
+\midrule
+Haggai & 10 & 2.3\% & 6 & 334 \\
+Daniel & 10 & 1.7\% & 3 & 233 \\
+Zechariah\_1 & 10 & 1.5\% & 4 & 236 \\
+Amos & 20 & 5.8\% & 8 & 144 \\
+Habakkuk & 20 & 5.4\% & 3 & 51 \\
+Isaiah\_2 & 20 & 8.0\% & 15 & 267 \\
+Ezekiel & 20 & 5.9\% & 10 & 158 \\
+Zephaniah & 20 & 5.6\% & 4 & 90 \\
+Malachi & 25 & 8.9\% & 18 & 192 \\
+Micah & 25 & 9.7\% & 3 & 39 \\
+Nahum & 25 & 8.6\% & 4 & 48 \\
+Hosea & 25 & 9.2\% & 1 & 5 \\
+Isaiah\_1 & 30 & 12.0\% & 16 & 140 \\
+Jer\_oracle & 30 & 11.7\% & 11 & 105 \\
+Chronicles & 40 & 21.8\% & 20 & 116 \\
+Lamentations & 50 & 35.8\% & 64 & 238 \\
+Jonah & 60 & 34.1\% & 18 & 50 \\
+Ezra & 60 & 33.8\% & 26 & 80 \\
+Esther & 60 & 64.0\% & 80 & 200 \\
+Nehemiah & 60 & 34.5\% & 36 & 116 \\
+Obadiah & 80 & 49.2\% & 29 & 57 \\
+Isaiah\_3 & 100 & 63.3\% & 186 & 296 \\
+Ecclesiastes & 120 & 70.7\% & 150 & 212 \\
+Joel & 150 & 78.3\% & 200 & 256 \\
+Zechariah\_2 & 150 & 78.5\% & 190 & 242 \\
+\midrule
+\textbf{Median, all} & 30 & 11.7\% & 16 & 144 \\
+\textbf{Mean, $\sigma \leq 20$ (8 units)} & 16 & 4.5\% & 6.6 & 189.1 \\
+\bottomrule
+\end{tabular}
+\end{table}

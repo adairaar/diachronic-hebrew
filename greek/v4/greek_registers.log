@@ -1,0 +1,79 @@
+
+========================================================================
+A  as-received manifest labels
+========================================================================
+  train 42 texts / 4263 passages | test 14 texts
+  LOTO MAE 150 yr (baseline 238)  rho +0.645
+author                      true   pred   shift
+Dionysius of Halicarnassu    -20    -57     -37
+Dionysius of Halicarnassu    -20   -121    -101
+Strabo                       -20    -22      -2
+Plutarch                     100   -111    -211
+Plutarch                     100    186     +86
+Dio Chrysostom               100   -122    -222
+Arrian                       145   -346    -491
+Pausanias                    160    -91    -251
+Lucian                       165    -38    -203
+Aelius Aristides             170     22    -148
+Maximus of Tyre              180   -161    -341
+Philostratus                 220    -69    -289
+Cassius Dio                  220   -289    -509
+Libanius                     360     52    -308
+  mean displacement -216 yr | 13/14 dated too early
+
+========================================================================
+B  strict: classicizing authors reclassified
+========================================================================
+  train 34 texts / 3596 passages | test 22 texts
+  LOTO MAE 114 yr (baseline 218)  rho +0.763
+author                      true   pred   shift
+Dionysius of Halicarnassu    -20    -70     -50
+Dionysius of Halicarnassu    -20    -60     -40
+Strabo                       -20   -118     -98
+Chariton of Aphrodisias      100   -256    -356
+Plutarch                     100    -76    -176
+Plutarch                     100     -7    -107
+Dio Chrysostom               100   -192    -292
+Arrian                       145   -335    -480
+Achilles Tatius              150    -17    -167
+Appian                       155   -181    -336
+Pausanias                    160   -310    -470
+Lucian                       165   -105    -270
+Aelius Aristides             170    -79    -249
+Maximus of Tyre              180   -162    -342
+Philostratus                 220   -238    -458
+Aelian                       220   -179    -399
+Cassius Dio                  220   -268    -488
+Diogenes Laërtius            230   -135    -365
+Plotinus                     265   -148    -413
+Porphyry                     290    -50    -340
+Iamblichus                   305   -143    -448
+Libanius                     360    -18    -378
+  mean displacement -306 yr | 22/22 dated too early
+
+========================================================================
+C  date-blind: train only on <= 50 CE
+========================================================================
+  train 26 texts / 3225 passages | test 11 texts
+  LOTO MAE 121 yr (baseline 149)  rho +0.619
+author                      true   pred   shift
+Plutarch                     100     90     -10
+Plutarch                     100    147     +47
+Dio Chrysostom               100   -176    -276
+Arrian                       145   -518    -663
+Pausanias                    160   -313    -473
+Lucian                       165   -171    -336
+Aelius Aristides             170   -216    -386
+Maximus of Tyre              180   -392    -572
+Philostratus                 220   -334    -554
+Cassius Dio                  220   -569    -789
+Libanius                     360   -155    -515
+  mean displacement -412 yr | 10/11 dated too early
+
+========================================================================
+SUMMARY
+========================================================================
+                                     variant  n_train  n_test        mae      rho  mean_shift  n_early
+              A  as-received manifest labels       42      14 150.132269 0.645321 -216.214286       13
+B  strict: classicizing authors reclassified       34      22 113.644624 0.763033 -305.545455       22
+       C  date-blind: train only on <= 50 CE       26      11 120.622557 0.618943 -411.545455       10

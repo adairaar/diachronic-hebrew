@@ -1,0 +1,12 @@
+text,author,truth,pred,shift,n_chunks
+plutarch_lives,Plutarch,100,90,-10,4
+plutarch_moralia,Plutarch,100,147,47,26
+dio_chrysostom_orations,Dio Chrysostom,100,-176,-276,308
+arrian_anabasis,Arrian,145,-518,-663,140
+pausanias_description,Pausanias,160,-313,-473,223
+lucian_true_history,Lucian,165,-171,-336,5
+aelius_aristides_sacred,Aelius Aristides,170,-216,-386,4
+maximus_tyrius_orations,Maximus of Tyre,180,-392,-572,8
+philostratus_lives_sophists,Philostratus,220,-334,-554,42
+cassius_dio_roman,Cassius Dio,220,-569,-789,262
+libanius_orations,Libanius,360,-155,-515,216

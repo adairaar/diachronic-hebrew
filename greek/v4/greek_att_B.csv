@@ -1,0 +1,23 @@
+text,author,truth,pred,shift,n_chunks
+dionysius_roman_antiquities,Dionysius of Halicarnassus,-20,-70,-50,500
+dionysius_thucydides,Dionysius of Halicarnassus,-20,-60,-40,4
+strabo_geography,Strabo,-20,-118,-98,268
+chariton_callirhoe,Chariton of Aphrodisias,100,-256,-356,24
+plutarch_lives,Plutarch,100,-76,-176,4
+plutarch_moralia,Plutarch,100,-7,-107,26
+dio_chrysostom_orations,Dio Chrysostom,100,-192,-292,308
+arrian_anabasis,Arrian,145,-335,-480,140
+achilles_tatius,Achilles Tatius,150,-17,-167,70
+appian_roman_history,Appian,155,-181,-336,210
+pausanias_description,Pausanias,160,-310,-470,223
+lucian_true_history,Lucian,165,-105,-270,5
+aelius_aristides_sacred,Aelius Aristides,170,-79,-249,4
+maximus_tyrius_orations,Maximus of Tyre,180,-162,-342,8
+philostratus_lives_sophists,Philostratus,220,-238,-458,42
+aelian_various_history,Aelian,220,-179,-399,63
+cassius_dio_roman,Cassius Dio,220,-268,-488,262
+diogenes_laertius_lives,Diogenes Laërtius,230,-135,-365,95
+plotinus_enneads,Plotinus,265,-148,-413,156
+porphyry_life_plotinus,Porphyry,290,-50,-340,27
+iamblichus_pythagorean,Iamblichus,305,-143,-448,22
+libanius_orations,Libanius,360,-18,-378,216

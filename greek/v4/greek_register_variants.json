@@ -1,0 +1,38 @@
+[
+  {
+    "variant": "A  as-received manifest labels",
+    "n_train": 42,
+    "n_train_chunks": 4263,
+    "n_test": 14,
+    "mae": 150.13226861439153,
+    "mae_baseline": 238.42517006802726,
+    "rho": 0.6453208389443973,
+    "mean_shift": -216.21428571428572,
+    "median_shift": -216.5,
+    "n_early": 13
+  },
+  {
+    "variant": "B  strict: classicizing authors reclassified",
+    "n_train": 34,
+    "n_train_chunks": 3596,
+    "n_test": 22,
+    "mae": 113.64462418855494,
+    "mae_baseline": 218.10726643598616,
+    "rho": 0.7630333180295796,
+    "mean_shift": -305.54545454545456,
+    "median_shift": -341.0,
+    "n_early": 22
+  },
+  {
+    "variant": "C  date-blind: train only on <= 50 CE",
+    "n_train": 26,
+    "n_train_chunks": 3225,
+    "n_test": 11,
+    "mae": 120.62255692760087,
+    "mae_baseline": 149.03846153846155,
+    "rho": 0.6189426979098839,
+    "mean_shift": -411.54545454545456,
+    "median_shift": -473.0,
+    "n_early": 10
+  }
+]

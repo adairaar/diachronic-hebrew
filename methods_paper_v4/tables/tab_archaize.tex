@@ -1,0 +1,20 @@
+\begin{table}[!ht]
+\centering
+\footnotesize
+\caption{\textbf{What total lexical archaizing buys.}  Each securely dated late book had its Late Biblical Hebrew forms replaced by Classical counterparts at rate $r$ and was then re-dated by a model trained on the other 24 books. $r=1$ replaces every eligible token in the book.  Dates BCE; a positive shift means the book appears older.  Ezra, Nehemiah and Chronicles offer too few eligible tokens for their null results to be informative.}
+\label{tab:archaize}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Book} & \textbf{True} & \textbf{$r=0$} & \textbf{$r=1$} & \textbf{Shift} & \textbf{Swaps} & \textbf{per 1k w} \\
+\midrule
+Chronicles & 330 & 275 & 275 & +0 & 94 & 2.7 \\
+Esther & 300 & 126 & 135 & +9 & 42 & 9.1 \\
+Ecclesiastes & 250 & 386 & 417 & +31 & 142 & 33.5 \\
+Daniel & 167 & 384 & 409 & +25 & 47 & 13.7 \\
+Ezra & 380 & 179 & 182 & +3 & 13 & 2.5 \\
+Nehemiah & 380 & 139 & 139 & -0 & 28 & 3.6 \\
+\midrule
+\multicolumn{4}{l}{\textbf{Mean apparent shift}} & \textbf{+11} & & \\
+\bottomrule
+\end{tabular}
+\end{table}

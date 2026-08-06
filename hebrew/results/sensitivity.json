@@ -1,0 +1,43 @@
+{
+  "n_feats": 579,
+  "lam": 1000.0,
+  "norm": 62.770833192478975,
+  "top_lever_name": "lex_<MD[",
+  "top_lever": 12.24301651790861,
+  "lex_share": 47.006149765759105,
+  "lex_count": 250,
+  "families": {
+    "lexical": {
+      "total": 574.6427744433115,
+      "count": 250,
+      "share": 47.006149765759105
+    },
+    "POS/bigram": {
+      "total": 401.20121359989315,
+      "count": 207,
+      "share": 32.81851816713536
+    },
+    "verb morphology": {
+      "total": 113.10854831182115,
+      "count": 57,
+      "share": 9.252352240718144
+    },
+    "phrase/clause": {
+      "total": 92.3946166770061,
+      "count": 42,
+      "share": 7.557939266314921
+    },
+    "agreement/suffix": {
+      "total": 33.98646875450296,
+      "count": 20,
+      "share": 2.7801150755460493
+    },
+    "structural": {
+      "total": 7.150621885558197,
+      "count": 3,
+      "share": 0.5849254845264255
+    }
+  },
+  "sea_gap": 327.19741777280274,
+  "sea_gap_sd": 5.212570888926908
+}

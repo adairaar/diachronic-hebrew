@@ -1,0 +1,15 @@
+\begin{table}[!ht]
+\centering
+\footnotesize
+\caption{{\bf S6 Table. Register sensitivity of the Greek archaizing measurement.}  The displacement of the Atticizers depends on which texts are treated as non-archaizing training material.  Variant A uses the corpus manifest's own labels; B additionally reclassifies authors independently described as classicizing in the literary-historical record; C discards register labels entirely and trains only on texts composed before 50~CE, prior to the Second Sophistic.  Dates CE; a negative shift means the text is dated earlier than it was written.}
+\label{tab:s6}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Training set} & \textbf{Texts} & \textbf{Tested} & \textbf{MAE} & \textbf{$\rho$} & \textbf{Mean shift} & \textbf{Too early} \\
+\midrule
+A  as-received manifest labels & 42 & 14 & 150 & +0.65 & -216 & 13/14 \\
+B  strict: classicizing authors reclassified & 34 & 22 & 114 & +0.76 & -306 & 22/22 \\
+C  date-blind: train only on <= 50 CE & 26 & 11 & 121 & +0.62 & -412 & 10/11 \\
+\bottomrule
+\end{tabular}
+\end{table}
