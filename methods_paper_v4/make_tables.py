@@ -88,7 +88,7 @@ open(f"{T}/tab_leakage.tex", "w").write(wrap(
     "$\\sigma$'' is the standard deviation of the scholarly prior in years; "
     "``data share'' is the fraction of posterior precision contributed by the "
     "linguistic features; the two error columns are mean absolute errors in "
-    "years under a prior centred on the unit's own scholarly date and under an "
+    "years under a prior centered on the unit's own scholarly date and under an "
     "agnostic prior, with the pipeline otherwise identical.",
     "tab:leakage", "lrrrr"))
 
@@ -104,7 +104,7 @@ open(f"{T}/tab_lobo.tex", "w").write(wrap(
     "estimated, so a positive error means the model placed the book too late. "
     "``Pass.\\ SD'' is the standard deviation of the book's passage-level "
     "estimates, a measure of internal homogeneity.  Every quantity is "
-    "out-of-sample: standardisation, weighting, $\\lambda$ selection and "
+    "out-of-sample: standardization, weighting, $\\lambda$ selection and "
     "calibration were performed without the held-out book.",
     "tab:lobo", "lrrrrr"))
 
@@ -137,7 +137,7 @@ open(f"{T}/tab_targets.tex", "w").write(wrap(
     "".join(rows),
     "\\textbf{Undated units.}  Dates BCE; intervals are 68\\% conformal, "
     "calibrated on leave-one-book-out residuals.  No unit here contributed to "
-    "training, feature selection, weighting, regularisation or calibration.  "
+    "training, feature selection, weighting, regularization or calibration.  "
     "The three poems are extracted at verse precision (see text).",
     "tab:targets", "lrrrcr"))
 

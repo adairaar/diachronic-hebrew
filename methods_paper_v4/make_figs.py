@@ -1,12 +1,12 @@
 """
 All manuscript figures.
 
-Palette: #2166AC / #D95F02 / #7570B3, validated colourblind-safe (deutan,
+Palette: #2166AC / #D95F02 / #7570B3, validated colorblind-safe (deutan,
 protan and tritan separation all pass) -- the project's previous blue/red/green
 palette failed deuteranopia separation at delta-E 2.5 and has been retired.
 
 Where four or more groups appear, identity is carried by direct labels and
-physical separation rather than by hue, and colour is reserved for the one
+physical separation rather than by hue, and color is reserved for the one
 semantic contrast that matters: which side of the exile a unit falls on.
 """
 import json, os, sys
@@ -215,7 +215,7 @@ a1.set_xlabel("fraction of LBH forms replaced by CBH")
 a1.set_ylabel("apparent antiquity gained (yr)")
 despine(a1)
 a1.spines["bottom"].set_bounds(0, 1.0)
-a1.set_title("A  Hebrew: archaizing we performed", loc="left", fontsize=8,
+a1.set_title("A  Hebrew: simulated archaizing", loc="left", fontsize=8,
              fontweight="bold", pad=7)
 a1.annotate("solid: books with enough eligible\ntokens for the result to be informative",
             xy=(0.02, 0.97), xycoords="axes fraction", va="top", ha="left",
@@ -248,7 +248,7 @@ a2.set_xlabel("apparent date minus true date (yr)")
 despine(a2, keep=("bottom",))
 a2.spines["bottom"].set_bounds(XLO, XHI)
 a2.tick_params(axis="y", length=0)
-a2.set_title("B  Greek: archaizing they performed", loc="left", fontsize=8,
+a2.set_title("B  Greek: historical archaizing", loc="left", fontsize=8,
              fontweight="bold", pad=7)
 a2.annotate(f"shaded band: the model's own $\\pm${gm['mae']:.0f} yr error "
             f"on non-archaizing Greek",
