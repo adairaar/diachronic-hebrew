@@ -1,168 +1,149 @@
-# Diachronic Dating of Ancient Texts: A Multivariate Bayesian Framework
+# The resolution of linguistic dating in Biblical Hebrew
 
 Code and data for:
 
-> Aaron Adair, "A multivariate Bayesian framework for diachronic dating of ancient texts: Validation on Biblical Hebrew and Ancient Greek." *PLOS ONE* (submitted 2026).
+> Aaron Adair, "The resolution of linguistic dating in Biblical Hebrew:
+> calibrated ranges for the Pentateuchal sources, with cross-linguistic
+> replication in Ancient Greek." *PLOS ONE* (in preparation, 2026).
 
 ---
 
-## Overview
+## What this repository contains
 
-This repository implements a fully probabilistic framework for inferring the composition date of ancient texts from their internal morphosyntactic features. Two complementary Bayesian models are provided:
+A leave-one-out framework for estimating how finely an ancient text can be
+placed in time from its morphosyntax, applied to 25 dated units of the Hebrew
+Bible and 63 dated Ancient Greek texts.
 
-- **MLE-MVN** — per-feature OLS regression with Tikhonov-regularized multivariate normal likelihood, evaluated on a 500-point BCE date grid.
-- **HB-VI** — hierarchical Bayesian regression fitted by mean-field variational inference (MFVI) using the ADAM optimizer, providing group-level shrinkage and better-calibrated credible intervals.
+Every out-of-sample result uses an agnostic prior. Feature screening,
+standardisation and model fitting are performed inside each cross-validation
+fold. Significance is established by permuting the date labels and re-running
+the entire pipeline. Two model families are fitted and both are reported.
 
-Both models are validated on Biblical Hebrew (22 training texts, ~750 BCE–167 BCE) and Ancient Greek (63 training texts, ~450 BCE–250 CE). A resistant-model archaism diagnostic, genre-correction framework (Strategies B+D), and word n-gram instrument are also included.
+### Headline results
+
+| | Hebrew (n=25) | Greek (n=63) |
+|---|---|---|
+| pairwise ordering accuracy | 69.8% / 67.8% | 60.3% / 58.9% |
+| permutation null | 47.6% / 43.6% | 39.2% / 40.4% |
+| *p* | 0.022 / 0.029 | 0.037 / 0.050 |
+| LOO Spearman rho | +0.575 / +0.494 | +0.363 / +0.265 |
+| LOO MAE | 156.2 / 120.9 yr | 294.5 / 205.4 yr |
+| **constant-predictor MAE** | **137.3 yr** | **210.9 yr** |
+
+Values are generative / ridge. The corpus-mean row is the number every MAE in
+this literature should be read against.
+
+The signal is ordinal and real; absolute dating is not supported. Applied to
+the Pentateuchal sources, the framework places P, D and JE after 586 BCE with
+probability >= 0.92 under both families, and declines to locate them within a
+particular post-exilic period.
 
 ---
 
-## Repository structure
+## Layout
 
 ```
 .
-├── hebrew/                        Hebrew pipeline
-│   ├── 00_corpus_manifest.py      Define training corpus and dates
-│   ├── 01_feature_matrix.py       Merge ETCBC feature CSVs → feature_matrix.csv
-│   ├── 02_register_classifier.py  Soft register assignment (SBH/Trans/LBH)
-│   ├── 03_hard_register_dating.py MLE-MVN register-conditioned dating
-│   ├── 04_extended_analysis.py    Genre correction and archaism diagnostics
-│   ├── 05_subsource_dating.py     Date D/P/JE documentary sub-sources
-│   ├── corpus_manifest.json       Corpus metadata (dates, registers, holdouts)
-│   ├── data/
-│   │   └── feature_matrix.csv     35 morphosyntactic features, 26 texts
-│   ├── results/                   Output CSVs from scripts 02–05
-│   └── hierarchical_bayes/
-│       ├── 00_extract_features.py Extract features for sub-source units from BHSA
-│       ├── 01_hb_vi_dating.py     HB-VI model (MFVI, ADAM, autograd)
-│       ├── 02_compare.py          HB-VI vs MLE-MVN comparison
-│       ├── 03_prior_sensitivity.py Mode A / Mode B / Mode C sensitivity analysis
-│       └── results/               HB-VI output CSVs and prior sensitivity table
+├── docs/                    findings and audit trail
+│   ├── VERIFICATION_2026-08-06.md   prior-leakage analysis
+│   ├── PERIOD_FINDINGS.md           LOO period evaluation
+│   ├── SALVAGE_MAP.md               what survived the v1 audit
+│   └── REBUILD_2026-08-06.md        manuscript rebuild log
 │
-├── greek/                         Ancient Greek pipeline
-│   ├── 00_corpus_manifest.py      Corpus definition (63 texts, 5 holdouts)
-│   ├── 01_download_corpus.py      Download texts from Perseus Digital Library
-│   ├── 02_preprocess.py           Tokenize, strip diacritics, build processed/
-│   ├── 03_feature_extraction.py   Extract morphosyntactic + particle features
-│   ├── 04_feature_screening.py    Spearman screening + LOO filter
-│   ├── 05_mvn_dating.py           MLE-MVN dating for Greek corpus
-│   ├── 06_holdout_validation.py   Five-holdout cross-validation
-│   ├── 07_visualizations.py       Publication figures
-│   ├── 08_register_classifier.py  LXX / Atticizing register classifier
-│   ├── 09_calibrated_dating.py    Calibrated posteriors
-│   ├── 10_hard_register_dating.py Register-conditioned MLE-MVN (mirrors Hebrew 03)
-│   ├── corpus_manifest.json       Corpus metadata
-│   ├── data/features/             Extracted feature matrices
-│   ├── results/                   Dating results, holdout validation CSVs
-│   └── hierarchical_bayes/
-│       ├── 01_hb_vi_dating.py     HB-VI for Greek
-│       ├── 02_compare.py          HB-VI vs MLE-MVN comparison
-│       └── results/
+├── hebrew/                  current Hebrew pipeline
+│   ├── corpus_manifest_v2.json      25 dated units, dates and sigmas
+│   ├── build_feature_matrix_v2.py   one-pass BHSA extraction
+│   ├── data/feature_matrix_v2.csv   64 features, 44 units
+│   ├── period_loo2.py               LOO + permutation, both families
+│   ├── target_dating.py             conformal intervals for undated units
+│   ├── make_tables.py               -> tab_corpus.tex, tab_targets.tex
+│   ├── make_fig_ordering.py         -> Fig 1
+│   ├── make_fig_timeline.py         -> Fig 2
+│   ├── power_analysis_v2.py         screening power / FDP
+│   ├── loo_diagnostic_v2.py         LOO-filter rejection power
+│   ├── multiverse_v2.py             specification curve
+│   ├── hierarchical_bayes/          HB-VI model and prior sensitivity
+│   └── results_v2/                  all current output CSVs
 │
-├── methods_paper/                 Manuscript source
-│   ├── main.tex                   PLOS ONE manuscript (LaTeX)
-│   ├── main.pdf                   Compiled manuscript
-│   └── figures/                   All 23 figures (300 DPI, PLOS ONE compliant)
+├── greek/                   cross-linguistic replication
+│   ├── 01_download_corpus.py        Perseus fetch
+│   ├── 02_preprocess.py             tokenise, strip polytonic diacritics
+│   ├── 03_feature_extraction.py     -> data/features/feature_matrix.csv
+│   ├── greek_loo.py                 identical protocol to hebrew/period_loo2.py
+│   └── results/greek_loo_results.csv
 │
-├── 06_feature_mining.py           Full lexeme/morphology scan + LOO screening
-├── 08_theoretical_features.py     ETCBC extraction: function words, verb forms
-├── 10_morphosyntactic_dating.py   ETCBC extraction: Tier-1/2 morphosyntactic rates
-├── 12_tier3_clause_features.py    ETCBC extraction: Tier-3 clause/phrase features
-├── 17_word_ngram_dating.py        Word POS-tag n-gram dating instrument
-├── 18_archaism_diagnostic.py      Full vs. resistant model archaism scatter
-├── 19_torah_source_analysis.py    Chapter-level Torah source classification
+├── methods_paper/           manuscript and its build chain
+│   ├── main.tex                     v1 source; splice.py reads this
+│   ├── main_new.tex                 CURRENT DRAFT (generated)
+│   ├── build.sh                     one command, full rebuild
+│   ├── splice.py                    assemble main_new from main + fragments
+│   ├── patch_intro.py               prose patches, passes 1-3
+│   ├── patch_final.py               p-value corrections, Greek section
+│   ├── insert_figs.py               figure insertion, float pruning
+│   ├── make_fix_tables.py           tab_leakage, tab_subsources
+│   ├── make_stables.py              S2, S5
+│   ├── new_*.tex, tab_*.tex         section and table fragments
+│   └── figures/                     8 figures, 300 DPI
 │
-├── master_dating_results.csv      Consolidated MLE-MVN results (all units)
-├── feature_scan_full.csv          All ~550 screened feature candidates
-├── feature_scan_robust.csv        LOO-robust subset used for dating
-│
-├── requirements.txt
-└── .gitignore
+└── archive/                 v1 material, superseded (280 files)
 ```
+
+**`archive/` is superseded work retained for provenance.** Nothing in the
+current draft depends on it. Delete the folder if you want a minimal tree; git
+history retains everything.
 
 ---
 
-## Requirements
+## Rebuilding the manuscript
 
-Python 3.9+ is recommended.
+```bash
+cd methods_paper && ./build.sh
+```
+
+Runs splice -> patch -> patch -> figure insertion -> pdflatex -> bibtex ->
+pdflatex x3. Every patch fails loudly on a missing anchor rather than silently
+skipping, so an edit to `main.tex` that breaks a splice point halts the build
+instead of producing a quietly wrong PDF.
+
+## Reproducing the analysis
 
 ```bash
 pip install -r requirements.txt
-```
 
-The Hebrew pipeline additionally requires access to the **BHSA corpus** (Biblia Hebraica Stuttgartensia Amstelodamensis, version 2021) via the [Text-Fabric](https://github.com/annotation/text-fabric) framework:
-
-```bash
+# Hebrew feature extraction (requires BHSA via Text-Fabric, ~200 MB first run)
 pip install text-fabric
 python -c "from tf.app import use; use('ETCBC/bhsa', version='2021')"
+python hebrew/build_feature_matrix_v2.py
+
+# Hebrew analysis
+python hebrew/period_loo2.py 0.05 2000     # LOO + permutation null
+python hebrew/target_dating.py             # conformal intervals
+python hebrew/make_fig_ordering.py hebrew/make_fig_timeline.py
+
+# Greek
+python greek/01_download_corpus.py && python greek/02_preprocess.py
+python greek/03_feature_extraction.py
+python greek/greek_loo.py 0.05 500
 ```
 
-This downloads ~200 MB of corpus data on first run. The BHSA is released under a Creative Commons Attribution 4.0 license.
+Pre-extracted feature matrices are committed, so the BHSA and Perseus steps can
+be skipped unless you are changing the feature set.
 
 ---
 
-## Running the Hebrew pipeline
+## A note on the earlier version
 
-### Step 1 — Feature extraction (requires BHSA/Text-Fabric)
+An earlier version of this work reported holdout accuracies near 17 years for
+Hebrew and "within ~30 yr" for Greek. Those figures were produced by a design in
+which each held-out text was dated under a prior centred on its own scholarly
+date. For the most securely anchored texts, the linguistic evidence contributed
+under 6% of posterior precision. Corrected, the same design yields roughly 104
+years in Hebrew and 121 in Greek.
 
-The three root-level extraction scripts query the BHSA directly and write CSV files used by the `hebrew/` pipeline:
-
-```bash
-python 08_theoretical_features.py     # → theoretical_features_training.csv
-python 10_morphosyntactic_dating.py   # → morpho_training_rates.csv
-python 12_tier3_clause_features.py    # → tier3_training_rates.csv
-python 19_torah_source_analysis.py    # → source_feature_profiles.csv
-```
-
-Pre-extracted output CSVs are included in `hebrew/data/` so this step can be skipped if you are not modifying the feature set.
-
-### Step 2 — Build the feature matrix
-
-```bash
-cd hebrew
-python 01_feature_matrix.py           # → data/feature_matrix.csv
-```
-
-### Step 3 — MLE-MVN dating
-
-```bash
-python 02_register_classifier.py      # → results/register_probs.csv
-python 03_hard_register_dating.py     # → results/hard_register_dating_hebrew.csv
-python 04_extended_analysis.py        # → results/extended_analysis.csv (genre correction)
-python 05_subsource_dating.py         # → results/subsource_dating.csv
-```
-
-### Step 4 — HB-VI dating
-
-```bash
-cd hierarchical_bayes
-python 00_extract_features.py         # → results/extracted_features.csv (requires BHSA)
-python 01_hb_vi_dating.py             # → results/hb_vi_dating.csv  (~5 min on laptop)
-python 02_compare.py                  # → results/comparison_table.csv
-python 03_prior_sensitivity.py        # → results/prior_sensitivity.csv
-```
-
----
-
-## Running the Ancient Greek pipeline
-
-```bash
-cd greek
-python 00_corpus_manifest.py          # define corpus
-python 01_download_corpus.py          # fetch texts from Perseus (~10 min, network required)
-python 02_preprocess.py               # tokenize and strip polytonic diacritics
-python 03_feature_extraction.py       # → data/features/feature_matrix.csv
-python 04_feature_screening.py        # Spearman + LOO filter
-python 05_mvn_dating.py               # MLE-MVN dating
-python 06_holdout_validation.py       # five-holdout cross-validation
-python 08_register_classifier.py      # LXX/Atticizing register classifier
-python 10_hard_register_dating.py     # register-conditioned MLE-MVN
-cd hierarchical_bayes
-python 01_hb_vi_dating.py             # HB-VI for Greek
-python 02_compare.py
-```
-
-**Note on polytonic Unicode:** All Greek token matching uses `strip_diacritics()` before regex comparison. Academic editions use the polytonic Unicode block (U+1F00–U+1FFF); matching without stripping silently produces zero counts. See `greek/03_feature_extraction.py` for details.
+`docs/VERIFICATION_2026-08-06.md` documents this with the algebra and a per-text
+decomposition. The resistant-model archaism diagnostic and the genre-correction
+procedure from that version have been withdrawn — the former returned zero
+flagged features across all 44 units. Both remain in `archive/`.
 
 ---
 
@@ -172,62 +153,11 @@ python 02_compare.py
 |--------|--------|---------|
 | Biblical Hebrew | [BHSA v2021](https://github.com/ETCBC/bhsa) | CC BY 4.0 |
 | Ancient Greek | [Perseus Digital Library](http://www.perseus.tufts.edu) | CC BY-SA 3.0 |
-| Ancient Greek (supplementary) | [Thesaurus Linguae Graecae](http://stephanus.tlg.uci.edu) | Subscription (not redistributed) |
 
-TLG texts are not included in this repository. The `greek/data/processed/` directory contains only Perseus-sourced texts; TLG texts must be obtained independently and placed there with matching filenames before running `greek/03_feature_extraction.py`.
-
----
-
-## Key results
-
-### Hebrew
-
-| Text | MLE-MVN MAP | HB-VI MAP | Prior-sensitivity class |
-|------|-------------|-----------|-------------------------|
-| Oracle Jeremiah (holdout) | 562 BCE | 637 BCE | Data-driven |
-| Song of the Sea (Exod 15) | 852 BCE (full) / 460 BCE (resistant) | 768 BCE | Data-driven (archaizing) |
-| P source | 361 BCE | 404 BCE | Data-driven (\|Δ<sub>AB</sub>\| = 4 yr) |
-| D source | 292 BCE | 394 BCE | Prior-dominated (\|Δ<sub>AB</sub>\| = 178 yr) |
-| JE source | 435 BCE | 531 BCE | Prior-dominated (\|Δ<sub>AB</sub>\| = 172 yr) |
-| D Frame | 274 BCE | 716 BCE | Data-driven |
-| Haggai (holdout) | 361 BCE ❌ | 522 BCE ✓ | Prior-dominated |
-
-MLE-MVN values are posterior modes under the agnostic prior (`master_dating_results.csv`, `map_full`); HB-VI values are from the main variational run (`hb_vi_dating.csv`, `hb_map_bce`). The two models differ by 40–100 yr on the source composites because HB-VI pools across register groups and propagates coefficient uncertainty. Both place all three Torah sources in the Persian-to-Hellenistic period.
-
-HB-VI holdout MAE: **16.8 yr** vs. MLE-MVN: **134.2 yr** (improvement driven by soft register assignment).
-
-The P source result is the most robustly data-driven finding in the paper: a prior sweep from a flat prior through a Mosaic-authorship prior *N*(1200, 100²) returns a Persian-period MAP under every scenario (see S6 Table).
-
-### Ancient Greek (cross-language validation)
-
-All five holdouts are recovered within ~30 yr of their independently established dates by the register-conditioned model (`greek/results/hard_register_dating.csv`):
-
-| Holdout | Established date | MAP | Error |
-|---------|------------------|-----|-------|
-| Polybius, *Histories* | 160 BCE | 148 BCE | 12 yr |
-| Mark | 70 CE | 69 CE | 1 yr |
-| Matthew | 85 CE | 80 CE | 5 yr |
-| Luke | 120 CE | 120 CE | <1 yr |
-| Diogenes Laërtius | 230 CE | 256 CE | 26 yr |
-
-Note that the *unconditioned* likelihood (no register assignment, `holdout_validation.csv`, `lik_only_map_ce`) is 80–345 yr off for these same texts. Register conditioning is what makes the temporal signal recoverable — the raw feature likelihood alone is not sufficient.
-
----
-
-## Citation
-
-If you use this code or data, please cite:
-
-```
-Aaron Adair (2026). A multivariate Bayesian framework for diachronic dating
-of ancient texts: Validation on Biblical Hebrew and Ancient Greek.
-PLOS ONE. https://github.com/adairaar/diachronic-hebrew
-```
-
----
+Greek raw and processed texts are gitignored; `01_download_corpus.py` fetches
+them.
 
 ## License
 
-Code: MIT License. See `LICENSE` for details.
-
-Data files (`hebrew/data/`, `hebrew/results/`, `greek/data/features/`, `greek/results/`): CC BY 4.0, consistent with the upstream BHSA and Perseus licenses.
+Code: MIT (see `LICENSE`). Data files: CC BY 4.0, consistent with upstream BHSA
+and Perseus licenses.

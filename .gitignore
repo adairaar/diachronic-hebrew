@@ -46,3 +46,7 @@ methods_paper/*.fdb_latexmk
 methods_paper/*.synctex.gz
 methods_paper/*.blg
 # Note: .bbl is tracked (compiled bibliography needed for reproducible builds)
+
+# archived gitignored material (not for distribution)
+archive/_gitignored_cache/
+archive/_latex_artifacts/

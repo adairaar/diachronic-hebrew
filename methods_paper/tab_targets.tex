@@ -1,0 +1,44 @@
+\begin{table}[!ht]
+\centering
+\caption{\textbf{Date ranges for undated units.}  Intervals are
+conformal prediction intervals calibrated on leave-one-out residuals
+from the dated corpus, and are therefore distribution-free with
+guaranteed finite-sample marginal coverage; they replace the parametric
+intervals used previously, which achieved 52\% empirical coverage at a
+nominal 68\%.  Ranges are quoted earliest--latest in BCE.  $P_{\mathrm{post}}$
+is the posterior predictive probability that the unit postdates 586~BCE,
+reported as the \emph{lower} of the two model families at each row, so
+the column is conservative with respect to model choice.
+No unit has a 68\% interval confined to a single conventional period;
+the ranges, not the period labels, are the result.  D source and
+Deuteronomy are the same text and are not independent.
+$^\dagger$Interval extends past 1~BCE; the later bound is quoted in CE.}
+\begin{tabular}{lrrlrlr}
+\hline
+ & & \multicolumn{2}{c}{\textbf{Generative}} & \multicolumn{2}{c}{\textbf{Ridge}} & \\
+\cline{3-4}\cline{5-6}
+\textbf{Unit} & \textbf{Words} & \textbf{MAP} & \textbf{68\% range} & \textbf{MAP} & \textbf{68\% range} & \textbf{$P_{\mathrm{post}}$} \\
+\hline
+Song of the Sea     & 433 & 654 & 887--421 & 616 & 789--442 & 0.40 \\
+Song of Deborah     & 462 & 610 & 843--377 & 614 & 787--440 & 0.48 \\
+D Song              & 782 & 550 & 783--317 & 390 & 564--217 & 0.52 \\
+Genesis JE          & 22{,}409 & 318 & 551--85 & 385 & 558--211 & 0.92 \\
+Exodus JE           & 11{,}780 & 410 & 643--177 & 424 & 598--250 & 0.88 \\
+Numbers JE          & 3{,}563 & 402 & 635--169 & 421 & 594--247 & 0.88 \\
+JE source           & 37{,}752 & 356 & 589--123 & 400 & 574--226 & 0.92 \\
+Holiness Code       & 5{,}958 & 464 & 697--231 & 344 & 518--171 & 0.76 \\
+Leviticus P         & 10{,}496 & 256 & 489--23 & 315 & 489--142 & 0.96 \\
+P source            & 54{,}435 & 264 & 497--31 & 344 & 518--170 & 0.92 \\
+D Code              & 7{,}353 & 338 & 571--105 & 239 & 412--65 & 0.96 \\
+D Frame             & 11{,}993 & 182 & 415--51~CE$^\dagger$ & 216 & 390--43 & 1.00 \\
+D source            & 20{,}128 & 256 & 489--23 & 231 & 404--57 & 0.96 \\
+Jeremiah Dtr        & 15{,}197 & 274 & 507--41 & 404 & 578--231 & 0.92 \\
+Genesis             & 28{,}764 & 296 & 529--63 & 375 & 549--201 & 0.92 \\
+Exodus              & 23{,}748 & 316 & 549--83 & 388 & 561--214 & 0.92 \\
+Leviticus           & 17{,}099 & 342 & 575--109 & 326 & 500--153 & 0.92 \\
+Numbers             & 23{,}188 & 274 & 507--41 & 375 & 549--202 & 0.92 \\
+Deuteronomy         & 20{,}128 & 256 & 489--23 & 231 & 404--57 & 0.96 \\
+\hline
+\end{tabular}
+\label{tab:targets}
+\end{table}

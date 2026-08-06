@@ -1,0 +1,47 @@
+\subsection*{Training corpus}
+
+The dated corpus comprises 25 units spanning 760--167~BCE and 146{,}059
+tokens: 23 training units and two units held out of both models
+(Table~\ref{tab:corpus}).  Date anchoring uses explicit synchronisms with
+datable ancient Near Eastern events wherever these are available.  Amos~1:1
+places that book in the reigns of Uzziah and Jeroboam~II ($\sim$760~BCE);
+Zechariah~1--8 and Haggai carry explicit Darius regnal dates (518 and
+520~BCE); Ezekiel supplies thirteen regnal dates checkable against
+Babylonian records; Daniel's Hebrew chapters~(1,~8--12) are anchored to
+167~BCE by the Maccabean crisis.  Daniel is restricted to those Hebrew
+chapters; the Aramaic chapters~(2--7) are a different language and are
+excluded.
+
+Not every unit is anchored this securely, and the corpus does not pretend
+otherwise.  Where a date rests on literary-critical rather than
+synchronistic grounds, $\sigma$ is widened accordingly: Joel and
+Zechariah~9--14 carry $\sigma = 150$~yr, Ecclesiastes 120~yr, Isaiah~56--66
+100~yr, and Obadiah 80~yr, against 10--30~yr for the synchronistically
+anchored texts.  This is a substantial widening relative to earlier versions
+of this corpus, and it is deliberate: a narrow prior on a literary-critical
+date imports the very assumption the analysis is meant to test.  The prior
+sensitivity analysis below quantifies what that assumption is worth.
+
+Two units are held out of both models and excluded from all feature
+screening: the Jeremiah oracular stratum (chs.~1--6, 8--10, 12--16, 19--20,
+22--23, 30--31, 46--51) and Haggai.  Whole-book Jeremiah is excluded from
+training entirely, because it contains the oracular stratum and would
+otherwise leak the holdout into the training set.  The Deuteronomistic prose
+stratum of Jeremiah (chs.~7, 11, 17--18, 21, 24--29, 32--45, 52) is treated
+as an undated target and never trained on.  Habakkuk and Daniel are retained
+in MLE-MVN training but held out of HB-VI.
+
+A note on what ``held out'' must mean.  In the analyses reported below, a
+held-out unit contributes nothing to feature screening, to standardisation,
+to regression fitting, or to its own prior.  The last of these is not a
+formality.  A model that receives a text's scholarly date as a prior mean
+will return approximately that date whatever the text contains, and will do
+so most emphatically for the texts whose dates are best established --- that
+is, precisely the texts on which a validation exercise appears most
+convincing.  Section~\nameref{sec:validation} quantifies this effect for the
+present corpus.  All out-of-sample results in this paper use an agnostic
+prior.
+
+S5~Table lists word counts for all units, including the Documentary
+Hypothesis source composites, which are excluded from both training and
+validation and are dated solely from the model.

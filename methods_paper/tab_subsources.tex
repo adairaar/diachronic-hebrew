@@ -1,0 +1,34 @@
+\begin{table}[!ht]
+\centering
+\caption{\textbf{Prior sensitivity: displacement between prior modes.}
+$\Delta_{AB} = \text{MAP}(A) - \text{MAP}(B)$ measures how far a unit's
+estimate moves when the scholarly prior (Mode~A) is replaced by the agnostic
+prior (Mode~B).  Only the displacement is reported: the absolute MAP values
+from this run are superseded by the leakage-free estimates of
+Table~\ref{tab:targets}, but $\Delta_{AB}$ is a difference and is unaffected
+by the level offset between the two analyses.  Classification follows the
+thresholds defined above: data-driven ($|\Delta_{AB}| < 30$~yr), mildly
+prior-influenced (30--80~yr), prior-dominated ($>80$~yr).}
+\begin{tabular}{llrl}
+\hline
+\textbf{Unit} & \textbf{Role} & $\mathbf{\Delta_{AB}}$ \textbf{(yr)} & \textbf{Classification} \\
+\hline
+D source            & target            & -9 & data-driven \\
+D Frame             & target            & -20 & data-driven \\
+Song of the Sea     & target            & +21 & data-driven \\
+Jeremiah oracle     & holdout           & -27 & data-driven \\
+Haggai              & holdout           & -31 & mildly prior-influenced \\
+Song of Deborah     & target            & -34 & mildly prior-influenced \\
+P source            & target            & +39 & mildly prior-influenced \\
+Holiness Code       & target            & -46 & mildly prior-influenced \\
+Leviticus P         & target            & -47 & mildly prior-influenced \\
+D Code              & target            & -51 & mildly prior-influenced \\
+Jeremiah Dtr        & target            & +51 & mildly prior-influenced \\
+D Song              & target            & -58 & mildly prior-influenced \\
+Daniel (Heb.)       & holdout (\hbvi{}) & -98 & prior-dominated \\
+Habakkuk            & holdout (\hbvi{}) & -138 & prior-dominated \\
+JE source           & target            & +139 & prior-dominated \\
+\hline
+\end{tabular}
+\label{tab:subsources}
+\end{table}

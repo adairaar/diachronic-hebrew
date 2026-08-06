@@ -1,0 +1,52 @@
+\begin{table}[!ht]
+\centering
+\caption{\textbf{Dated corpus: 23 training units and 2 held-out units.}
+Date (BCE) is the scholarly consensus midpoint used as the training label;
+$\sigma$ is the accompanying uncertainty.  Sigmas were widened by
+approximately a factor of two, relative to earlier versions of this corpus,
+on every text whose date rests on literary-critical rather than
+synchronistic grounds.  Register: S = SBH (Standard Biblical Hebrew,
+equivalent to CBH), T = Transitional, L = LBH.  Word counts are token
+counts from the BHSA extraction used for all feature rates.
+$^a$Held out of the HB-VI model only.
+$^b$Held out of both models, and excluded from all feature screening.
+Whole-book Jeremiah is excluded from training entirely, because it
+contains the Jeremiah oracle holdout.}
+\begin{tabular}{llrrr}
+\hline
+\textbf{Unit} & \textbf{Register} & \textbf{Date (BCE)} & \textbf{$\sigma$ (yr)} & \textbf{Words} \\
+\hline
+\multicolumn{5}{l}{\textit{Training}} \\
+Amos                  & S & 760 & 20 & 2{,}780 \\
+Hosea                 & S & 745 & 25 & 3{,}146 \\
+Micah                 & S & 725 & 25 & 1{,}895 \\
+Isaiah 1--39          & S & 720 & 30 & 13{,}504 \\
+Nahum                 & S & 650 & 25 & 746 \\
+Zephaniah             & S & 630 & 20 & 1{,}037 \\
+Habakkuk$^a$          & S & 605 & 20 & 897 \\
+Obadiah               & T & 585 & 80 & 392 \\
+Ezekiel               & T & 580 & 20 & 26{,}182 \\
+Lamentations          & T & 570 & 50 & 1{,}945 \\
+Isaiah 40--55         & T & 545 & 20 & 5{,}738 \\
+Zechariah 1--8        & T & 518 & 10 & 2{,}484 \\
+Malachi               & T & 460 & 25 & 1{,}187 \\
+Joel                  & T & 400 & 150 & 1{,}318 \\
+Jonah                 & T & 400 & 60 & 985 \\
+Isaiah 56--66         & T & 400 & 100 & 3{,}689 \\
+Ezra                  & L & 380 & 60 & 5{,}268 \\
+Nehemiah              & L & 380 & 60 & 7{,}842 \\
+Zechariah 9--14       & L & 350 & 150 & 1{,}987 \\
+Chronicles            & L & 330 & 40 & 35{,}330 \\
+Esther                & L & 300 & 60 & 4{,}621 \\
+Ecclesiastes          & L & 250 & 120 & 4{,}233 \\
+Daniel (Heb.)$^a$     & L & 167 & 10 & 3{,}437 \\
+\hline
+\multicolumn{5}{l}{\textit{Held out of both models}} \\
+Jeremiah oracle$^b$   & S & 605 & 30 & 14{,}539 \\
+Haggai$^b$            & T & 520 & 10 & 877 \\
+\hline
+\multicolumn{4}{l}{\textbf{Total}} & 146{,}059 \\
+\hline
+\end{tabular}
+\label{tab:corpus}
+\end{table}

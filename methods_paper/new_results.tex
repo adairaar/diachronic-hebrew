@@ -1,0 +1,94 @@
+\section*{Results: dating the undated units}
+\label{sec:results}
+
+The framework is applied to nineteen undated units: the three documentary
+source composites and their sub-strata, the five books of the Pentateuch,
+the Deuteronomistic prose stratum of Jeremiah, and two poems traditionally
+argued to be archaic.  Models are fitted on all 25 dated units; no target
+contributes to its own prediction, and all targets are dated under an
+agnostic prior.  Results are given in Table~\ref{tab:targets} as conformal
+date ranges rather than point estimates, for the reasons set out in
+\nameref{sec:validation}.
+
+\subsection*{The post-exilic result}
+
+One substantive claim survives at full strength.  The posterior predictive
+probability that a unit postdates 586~BCE is $\geq 0.92$ under both model
+families for the P source, the D source and its Code and Frame strata, the
+JE source, and Leviticus~P; the Holiness Code reaches 0.76 in the
+generative family and 0.92 in ridge.  This is a statement about which side
+of a single boundary the predictive mass falls on, and it is the kind of
+claim the data can carry: it requires the estimator to be approximately
+unbiased, not precise.
+
+The finding is robust in three respects that matter.  It holds under both
+model families, which disagree substantially about point estimates ---
+median difference 59~yr, with agreement on the single most likely period
+for only 9 of 19 units.  It holds under the genre correction developed
+below, which if anything moves the sources \emph{later}.  And it does not
+depend on the interval width, since a doubling of the conformal half-width
+would still leave the great majority of predictive mass after 586~BCE for
+every source composite.
+
+\subsection*{What cannot be claimed}
+
+No unit in Table~\ref{tab:targets} has a 68\% interval confined to a
+single conventional period.  All nineteen span between two and four.  The
+P source is placed at 264~BCE (68\%: 497--31~BCE) by the generative family
+and 344~BCE (518--170~BCE) by ridge; these overlap comfortably, but they
+straddle the Persian--Hellenistic boundary in both cases.  Earlier versions
+of this work reported the P source at 361 and 404~BCE under two models and
+described the result as Persian-period.  That characterisation is not
+supportable.  What is supportable is that P is post-exilic and that its
+predictive distribution is concentrated in the fourth and third centuries.
+
+We note also that D~source and Deuteronomy are the same text and must not
+be read as independent confirmations, and that the sub-strata of a source
+are not independent of the composite that contains them.
+
+\subsection*{The archaic poems}
+
+The Song of the Sea (Exod~15) and the Song of Deborah (Judg~5) are the two
+earliest of all nineteen targets in both model families, and the only
+targets whose predictive mass sits predominantly before 586~BCE
+($P_{\mathrm{post}} = 0.40$ and $0.48$ generative, $0.48$ and $0.48$
+ridge).  Neither poem was used in training or in feature screening.
+
+This is an out-of-sample check on an independently motivated hypothesis,
+and the model passes it: the two texts most widely argued on comparative
+Semitic and orthographic grounds to be the oldest Hebrew poetry are the two
+the model places earliest, out of nineteen candidates, in both families.
+We report it as corroboration of the ordinal signal rather than as a dating
+of either poem, whose intervals (887--421 and 843--377~BCE, generative)
+are far too wide to adjudicate the question they are usually asked to
+settle.  In particular, the present analysis cannot distinguish a genuinely
+early poem from a later archaizing composition; the resistant-model
+diagnostic offered for that purpose in an earlier version of this work did
+not function, returning zero flagged features across all 44 units, and has
+been withdrawn.
+
+\subsection*{Genre as a confound}
+
+The dated corpus is 17/25 prophecy against 5 narrative, while the
+Pentateuchal targets are predominantly narrative and legal.  A model
+trained largely on prophecy and applied to narrative is exposed to exactly
+the register confound this literature has long identified.
+
+The confound is measurable in the leave-one-out residuals.  In the
+generative family, narrative texts are dated $+112.4$~yr too late on
+average while prophetic texts are dated $-25.1$~yr too early (Welch
+$p = 0.016$).  In ridge the effect is absent ($-24.3$ versus $+31.3$~yr,
+$p = 0.234$).  The disagreement between families is itself informative:
+the bias is a property of the generative inversion, not of the features.
+
+The direction matters for the substantive conclusion.  If narrative units
+are systematically dated too late by roughly 112~yr in the generative
+family, then the generative estimate for the P source should be corrected
+\emph{earlier}, from 264~BCE to approximately 376~BCE --- which remains
+firmly post-exilic, and which moves it toward the uncorrected ridge
+estimate of 344~BCE rather than away from it.  The post-exilic conclusion
+is therefore robust to the genre correction, and the two families converge
+once the correction is applied.  We regard this as the strongest available
+evidence that the post-exilic placement is not a register artifact, and we
+note that it is available only because both families were fitted and
+reported.

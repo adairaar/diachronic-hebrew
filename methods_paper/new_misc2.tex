@@ -1,0 +1,64 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BLOCK: ps_results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Results}
+
+Table~\ref{tab:subsources} reports $\Delta_{AB}$ for the fifteen units for
+which both prior modes were run.  Four are data-driven: D~source
+($\Delta_{AB} = -9$~yr), D~Frame ($-20$~yr), Song of the Sea ($+21$~yr),
+and the Jeremiah oracle holdout ($-27$~yr).  Eight are mildly
+prior-influenced, including the P source ($+39$~yr).  Three are
+prior-dominated: the JE source ($+139$~yr), Habakkuk ($-138$~yr) and
+Daniel ($-98$~yr).
+
+Two features of this pattern deserve comment.  First, the units classified
+as prior-dominated include two of the four held-out validation texts.  A
+validation design in which the held-out units are the ones whose answers
+are most determined by the prior is not a test of the model, and this
+observation was the entry point to the leakage analysis reported under
+\nameref{sec:validation}.  Second, the classification is not a function of
+text length: Daniel (3{,}437 words) and Habakkuk (897 words) are
+prior-dominated, while the Song of the Sea (433 words) is data-driven.  It
+is a function of prior width.  Units carrying a tight scholarly $\sigma$
+move little when the prior is exchanged, not because the evidence is
+strong but because the evidence is being overridden.
+
+We therefore report $\Delta_{AB}$ as a diagnostic of prior influence rather
+than as a robustness certificate.  A small $\Delta_{AB}$ means only that
+the two priors agree; combined with the precision decomposition of
+Table~\ref{tab:leakage}, it does not by itself establish that a date is
+driven by linguistic evidence.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% BLOCK: lbh_score %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Model-independent feature scoring}
+
+It is useful to have a description of each unit that can be checked against
+the \bhsa{} database without running any model.  Each feature is normalized
+to a $[0,1]$ scale by reference to the fitted trend at two anchor dates:
+%
+\begin{equation}
+  s_j = \frac{x_j - \hat{f}_j(d_{\text{CBH}})}{
+    \hat{f}_j(d_{\text{LBH}}) - \hat{f}_j(d_{\text{CBH}})},
+  \label{eq:lbh_score}
+\end{equation}
+%
+where $d_{\text{CBH}} = 720$~BCE and $d_{\text{LBH}} = 250$~BCE, so that
+$s_j = 0$ is \cbh{}-like, $s_j = 1$ is \lbh{}-like, and values outside
+$[0,1]$ lie beyond the anchors in either direction.  The mean score
+$\bar{s}$ summarises a unit.
+
+On the present corpus the source composites order
+D ($\bar{s} = -0.30$) $<$ P ($+0.15$) $<$ JE ($+0.53$), with the
+Deuteronomic legal code the most \cbh{}-like unit in the study
+($\bar{s} = -0.63$) and the Song of the Sea close to the \cbh{} anchor
+($\bar{s} = -0.00$).  We report these figures because S3~Table lists the
+individual features driving them, and because a reader who distrusts the
+model can inspect them directly.  We caution against reading the ordering
+as a chronology.  $\bar{s}$ is an unweighted average over features selected
+for their correlation with date, and it makes no allowance for the genre
+composition of a unit; D's legal core is formulaic and archaizing in
+diction, which is sufficient to explain its position without any claim
+about its date.  Earlier versions of this work reported a different
+ordering (D $<$ JE $<$ P) from an earlier corpus and offered a
+substantive interpretation of it.  That interpretation does not survive
+the corpus revision, and the instability of the ordering across corpus
+versions is itself a reason to treat $\bar{s}$ as descriptive rather than
+probative.

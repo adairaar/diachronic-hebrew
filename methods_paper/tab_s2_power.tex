@@ -1,0 +1,25 @@
+\begin{table}[!ht]
+\centering
+\caption{\textbf{S2 Table.\ Screening power and false-discovery cost at $N=23$.}
+For each nominal $\alpha$: features retained from $K=55$ candidates, the number
+expected under the null, the estimated false discovery proportion, and the minimum
+$|\rho|$ detectable at 80\% power.  Benjamini-Hochberg at $q=0.10$ independently
+retains 7 features.  The operating point used throughout is $\alpha=0.05$; the
+35-feature specification of earlier versions of this work corresponds to
+$\alpha \approx 0.3$, where more than half the retained features are expected to
+be noise.}
+\begin{tabular}{rrrrr}
+\hline
+$\mathbf{\alpha}$ & \textbf{retained} & \textbf{expected null} & \textbf{est.\ FDP} & \textbf{min $|\rho|$ @80\%} \\
+\hline
+0.01 & 6 & 0.6 & 0.10 & 0.68 \\
+0.05 & 14 & 2.8 & 0.20 & 0.58 \\
+0.10 & 18 & 5.5 & 0.30 & 0.53 \\
+0.15 & 25 & 8.2 & 0.33 & 0.49 \\
+0.20 & 27 & 10.9 & 0.40 & 0.46 \\
+0.25 & 30 & 13.6 & 0.45 & 0.43 \\
+0.30 & 30 & 16.3 & 0.54 & 0.41 \\
+\hline
+\end{tabular}
+\label{tab:s2_power}
+\end{table}

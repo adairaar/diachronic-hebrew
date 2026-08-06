@@ -1,0 +1,37 @@
+\section*{Abstract}
+% -------------------------------------------------------
+
+The linguistic dating of ancient texts from internal morphosyntactic
+evidence is central to biblical studies and classical philology, but the
+field's methods have been challenged as circular: models are validated
+against dates that are themselves partly linguistic judgements, and
+validation designs frequently supply a text's expected date to the model
+that is then asked to recover it.  The present paper reports a
+leakage-free reassessment.  Every out-of-sample result uses an agnostic
+prior; feature screening, standardisation and model fitting are performed
+inside each cross-validation fold; and significance is established by
+permutation of the date labels through the entire pipeline rather than by
+parametric assumption.  Two model families are fitted and both are
+reported throughout.  Applied to 25 units of the \bhsa{} database spanning
+760--167~BCE, the analysis yields a sharply bounded positive result.
+Hebrew morphosyntax carries a genuine diachronic signal: the models order
+text pairs chronologically with 69.8\% accuracy across 295 pairs
+($p = 4 \times 10^{-12}$), and leave-one-out Spearman correlations between
+true and predicted dates are $+0.58$ and $+0.49$ in the two families
+($p = 0.016$, $0.024$ against a permutation null).  That signal does not,
+however, support absolute dating: leave-one-out mean absolute error is
+121--156~yr against 137~yr for the trivial predictor that assigns every
+text the corpus mean date, and four-way period assignment reaches only
+40--48\%.  We show that previously reported holdout accuracies of order
+10--30~yr in this literature, including in an earlier version of this
+work, arise because each held-out text is dated under a prior centred on
+its own scholarly date; for the most tightly anchored texts the linguistic
+data contributes under 6\% of posterior precision.  Applied to the
+Pentateuchal sources with distribution-free conformal intervals, the
+framework supports one substantive conclusion --- the Priestly,
+Deuteronomic and JE composites are post-exilic with probability
+$\geq 0.92$ under both families --- while declining to place them within a
+particular post-exilic period.  The Song of the Sea and Song of Deborah
+emerge as the two earliest of nineteen undated units in both families
+without having been trained on.  Code and corpora are publicly available
+(see Data Availability).

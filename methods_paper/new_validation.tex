@@ -1,0 +1,130 @@
+\section*{Validation}
+\label{sec:validation}
+
+Validation is the part of this literature most vulnerable to circularity,
+and it is where the present analysis departs most sharply from earlier
+versions of this work.  We first document a failure mode that inflates
+reported accuracy by an order of magnitude, then give leakage-free
+estimates of what the method can actually do.
+
+\subsection*{Prior leakage in holdout designs}
+
+A held-out text must contribute nothing to the model that dates it.  In
+practice this is usually taken to mean exclusion from training and from
+feature selection.  It must also mean exclusion from the prior, and this is
+the requirement that is easy to violate without noticing.
+
+Consider a text $u$ with scholarly date $d_u$ and stated uncertainty
+$\sigma_u$.  If the posterior for $u$ is computed as
+$p(d \mid \mathbf{x}_u) \propto \mathcal{L}(\mathbf{x}_u \mid d)\,
+\mathcal{N}(d; d_u, \sigma_u^2)$, then the answer has been supplied as the
+prior.  Under a Gaussian likelihood of precision $\tau_L$, the posterior
+mean is a precision-weighted average in which the data receives weight
+$\tau_L / (\tau_L + \sigma_u^{-2})$.  For a securely anchored text ---
+small $\sigma_u$ --- that weight goes to zero, and the model returns
+$d_u$ almost exactly.  The design therefore appears \emph{most} successful
+precisely on the texts whose dates are best established, which is the
+opposite of a stringent test.
+
+This is not hypothetical.  Table~\ref{tab:leakage} gives the decomposition
+for the four held-out units of the present corpus.  Backing the likelihood
+precision out of the posterior and prior variances via
+$\tau_L = \sigma_{\text{post}}^{-2} - \sigma_u^{-2}$ yields an implied
+likelihood standard deviation of 48.6~yr (IQR 43.3--53.1) that is
+remarkably stable across texts of very different length.  The weight
+actually placed on the linguistic evidence, however, ranges from 2.8\% for
+Haggai ($\sigma_u = 10$~yr) to 93.1\% for Zechariah~9--14
+($\sigma_u = 150$~yr).  Across all 25 dated units the median ratio of
+posterior to prior standard deviation is 0.851, and the median absolute
+displacement of the MAP from the prior mean is 10.4~yr.
+
+The consequence is severe.  Under this design the four holdouts return a
+mean absolute error of 8.1~yr.  Dating the same texts from the likelihood
+alone --- that is, from the linguistic evidence --- gives 103.7~yr.  We
+report the latter.  We note that an independent implementation of the same
+design for the Ancient Greek corpus reproduces the artifact exactly, with a
+reported holdout MAE of 8.7~yr against 120.7~yr from the likelihood alone;
+we therefore withdraw the cross-language validation claim rather than
+repair it, since the corrected Greek result no longer supports the
+generalisation it was offered as evidence for.
+
+\subsection*{Leave-one-out design}
+
+All results below use the following protocol.  For each of the 25 dated
+units in turn, the unit is removed; feature screening (Spearman, $\alpha =
+0.05$), standardisation, and all model fitting are performed on the
+remaining 24; and the held-out unit is then dated under an agnostic prior.
+No quantity derived from a unit influences its own prediction.  Two model
+families are fitted and both are reported: the generative family of
+Eq.~\ref{eq:loglik}, which inverts per-feature regressions, and a ridge
+regression of date on screened features with the penalty chosen by inner
+leave-one-out.  Significance is assessed by permuting the date vector and
+re-running the entire pipeline, 2000 draws, so that the null distribution
+absorbs selection effects exactly as the observed analysis does.
+
+\subsection*{What the signal supports}
+
+The diachronic signal is real.  Pairwise ordering accuracy --- given two
+texts, does the model place them in the correct chronological order? --- is
+69.8\% of 295 pairs for the generative family and 67.8\% for ridge, against
+a 50\% baseline ($p = 4 \times 10^{-12}$ and $5 \times 10^{-10}$,
+binomial).  Leave-one-out Spearman correlation between true and predicted
+date is $+0.575$ (generative) and $+0.494$ (ridge), against permutation
+nulls centred near zero ($p = 0.016$, $0.024$).  This is the one result
+that replicates across both families at the level of the primary endpoint,
+and it is the strongest finding in the paper.
+
+\subsection*{What the signal does not support}
+
+Absolute dating does not survive contact with an honest baseline.
+Leave-one-out MAE is 156.2~yr for the generative family and 120.9~yr for
+ridge.  Assigning every text the corpus mean date of 503~BCE gives 137.3~yr.
+The generative family --- the one used for the point estimates reported in
+earlier versions of this work --- is therefore \emph{worse} than a
+constant, and ridge improves on a constant by 16~yr.  Any MAE figure in
+this literature should be read against roughly 137~yr, not against zero.
+
+Period assignment is correspondingly weak.  Four-way exact accuracy is
+40.0\% (generative) and 48.0\% (ridge) against a 36\% majority-class
+baseline; pre-exilic versus post-exilic classification reaches 72.0\% and
+76.0\% against a 68\% baseline, significant in neither family
+($p = 0.107$, $0.070$).  Across ten tests --- five metrics in two families,
+strongly correlated --- nothing survives Benjamini-Hochberg correction at
+$q = 0.05$, and four results survive at $q = 0.10$.  We report this
+directly: no individual accuracy claim in this paper is robust to
+multiplicity correction, and the ordinal result is defended on replication
+across model families rather than on any single $p$-value.
+
+The failure is structured rather than random.  The Exilic period is a
+47-year window set against roughly 130~yr of irreducible error, and it is
+simply not resolvable: of four exilic texts, the generative family places
+none correctly and ridge one.  Hellenistic units collapse into Persian.
+Pre-exilic is the only period the models recover reliably, and it is
+recovered because it is wide and terminal, not because early Hebrew is
+distinctive in some way the interior boundaries are not.
+
+\subsection*{Calibration}
+
+The parametric intervals used in earlier versions of this work achieve
+52\% empirical coverage at a nominal 68\% (61\% under the residual
+formulation; the manuscript previously reported 32\% for the original
+specification).  The mechanism is visible in the multiverse analysis:
+chance-correlated features receive large fitted coefficients and small
+residual variances, and because the multivariate normal likelihood weights
+each feature by $1/\sigma_j$, adding noise features \emph{narrows} the
+credible interval.  Adding six and then twelve pure-noise features to a
+clean specification shrinks the 68\% HDI for the P source from 329 to 285
+to 246~yr while moving the MAP by less than 50~yr.  Interval width in this
+framework is not a reliable index of evidence.
+
+We therefore replace parametric intervals with conformal prediction
+intervals calibrated on the leave-one-out residuals of the dated corpus.
+These are distribution-free and carry guaranteed finite-sample marginal
+coverage under exchangeability.  The resulting half-widths are $\pm233$~yr
+(generative) and $\pm174$~yr (ridge) at 68\%.  These are the intervals
+reported in Table~\ref{tab:targets}.  Exchangeability between the
+calibration units and the targets is an assumption and not a guarantee:
+the calibration units are whole books or coherent sections, whereas several
+targets are cross-book composites.  Residual magnitude shows no detectable
+dependence on text length ($\rho = -0.23$, $p = 0.27$), which supports the
+use of a single conformal width.
