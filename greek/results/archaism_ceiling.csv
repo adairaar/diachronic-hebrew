@@ -1,0 +1,6 @@
+block,n_features,auc,null_mean,null_p95,perm_p,verdict
+grammatical,27,0.58,0.459,0.681,0.2,not distinguishable from chance
+word_bigrams,286,0.824,0.468,0.643,0.0,DETECTABLE
+char_ngrams_3,200,0.887,0.489,0.706,0.0,DETECTABLE
+char_ngrams_4,190,0.937,0.492,0.693,0.0,DETECTABLE
+combined,703,0.861,0.481,0.698,0.0,DETECTABLE

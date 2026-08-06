@@ -1,0 +1,12 @@
+source,s,half_A,half_B,internal_gap,n_words,reading
+D_Code,-0.608,-0.649,-0.578,0.071,7353,shifted 1.5 Kings->Chron steps
+D_Frame,-0.162,-0.263,0.025,0.288,11292,UNDETERMINED (halves disagree more than the effect)
+D_Song,0.067,,,,782,"shifted, but less than one Kings->Chron step"
+Lev_Holiness,-0.314,-0.416,-0.189,0.228,5958,"shifted, but less than one Kings->Chron step"
+Lev_Priestly,0.153,-0.311,0.336,0.647,10496,UNDETERMINED (halves disagree more than the effect)
+Song_Sea,-0.164,,,,433,"shifted, but less than one Kings->Chron step"
+Song_Deborah,0.34,,,,462,"shifted, but less than one Kings->Chron step"
+Gen_JE,0.572,0.505,0.605,0.1,27718,shifted 1.4 Kings->Chron steps
+P_source,-0.075,-0.143,0.087,0.229,24283,UNDETERMINED (halves disagree more than the effect)
+Jer_oracle,0.274,0.21,0.394,0.184,10027,"shifted, but less than one Kings->Chron step"
+Chronicles,0.69,0.766,0.679,0.088,35330,shifted 1.7 Kings->Chron steps
