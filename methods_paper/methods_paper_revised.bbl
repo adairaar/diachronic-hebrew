@@ -1,0 +1,115 @@
+\begin{thebibliography}{10}
+
+\bibitem{Hurvitz1982}
+Hurvitz A.
+\newblock A Linguistic Study of the Relationship between the Priestly Source
+  and the Book of {Ezekiel}: A New Approach to an Old Problem.
+\newblock No.~20 in Cahiers de la Revue Biblique. Paris: Gabalda; 1982.
+
+\bibitem{Rooker1990}
+Rooker MF.
+\newblock Biblical {Hebrew} in Transition: The Language of the Book of
+  {Ezekiel}.
+\newblock No.~90 in Journal for the Study of the Old Testament Supplement
+  Series. Sheffield: JSOT Press; 1990.
+
+\bibitem{Polzin1976}
+Polzin R.
+\newblock Late Biblical {Hebrew}: Toward an Historical Typology of Biblical
+  {Hebrew} Prose.
+\newblock No.~12 in Harvard Semitic Monographs. Missoula: Scholars Press; 1976.
+
+\bibitem{Horrocks2010}
+Horrocks G.
+\newblock {Greek}: A History of the Language and Its Speakers.
+\newblock 2nd ed. Oxford: Wiley-Blackwell; 2010.
+
+\bibitem{Faigenbaum2025}
+Faigenbaum-Golovin S, Kipnis A, B{\"u}hler A, Piasetzky E, R{\"o}mer T,
+  Finkelstein I.
+\newblock Critical Biblical Studies via Word Frequency Analysis: Unveiling Text
+  Authorship.
+\newblock PLOS One. 2025;20(6):e0322905.
+\newblock \href {http://dx.doi.org/10.1371/journal.pone.0322905}
+  {doi:10.1371/journal.pone.0322905}.
+
+\bibitem{BHSA2021}
+{Eep Talstra Centre for Bible and Computer}. Biblia {Hebraica Stuttgartensia
+  Amstelodamensis} ({BHSA}), version 2021; 2021.
+\newblock Amsterdam: ETCBC, Vrije Universiteit Amsterdam.
+\newblock \url{https://github.com/ETCBC/bhsa}.
+
+\bibitem{Roorda2018}
+Roorda D.
+\newblock Coding the {Hebrew Bible}.
+\newblock Research Data Journal for the Humanities and Social Sciences.
+  2018;3:27-41.
+
+\bibitem{Kingma2014}
+Kingma DP, Ba J. Adam: A Method for Stochastic Optimization; 2014.
+\newblock Presented at ICLR 2015.
+\newblock arXiv:1412.6980.
+
+\bibitem{Blei2017}
+Blei DM, Kucukelbir A, McAuliffe JD.
+\newblock Variational Inference: A Review for Statisticians.
+\newblock Journal of the American Statistical Association.
+  2017;112(518):859-77.
+
+\bibitem{Hurvitz1997}
+Hurvitz A.
+\newblock The Historical Quest for {`Ancient Israel'} and the Linguistic
+  Evidence of the {Hebrew Bible}: Some Methodological Observations.
+\newblock Vetus Testamentum. 1997;47:301-15.
+
+\bibitem{Young2008}
+Young I, Rezetko R, Ehrensv{\"a}rd M.
+\newblock Linguistic Dating of Biblical Texts. vol.~2.
+\newblock London: Equinox; 2008.
+
+\bibitem{Rezetko2014}
+Rezetko R, Young I.
+\newblock Historical Linguistics and Biblical {Hebrew}: Steps toward an
+  Integrated Approach.
+\newblock No.~9 in Ancient Near East Monographs. Atlanta: SBL Press; 2014.
+
+\bibitem{Hurvitz2014}
+Hurvitz A.
+\newblock A Concise Lexicon of Late Biblical {Hebrew}: Linguistic Innovations
+  in the Writings of the Second Temple Period.
+\newblock No. 160 in Supplements to Vetus Testamentum. Leiden: Brill; 2014.
+
+\bibitem{Robertson1972}
+Robertson DA.
+\newblock Linguistic Evidence in Dating Early {Hebrew} Poetry.
+\newblock No.~3 in SBL Dissertation Series. Missoula: Scholars Press; 1972.
+
+\bibitem{Hurvitz1999}
+Hurvitz A.
+\newblock The Relevance of Biblical {Hebrew} Linguistics for the Historical
+  Study of Ancient {Israel}.
+\newblock In: Proceedings of the Twelfth World Congress of Jewish Studies.
+  Jerusalem: World Union of Jewish Studies; 1999. p. 21-34.
+
+\bibitem{Roorda2014}
+Roorda D, Kalkman G, Naaijer M, van Cranenburgh A.
+\newblock {LAF-Fabric}: A Data Analysis Tool for Linguistic Annotation
+  Framework with an Application to the {Hebrew Bible}.
+\newblock Computational Linguistics in the Netherlands Journal. 2014;4:105-20.
+
+\bibitem{Maclaurin2015}
+Maclaurin D, Duvenaud D, Adams RP. Autograd: Effortless Gradients in {NumPy};
+  2015.
+\newblock ICML 2015 AutoML Workshop.
+
+\bibitem{Perseus}
+Crane GR. Perseus Digital Library;.
+\newblock Medford: Tufts University.
+\newblock \url{http://www.perseus.tufts.edu}.
+
+\bibitem{TLG}
+Pantelia M. Thesaurus {Linguae Graecae};.
+\newblock Irvine: University of California.
+\newblock \url{http://stephanus.tlg.uci.edu}.
+
+\end{thebibliography}

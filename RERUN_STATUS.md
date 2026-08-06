@@ -1,5 +1,41 @@
 # Re-run status — corpus v2
 
+> **Uncommitted work.** The sandbox git is blocked by stale lock files. Run this
+> from your own terminal to capture everything from the 2026-08-05 session:
+> ```
+> cd "/Users/aaronadair/Documents/Claude/Projects/Diachronic Hebrew"
+> rm -f .git/HEAD.lock .git/index.lock
+> git add -A && git commit -m "Corpus v2 rebuild, diagnostics, Greek archaism test"
+> git push origin main
+> ```
+
+## Resistant model rebuild — FIRST ATTEMPT FAILED
+
+`hebrew/resistant_v3.py` runs but produces nothing usable. Two defects:
+
+1. **Over-correction metric mis-specified.** Overshoot was measured as distance
+   beyond the *training maximum*. The max is itself a noisy order statistic, so
+   by construction almost nothing exceeds it — every text scored −2.0 to −2.6
+   and zero features flagged. Fix: fit the per-feature training distribution and
+   compute an exceedance probability, or use a fitted 95th percentile. The right
+   question is "how improbable is this value under the dated-corpus
+   distribution", not "how far past the most extreme observed text".
+
+2. **−mô is not in the feature set.** `MORPH_RESIST` uses verb stem/form rates;
+   `rate_prs` is the overall suffix rate, not the −mô form. The +41 SD
+   observation that motivated the whole approach could not fire. Fix: add
+   `F.prs.v(w) == "MW"`, enclitic mem, yiqtol preterite, article rate, 'et rate.
+
+Also unresolved: morphological and syntactic resistant models disagree by up to
+370 yr, and Song_Deborah pins at the 900 BCE grid edge (training ceiling).
+
+The underlying hypothesis is still live — see `greek/archaism_resistance.py`,
+where the Greek Atticizers show morphology resists imitation (R=+0.59) while
+syntax does not (R=+0.01).
+
+---
+
+
 Audit and rebuild, August 2026. This file is the single source of truth for
 what has been redone and what has not. Delete it once the re-run is complete.
 

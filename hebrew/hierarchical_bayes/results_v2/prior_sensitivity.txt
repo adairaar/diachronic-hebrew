@@ -1,0 +1,40 @@
+              id         group      source  scholar_bce  scholar_sig       map_A      lo68_A      hi68_A       map_B      lo68_B      hi68_B       map_C    shift_AB                  verdict
+0       Habakkuk           SBH     holdout          605           20  646.362146  662.484055  629.344576  784.257128  814.390154  750.775987  792.148900 -137.894982          prior-dominated
+1         Haggai  Transitional     holdout          520            5  521.865184  526.343492  517.386876  553.237259  576.674057  529.800460  639.557781  -31.372074  mildly prior-influenced
+2         Daniel           LBH     holdout          167           10  187.826303  197.931834  178.639457  285.388135  308.824933  261.951337  205.259981  -97.561832          prior-dominated
+3       D_source           LBH     unknown          625          100  370.582822  396.102490  346.083941  379.135328  405.920241  352.350416  357.851100   -8.552506              data-driven
+4       P_source           LBH     unknown          600          100  394.269252  412.192963  318.591364  355.698530  382.483442  332.261732  369.588878   38.570722  mildly prior-influenced
+5      JE_source           LBH     unknown          800           75  464.456247  485.277621  443.634873  325.565503  352.350416  302.128705  369.588878  138.890744          prior-dominated
+6     Jer_oracle           SBH  sub-source          605           30  633.822884  656.214424  611.431344  660.376908  697.206163  630.243882  674.771116  -26.554024              data-driven
+7        Jer_DTR  Transitional  sub-source          570           60  594.413774  617.700975  571.126572  543.192917  569.977829  513.059890  299.162208   51.220857  mildly prior-influenced
+8         D_Code           SBH  sub-source          620           40  686.666918  711.745443  662.484055  737.383531  770.864672  707.250505  709.984451  -50.716613  mildly prior-influenced
+9        D_Frame           SBH  sub-source          620           40  693.832211  717.119412  663.379716  713.946733  744.079759  683.813707  709.984451  -20.114522              data-driven
+10        D_Song           SBH  sub-source          900          300  722.961729  863.063958  700.035910  780.909014  871.308093  760.820330  803.886678  -57.947285  mildly prior-influenced
+11  Lev_Holiness           SBH  sub-source          580           80  614.118329  642.779500  591.726789  660.376908  693.858049  630.243882  721.722230  -46.258580  mildly prior-influenced
+12  Lev_Priestly           SBH  sub-source          520           80  626.657591  654.423100  597.100758  673.769364  700.554277  636.940110  674.771116  -47.111773  mildly prior-influenced
+13      Song_Sea           SBH  sub-source         1100          300  711.534730  742.102489  683.514284  690.509935  723.991075  660.376908  721.722230   21.024795              data-driven
+14  Song_Deborah           SBH  sub-source         1150          200  706.405218  737.552620  675.257816  740.731645  770.864672  707.250505  698.246673  -34.326427  mildly prior-influenced
+
+
+======================================================================
+PRIOR SENSITIVITY SUMMARY
+======================================================================
+  Data-driven          (shift < 30 yr): 4
+  Mildly prior-influenced (30–80 yr):   8
+  Prior-dominated      (shift > 80 yr): 3
+
+Columns:
+  MAP(A) = posterior MAP with scholarly prior (as reported by 01_hb_vi_dating.py)
+  MAP(B) = posterior MAP with agnostic prior  N(575 BCE, 400²)
+  MAP(lik) = likelihood-only MAP (no prior — what the data alone says)
+  Shift  = MAP(A) − MAP(B)  [positive = scholarly prior pushed older]
+
+Interpretation notes:
+  * If MAP(B) ≈ MAP(lik), the agnostic prior is wide enough to be negligible.
+  * If MAP(B) ≈ MAP(A), the scholarly prior was not driving the result.
+  * Large shifts flag texts where scholarly opinion, not the data,
+    determines the model's conclusion.
+  * Archaic poems (Song_Sea, Song_Deborah) are bounded by the training
+    ceiling (~760 BCE); MAP(lik) near this ceiling means the data can only
+    say 'consistent with oldest SBH' — it cannot reach truly pre-monarchic
+    dates. Use with caution.

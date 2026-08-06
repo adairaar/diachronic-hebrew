@@ -107,8 +107,9 @@ syntactic features below conscious editorial control yields an archaism
 diagnostic from the divergence between full and resistant MAP dates, and a
 genre correction downweights features sensitive to legal versus narrative
 register.  Applied to 22 texts from the \bhsa{} database spanning
-760--167~BCE, the models place the Priestly source at $\sim$402~BCE under
-agnostic priors, a data-driven result (prior sensitivity Class~D) suggesting
+760--167~BCE, the models place the Priestly source at 402--406~BCE under
+scholarly and agnostic priors alike, a data-driven result (prior
+sensitivity Class~D) suggesting
 linguistic crystallization well after the traditionally assumed Exilic
 period, and the Deuteronomic Code at $\sim$698--737~BCE, consistent with an
 Iron~II origin predating the Josianic reform.  The archaism diagnostic
@@ -143,7 +144,7 @@ estimates; scholars identify features as ``archaic'' or ``late'' and
 assign texts to qualitative categories, but the resulting claims carry no
 quantified uncertainty.
 
-A notable recent contribution by Faigenbaum-Golovin et al.~\cite{Faigenbaum2025}
+A recent contribution by Faigenbaum-Golovin et al.~\cite{Faigenbaum2025}
 demonstrated that statistical analysis of lemma n-gram frequencies can
 reliably distinguish among the three major scribal corpora of the Hebrew
 Bible --- the old layers of Deuteronomy (D), the Deuteronomistic History
@@ -175,7 +176,7 @@ and morphology) and \emph{genre} (legal or narrative register producing
 feature distributions that mimic either earlier or later stages of the
 language independently of composition date).
 
-The framework presented here makes the following contributions:
+The present framework contributes the following:
 \begin{enumerate}
   \item A morphosyntactic feature extraction pipeline operating on the
     \bhsa{}/\textsc{etcbc} database~\cite{BHSA2021,Roorda2018}, producing
@@ -203,7 +204,7 @@ The framework presented here makes the following contributions:
 
 The framework yields results that depart substantially from critical
 consensus.  Under agnostic priors, the Priestly source (P) is placed at
-$\sim$402~BCE --- a data-driven result (prior sensitivity Class~D,
+402--406~BCE --- a data-driven result (prior sensitivity Class~D,
 Mode~A/B shift ${<}30$~yr) --- suggesting linguistic crystallization a
 century or more after the Exilic date assumed in the Wellhausen
 tradition~\cite{Wellhausen1885,CarrFormation2011}.  The
@@ -530,7 +531,7 @@ Daniel (Heb.)  & L & 167 & 10 & 3{,}041 \\
 Features are extracted at three tiers that differ in their susceptibility
 to deliberate stylistic manipulation (Table~\ref{tab:features}).
 
-\textbf{Tier~1 (lexical, 20 features).}  Rates per 1{,}000 words of
+\textbf{Tier~1 (lexical, 19 features).}  Rates per 1{,}000 words of
 specific function words, particles, demonstratives, and prepositions.
 Examples: the \textit{ašer}/\textit{š}e ratio; the \textit{ank\={\i}}/\textit{an\={\i}}
 ratio; the absolute rate of the particle \textit{gam}; the rate of the
@@ -608,7 +609,7 @@ manipulate features within that tier.}
 \hline
 \textbf{Tier} & \textbf{Type} & \textbf{J} & \textbf{Archaism susceptibility} \\
 \hline
-1 & Lexical (function words, particles) & 20 & High \\
+1 & Lexical (function words, particles) & 19 & High \\
 2 & Morphological (verb forms, stems)   & 12 & Medium \\
 3 & Clause/phrase syntax                &  4 & Low (resistant model) \\
 \hline
@@ -954,7 +955,7 @@ not to more data-informative posteriors for these prior-dominated texts.
 
 Deliberate lexical archaism inflates apparent textual age in the full model
 by pulling Tier~1 and Tier~2 features toward the \cbh{} end.
-Conversely, transmission-with-updating (scribal modernization of
+On the other hand, transmission-with-updating (scribal modernization of
 vocabulary in a genuinely old document) deflates apparent age.  Both
 produce a systematic divergence between lexical/morphological and
 clause-syntactic feature signals.
@@ -1112,7 +1113,7 @@ the enclitic relative pronoun \textit{š}e- (rate~=~0.00) in Deuteronomy
 and the Holiness Code sets a terminus ante quem: neither text can be
 late-Persian or Hellenistic, since \textit{š}e- is a robust LBH marker
 that appears with high frequency in texts of the 5th century and later.
-Conversely, shared vocabulary or grammatical constructions with
+On the other hand, shared vocabulary or grammatical constructions with
 independently datable compositions provides terminus post quem estimates.
 These hard-terminus constraints are used to sanity-check probabilistic
 results before interpretation.
@@ -1255,7 +1256,7 @@ assigned dates; these are precisely the texts whose dates are most
 debated in the scholarship, and the LOO result independently
 corroborates existing doubts about their accepted anchors.
 
-Critically, the overconfidence does not change the paper's headline
+The overconfidence does not, however, change the paper's headline
 findings.  For the Priestly source (P; $n=53{,}645$ words), MAP
 = 359~BCE under the agnostic prior.  Applying the conservative
 calibration correction --- expanding from the nominal 68\% CI to the
@@ -1492,12 +1493,13 @@ by a larger amount.  Scholars who adopt a different documentary partition
 should re-extract feature vectors from their preferred source boundaries
 before interpreting the model output.
 
-\textbf{Training boundary and extrapolation.}  The corpus spans
-760--330~BCE.  MAP dates near the lower boundary (Daniel: 167~BCE) are
-already mild extrapolations; dates for texts composed before 760~BCE or
+\textbf{Training boundary and extrapolation.}  The \mvn{} corpus spans
+760--167~BCE; the \hbvi{} training subset, which excludes Daniel, spans
+760--330~BCE, so \hbvi{} dates near the late end are already mild
+extrapolations.  Dates for texts composed before 760~BCE or
 after 167~BCE carry no calibration constraint and should be interpreted
-accordingly.  The date grid imposes hard boundaries at 50~BCE and
-1200~BCE; a composition outside this range would be pinned to the
+accordingly.  The \mvn{} date grid imposes hard boundaries at 900~BCE
+and 100~CE; a composition outside this range would be pinned to the
 nearest edge.
 
 \textbf{Posterior overconfidence and calibration.}  The word-count
@@ -1623,8 +1625,8 @@ The empirical record is, on the whole, encouraging.  Oracle Jeremiah,
 held out from all training, is correctly assigned to the 7th century.
 \hbvi{} achieves holdout MAE of 16.8~yr versus 134.2~yr for \mvn{}, with
 the improvement driven by soft register assignment that avoids catastrophic
-register misclassification.  Under agnostic priors, the Priestly source
-is placed at $\sim$402~BCE (a data-driven result) and the Deuteronomic
+register misclassification.  Under scholarly and agnostic priors alike, the Priestly source
+is placed at 402--406~BCE (a data-driven result) and the Deuteronomic
 Code at $\sim$698--737~BCE, both departing substantially from critical
 consensus.  Because the Priestly source is widely held to constitute the
 final editorial layer that integrated the Pentateuchal sources into their
