@@ -1,0 +1,13 @@
+{
+  "id": "arrian_anabasis",
+  "author": "Arrian",
+  "work": "Anabasis of Alexander",
+  "date_ce": 145,
+  "date_sigma": 10,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 71742,
+  "sentence_count": 3187,
+  "quote_frac_removed": 0.0492,
+  "status": "ok"
+}

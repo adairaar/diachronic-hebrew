@@ -1,0 +1,13 @@
+{
+  "id": "pausanias_description",
+  "author": "Pausanias",
+  "work": "Description of Greece",
+  "date_ce": 160,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 113812,
+  "sentence_count": 6657,
+  "quote_frac_removed": 0.4166,
+  "status": "ok"
+}

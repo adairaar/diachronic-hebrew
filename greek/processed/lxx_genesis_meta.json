@@ -1,0 +1,13 @@
+{
+  "id": "lxx_genesis",
+  "author": "Septuagint (anon. translators)",
+  "work": "Genesis (LXX)",
+  "date_ce": -270,
+  "date_sigma": 20,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 20136,
+  "sentence_count": 2210,
+  "quote_frac_removed": 0.2803,
+  "status": "ok"
+}

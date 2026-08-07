@@ -1,0 +1,13 @@
+{
+  "id": "diodorus_siculus",
+  "author": "Diodorus Siculus",
+  "work": "Bibliotheca Historica (Books 1–5, 11–20)",
+  "date_ce": -50,
+  "date_sigma": 20,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 175723,
+  "sentence_count": 8334,
+  "quote_frac_removed": 0.0154,
+  "status": "ok"
+}

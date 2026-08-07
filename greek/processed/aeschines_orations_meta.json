@@ -1,0 +1,13 @@
+{
+  "id": "aeschines_orations",
+  "author": "Aeschines",
+  "work": "Orations",
+  "date_ce": -345,
+  "date_sigma": 15,
+  "genre": "prose_oratory",
+  "holdout": false,
+  "word_count": 3736,
+  "sentence_count": 168,
+  "quote_frac_removed": 0.0865,
+  "status": "ok"
+}

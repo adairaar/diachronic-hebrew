@@ -1,0 +1,13 @@
+{
+  "id": "chariton_callirhoe",
+  "author": "Chariton of Aphrodisias",
+  "work": "Callirhoe (Chaereas and Callirhoe)",
+  "date_ce": 100,
+  "date_sigma": 40,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 12339,
+  "sentence_count": 1308,
+  "quote_frac_removed": 0.0356,
+  "status": "ok"
+}

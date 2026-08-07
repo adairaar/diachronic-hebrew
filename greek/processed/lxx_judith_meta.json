@@ -1,0 +1,13 @@
+{
+  "id": "lxx_judith",
+  "author": "Septuagint / Jewish author",
+  "work": "Judith (LXX)",
+  "date_ce": -125,
+  "date_sigma": 40,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 6579,
+  "sentence_count": 868,
+  "quote_frac_removed": 0.1578,
+  "status": "ok"
+}

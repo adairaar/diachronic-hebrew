@@ -1,0 +1,13 @@
+{
+  "id": "theophrastus_historia_plantarum",
+  "author": "Theophrastus",
+  "work": "Historia Plantarum",
+  "date_ce": -310,
+  "date_sigma": 15,
+  "genre": "prose_science",
+  "holdout": false,
+  "word_count": 3170,
+  "sentence_count": 323,
+  "quote_frac_removed": 0.0309,
+  "status": "ok"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "herodotus_histories",
+  "author": "Herodotus",
+  "work": "Histories",
+  "date_ce": -440,
+  "date_sigma": 20,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 163991,
+  "sentence_count": 9220,
+  "quote_frac_removed": 0.0829,
+  "status": "ok"
+}

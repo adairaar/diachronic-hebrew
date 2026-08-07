@@ -1,0 +1,13 @@
+{
+  "id": "aelius_aristides_sacred",
+  "author": "Aelius Aristides",
+  "work": "Sacred Tales",
+  "date_ce": 170,
+  "date_sigma": 15,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 1905,
+  "sentence_count": 82,
+  "quote_frac_removed": 0.0256,
+  "status": "ok"
+}

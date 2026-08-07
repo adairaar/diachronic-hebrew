@@ -1,0 +1,13 @@
+{
+  "id": "andocides_orations",
+  "author": "Andocides",
+  "work": "Orations",
+  "date_ce": -400,
+  "date_sigma": 20,
+  "genre": "prose_oratory",
+  "holdout": false,
+  "word_count": 4041,
+  "sentence_count": 262,
+  "quote_frac_removed": 0.1279,
+  "status": "ok"
+}

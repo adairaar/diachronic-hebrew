@@ -1,0 +1,13 @@
+{
+  "id": "lxx_exodus",
+  "author": "Septuagint (anon. translators)",
+  "work": "Exodus (LXX)",
+  "date_ce": -260,
+  "date_sigma": 20,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 18947,
+  "sentence_count": 2042,
+  "quote_frac_removed": 0.1532,
+  "status": "ok"
+}

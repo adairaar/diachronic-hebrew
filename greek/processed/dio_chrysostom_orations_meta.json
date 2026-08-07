@@ -1,0 +1,13 @@
+{
+  "id": "dio_chrysostom_orations",
+  "author": "Dio Chrysostom",
+  "work": "Orations (selected)",
+  "date_ce": 100,
+  "date_sigma": 15,
+  "genre": "prose_oratory",
+  "holdout": false,
+  "word_count": 158221,
+  "sentence_count": 8208,
+  "quote_frac_removed": 0.0767,
+  "status": "ok"
+}

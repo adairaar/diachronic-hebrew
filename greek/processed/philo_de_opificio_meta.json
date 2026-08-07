@@ -1,0 +1,13 @@
+{
+  "id": "philo_de_opificio",
+  "author": "Philo of Alexandria",
+  "work": "De Opificio Mundi",
+  "date_ce": 40,
+  "date_sigma": 15,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 4706,
+  "sentence_count": 517,
+  "quote_frac_removed": 0.5372,
+  "status": "ok"
+}

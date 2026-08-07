@@ -1,0 +1,13 @@
+{
+  "id": "epictetus_discourses",
+  "author": "Arrian / Epictetus",
+  "work": "Discourses of Epictetus",
+  "date_ce": 108,
+  "date_sigma": 10,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 63725,
+  "sentence_count": 5918,
+  "quote_frac_removed": 0.0799,
+  "status": "ok"
+}

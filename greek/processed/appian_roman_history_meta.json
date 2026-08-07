@@ -1,0 +1,13 @@
+{
+  "id": "appian_roman_history",
+  "author": "Appian",
+  "work": "Roman History (selected books)",
+  "date_ce": 155,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 108302,
+  "sentence_count": 4828,
+  "quote_frac_removed": 0.0577,
+  "status": "ok"
+}

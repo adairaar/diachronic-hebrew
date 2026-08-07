@@ -1,0 +1,13 @@
+{
+  "id": "lysias_orations",
+  "author": "Lysias",
+  "work": "Orations",
+  "date_ce": -390,
+  "date_sigma": 20,
+  "genre": "prose_oratory",
+  "holdout": false,
+  "word_count": 1806,
+  "sentence_count": 198,
+  "quote_frac_removed": 0.0762,
+  "status": "ok"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "diogenes_laertius_lives",
+  "author": "Diogenes Laërtius",
+  "work": "Lives of the Eminent Philosophers",
+  "date_ce": 230,
+  "date_sigma": 30,
+  "genre": "prose_history",
+  "holdout": true,
+  "word_count": 48271,
+  "sentence_count": 4604,
+  "quote_frac_removed": 0.3562,
+  "status": "ok"
+}

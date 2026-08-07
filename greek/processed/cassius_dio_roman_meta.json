@@ -1,0 +1,13 @@
+{
+  "id": "cassius_dio_roman",
+  "author": "Cassius Dio",
+  "work": "Roman History (epitome books)",
+  "date_ce": 220,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 134066,
+  "sentence_count": 7534,
+  "quote_frac_removed": 0.0292,
+  "status": "ok"
+}

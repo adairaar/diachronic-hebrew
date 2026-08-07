@@ -1,0 +1,13 @@
+{
+  "id": "matthew_gospel",
+  "author": "Matthew (anonymous)",
+  "work": "Gospel of Matthew",
+  "date_ce": 85,
+  "date_sigma": 15,
+  "genre": "prose_narrative",
+  "holdout": true,
+  "word_count": 8190,
+  "sentence_count": 665,
+  "quote_frac_removed": 0.4927,
+  "status": "ok"
+}

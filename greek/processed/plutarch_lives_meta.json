@@ -1,0 +1,13 @@
+{
+  "id": "plutarch_lives",
+  "author": "Plutarch",
+  "work": "Parallel Lives (selected)",
+  "date_ce": 100,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 1850,
+  "sentence_count": 179,
+  "quote_frac_removed": 0.2782,
+  "status": "ok"
+}

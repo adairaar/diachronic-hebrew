@@ -1,0 +1,13 @@
+{
+  "id": "testament_abraham",
+  "author": "Anonymous (Jewish pseudepigraphon)",
+  "work": "Testament of Abraham (Recension A)",
+  "date_ce": 100,
+  "date_sigma": 50,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 4047,
+  "sentence_count": 508,
+  "quote_frac_removed": 0.389,
+  "status": "ok"
+}

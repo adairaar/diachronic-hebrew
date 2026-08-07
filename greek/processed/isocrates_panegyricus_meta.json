@@ -1,0 +1,13 @@
+{
+  "id": "isocrates_panegyricus",
+  "author": "Isocrates",
+  "work": "Panegyricus and selected orations",
+  "date_ce": -375,
+  "date_sigma": 20,
+  "genre": "prose_oratory",
+  "holdout": false,
+  "word_count": 992,
+  "sentence_count": 56,
+  "quote_frac_removed": 0.0,
+  "status": "ok"
+}

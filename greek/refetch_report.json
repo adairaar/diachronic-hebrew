@@ -1,0 +1,121 @@
+[
+  {
+    "id": "lysias_orations",
+    "before": 36737,
+    "after": 36737,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "demosthenes_philippics",
+    "before": 248235,
+    "after": 248235,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "aeschines_orations",
+    "before": 30266,
+    "after": 30266,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "andocides_orations",
+    "before": 6935,
+    "after": 6935,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "hyperides_orations",
+    "before": 8428,
+    "after": 8428,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "isocrates_panegyricus",
+    "before": 109242,
+    "after": 109242,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "plutarch_lives",
+    "before": 215503,
+    "after": 215503,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "plutarch_moralia",
+    "before": 115215,
+    "after": 115215,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "lucian_true_history",
+    "before": 228834,
+    "after": 228834,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "aelius_aristides_sacred",
+    "before": 277975,
+    "after": 277975,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "maximus_tyrius_orations",
+    "before": 9419,
+    "after": 9419,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "dionysius_thucydides",
+    "before": 54710,
+    "after": 54710,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "dionysius_roman_antiquities",
+    "before": 258387,
+    "after": 258387,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "theophrastus_historia_plantarum",
+    "before": 66973,
+    "after": 66973,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "theophrastus_characters",
+    "before": 67097,
+    "after": 6241,
+    "works": 1,
+    "used": true
+  },
+  {
+    "id": "philo_de_opificio",
+    "before": 4706,
+    "after": 4706,
+    "works": 0,
+    "used": false
+  },
+  {
+    "id": "philo_de_vita_mosis",
+    "before": 11644,
+    "after": 11644,
+    "works": 0,
+    "used": false
+  }
+]

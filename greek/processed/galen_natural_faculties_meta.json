@@ -1,0 +1,13 @@
+{
+  "id": "galen_natural_faculties",
+  "author": "Galen",
+  "work": "On the Natural Faculties",
+  "date_ce": 180,
+  "date_sigma": 15,
+  "genre": "prose_science",
+  "holdout": false,
+  "word_count": 182296,
+  "sentence_count": 19474,
+  "quote_frac_removed": 0.0066,
+  "status": "ok"
+}

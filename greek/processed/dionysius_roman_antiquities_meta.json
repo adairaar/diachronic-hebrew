@@ -1,0 +1,13 @@
+{
+  "id": "dionysius_roman_antiquities",
+  "author": "Dionysius of Halicarnassus",
+  "work": "Roman Antiquities",
+  "date_ce": -20,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 258386,
+  "sentence_count": 10587,
+  "quote_frac_removed": 0.0591,
+  "status": "ok"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "aristotle_politics",
+  "author": "Aristotle",
+  "work": "Politics",
+  "date_ce": -335,
+  "date_sigma": 10,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 70709,
+  "sentence_count": 3956,
+  "quote_frac_removed": 0.0531,
+  "status": "ok"
+}

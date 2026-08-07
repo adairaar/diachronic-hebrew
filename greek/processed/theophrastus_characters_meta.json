@@ -1,0 +1,13 @@
+{
+  "id": "theophrastus_characters",
+  "author": "Theophrastus",
+  "work": "Characters",
+  "date_ce": -315,
+  "date_sigma": 15,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 67097,
+  "sentence_count": 10608,
+  "quote_frac_removed": 0.0203,
+  "status": "ok"
+}

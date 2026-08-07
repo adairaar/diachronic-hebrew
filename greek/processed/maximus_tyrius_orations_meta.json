@@ -1,0 +1,13 @@
+{
+  "id": "maximus_tyrius_orations",
+  "author": "Maximus of Tyre",
+  "work": "Orations (Dialexeis)",
+  "date_ce": 180,
+  "date_sigma": 15,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 3961,
+  "sentence_count": 447,
+  "quote_frac_removed": 0.0526,
+  "status": "ok"
+}

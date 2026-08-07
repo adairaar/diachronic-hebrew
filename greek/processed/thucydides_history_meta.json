@@ -1,0 +1,13 @@
+{
+  "id": "thucydides_history",
+  "author": "Thucydides",
+  "work": "History of the Peloponnesian War",
+  "date_ce": -410,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 140747,
+  "sentence_count": 13828,
+  "quote_frac_removed": 0.0296,
+  "status": "ok"
+}

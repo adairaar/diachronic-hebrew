@@ -1,0 +1,13 @@
+{
+  "id": "josephus_antiquities",
+  "author": "Josephus",
+  "work": "Jewish Antiquities (selected books)",
+  "date_ce": 93,
+  "date_sigma": 5,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 131852,
+  "sentence_count": 6402,
+  "quote_frac_removed": 0.4977,
+  "status": "ok"
+}

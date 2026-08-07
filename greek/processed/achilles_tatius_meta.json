@@ -1,0 +1,13 @@
+{
+  "id": "achilles_tatius",
+  "author": "Achilles Tatius",
+  "work": "Leucippe and Clitophon",
+  "date_ce": 150,
+  "date_sigma": 30,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 35505,
+  "sentence_count": 2838,
+  "quote_frac_removed": 0.1207,
+  "status": "ok"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "xenophon_hellenica",
+  "author": "Xenophon",
+  "work": "Hellenica",
+  "date_ce": -355,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 59275,
+  "sentence_count": 3272,
+  "quote_frac_removed": 0.098,
+  "status": "ok"
+}

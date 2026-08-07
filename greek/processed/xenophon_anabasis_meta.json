@@ -1,0 +1,13 @@
+{
+  "id": "xenophon_anabasis",
+  "author": "Xenophon",
+  "work": "Anabasis",
+  "date_ce": -370,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 48662,
+  "sentence_count": 3242,
+  "quote_frac_removed": 0.1492,
+  "status": "ok"
+}

@@ -36,9 +36,13 @@ morphology and syntax.
 The second route is history. Ancient Greek supplies what Hebrew cannot, namely
 authors who really did archaize, deliberately and expertly, with securely known
 dates of composition. Under a model trained only on non-archaizing Greek, the 14
-Second Sophistic Atticizers are displaced 216 years, with 13 of them placed
-earlier than they were written, and Cassius Dio off by half a millennium. The
-figure grows to 306 and 412 years under stricter definitions of the training set.
+Second Sophistic Atticizers are displaced 206 years, with 11 of them placed
+earlier than they were written and Libanius off by 491. The figure grows to 297
+and 397 years under stricter definitions of the training set. The displacement
+also tracks how programmatic each author's Atticism was: the strict Atticists
+(Libanius, Arrian, Cassius Dio, Aelius Aristides) are displaced by 426 to 491
+years, while authors who wrote a literary Koine rather than a reconstructed
+Attic (Plutarch's Lives, Strabo) are barely moved at all.
 
 These two numbers differ by an order of magnitude, and that difference is the
 finding. Swapping archaic vocabulary is cheap. Reconstructing an archaic grammar

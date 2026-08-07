@@ -1,0 +1,13 @@
+{
+  "id": "strabo_geography",
+  "author": "Strabo",
+  "work": "Geography",
+  "date_ce": -20,
+  "date_sigma": 15,
+  "genre": "prose_science",
+  "holdout": false,
+  "word_count": 137058,
+  "sentence_count": 7961,
+  "quote_frac_removed": 0.3864,
+  "status": "ok"
+}

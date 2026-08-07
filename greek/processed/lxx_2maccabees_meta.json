@@ -1,0 +1,13 @@
+{
+  "id": "lxx_2maccabees",
+  "author": "Jason of Cyrene (epitomized, anon.)",
+  "work": "2 Maccabees (LXX)",
+  "date_ce": -110,
+  "date_sigma": 25,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 10381,
+  "sentence_count": 1426,
+  "quote_frac_removed": 0.0542,
+  "status": "ok"
+}

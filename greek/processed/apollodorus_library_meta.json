@@ -1,0 +1,13 @@
+{
+  "id": "apollodorus_library",
+  "author": "Apollodorus (pseudo-)",
+  "work": "Bibliotheca (Library of Greek Mythology)",
+  "date_ce": -150,
+  "date_sigma": 75,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 23300,
+  "sentence_count": 3089,
+  "quote_frac_removed": 0.0898,
+  "status": "ok"
+}

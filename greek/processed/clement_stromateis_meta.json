@@ -1,0 +1,13 @@
+{
+  "id": "clement_stromateis",
+  "author": "Clement of Alexandria",
+  "work": "Stromateis",
+  "date_ce": 200,
+  "date_sigma": 15,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 26724,
+  "sentence_count": 3192,
+  "quote_frac_removed": 0.4499,
+  "status": "ok"
+}

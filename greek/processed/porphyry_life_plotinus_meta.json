@@ -1,0 +1,13 @@
+{
+  "id": "porphyry_life_plotinus",
+  "author": "Porphyry",
+  "work": "Life of Plotinus",
+  "date_ce": 290,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 13780,
+  "sentence_count": 1879,
+  "quote_frac_removed": 0.5196,
+  "status": "ok"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "lucian_true_history",
+  "author": "Lucian",
+  "work": "True History and selected dialogues",
+  "date_ce": 165,
+  "date_sigma": 15,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 2469,
+  "sentence_count": 95,
+  "quote_frac_removed": 0.0417,
+  "status": "ok"
+}

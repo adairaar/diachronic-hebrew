@@ -1,0 +1,13 @@
+{
+  "id": "libanius_orations",
+  "author": "Libanius",
+  "work": "Orations (selected)",
+  "date_ce": 360,
+  "date_sigma": 15,
+  "genre": "prose_oratory",
+  "holdout": false,
+  "word_count": 110224,
+  "sentence_count": 6600,
+  "quote_frac_removed": 0.0239,
+  "status": "ok"
+}

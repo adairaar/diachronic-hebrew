@@ -1,0 +1,13 @@
+{
+  "id": "john_gospel",
+  "author": "John (anonymous)",
+  "work": "Gospel of John",
+  "date_ce": 100,
+  "date_sigma": 20,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 9117,
+  "sentence_count": 1368,
+  "quote_frac_removed": 0.3454,
+  "status": "ok"
+}

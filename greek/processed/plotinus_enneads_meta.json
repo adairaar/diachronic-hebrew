@@ -1,0 +1,13 @@
+{
+  "id": "plotinus_enneads",
+  "author": "Plotinus",
+  "work": "Enneads (selected)",
+  "date_ce": 265,
+  "date_sigma": 10,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 78490,
+  "sentence_count": 9076,
+  "quote_frac_removed": 0.5122,
+  "status": "ok"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "aelian_various_history",
+  "author": "Aelian",
+  "work": "Varia Historia",
+  "date_ce": 220,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 32245,
+  "sentence_count": 2011,
+  "quote_frac_removed": 0.1387,
+  "status": "ok"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "philo_de_vita_mosis",
+  "author": "Philo of Alexandria",
+  "work": "De Vita Mosis",
+  "date_ce": 40,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 4786,
+  "sentence_count": 543,
+  "quote_frac_removed": 0.5369,
+  "status": "ok"
+}

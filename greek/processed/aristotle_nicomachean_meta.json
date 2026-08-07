@@ -1,0 +1,13 @@
+{
+  "id": "aristotle_nicomachean",
+  "author": "Aristotle",
+  "work": "Nicomachean Ethics",
+  "date_ce": -335,
+  "date_sigma": 10,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 51252,
+  "sentence_count": 3667,
+  "quote_frac_removed": 0.032,
+  "status": "ok"
+}

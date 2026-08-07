@@ -1,0 +1,13 @@
+{
+  "id": "aeneas_tacticus",
+  "author": "Aeneas Tacticus",
+  "work": "How to Survive Under Siege (Poliorketika)",
+  "date_ce": -350,
+  "date_sigma": 20,
+  "genre": "prose_science",
+  "holdout": false,
+  "word_count": 13742,
+  "sentence_count": 739,
+  "quote_frac_removed": 0.0,
+  "status": "ok"
+}

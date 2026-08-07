@@ -1,0 +1,13 @@
+{
+  "id": "eusebius_church_history",
+  "author": "Eusebius of Caesarea",
+  "work": "Ecclesiastical History",
+  "date_ce": 315,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 22313,
+  "sentence_count": 3334,
+  "quote_frac_removed": 0.5968,
+  "status": "ok"
+}

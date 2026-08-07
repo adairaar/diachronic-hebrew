@@ -1,0 +1,13 @@
+{
+  "id": "vita_aesopi",
+  "author": "Anonymous",
+  "work": "Vita Aesopi (Life of Aesop)",
+  "date_ce": 50,
+  "date_sigma": 75,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 7008,
+  "sentence_count": 1080,
+  "quote_frac_removed": 0.2146,
+  "status": "ok"
+}

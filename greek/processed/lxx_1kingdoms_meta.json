@@ -1,0 +1,13 @@
+{
+  "id": "lxx_1kingdoms",
+  "author": "Septuagint (anon. translators)",
+  "work": "1 Kingdoms / 1 Samuel (LXX)",
+  "date_ce": -240,
+  "date_sigma": 30,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 12250,
+  "sentence_count": 1316,
+  "quote_frac_removed": 0.3232,
+  "status": "ok"
+}

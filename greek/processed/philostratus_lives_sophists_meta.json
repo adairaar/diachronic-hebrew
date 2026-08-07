@@ -1,0 +1,13 @@
+{
+  "id": "philostratus_lives_sophists",
+  "author": "Philostratus",
+  "work": "Lives of the Sophists",
+  "date_ce": 220,
+  "date_sigma": 15,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 21892,
+  "sentence_count": 976,
+  "quote_frac_removed": 0.692,
+  "status": "ok"
+}

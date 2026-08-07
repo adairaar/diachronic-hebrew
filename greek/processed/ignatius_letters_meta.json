@@ -1,0 +1,13 @@
+{
+  "id": "ignatius_letters",
+  "author": "Ignatius of Antioch",
+  "work": "Seven Genuine Letters",
+  "date_ce": 108,
+  "date_sigma": 5,
+  "genre": "prose_narrative",
+  "holdout": false,
+  "word_count": 5618,
+  "sentence_count": 893,
+  "quote_frac_removed": 0.0,
+  "status": "ok"
+}

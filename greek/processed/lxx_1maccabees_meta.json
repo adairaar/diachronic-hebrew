@@ -1,0 +1,13 @@
+{
+  "id": "lxx_1maccabees",
+  "author": "Anon. Jewish historian",
+  "work": "1 Maccabees (LXX)",
+  "date_ce": -100,
+  "date_sigma": 25,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 15482,
+  "sentence_count": 2141,
+  "quote_frac_removed": 0.0612,
+  "status": "ok"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "josephus_jewish_war",
+  "author": "Josephus",
+  "work": "Jewish War",
+  "date_ce": 80,
+  "date_sigma": 10,
+  "genre": "prose_history",
+  "holdout": false,
+  "word_count": 118639,
+  "sentence_count": 5864,
+  "quote_frac_removed": 0.0251,
+  "status": "ok"
+}

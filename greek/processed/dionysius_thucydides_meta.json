@@ -1,0 +1,13 @@
+{
+  "id": "dionysius_thucydides",
+  "author": "Dionysius of Halicarnassus",
+  "work": "On Thucydides",
+  "date_ce": -20,
+  "date_sigma": 15,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 1793,
+  "sentence_count": 140,
+  "quote_frac_removed": 0.5556,
+  "status": "ok"
+}

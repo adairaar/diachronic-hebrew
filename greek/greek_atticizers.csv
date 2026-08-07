@@ -1,0 +1,15 @@
+text,author,truth,pred,shift,n_chunks,lo68,hi68
+dionysius_roman_antiquities,Dionysius of Halicarnassus,-20,-71,-51,500,-280,137
+dionysius_thucydides,Dionysius of Halicarnassus,-20,-11,9,108,-219,197
+strabo_geography,Strabo,-20,18,38,268,-190,226
+plutarch_lives,Plutarch,100,94,-6,419,-115,302
+plutarch_moralia,Plutarch,100,161,61,225,-47,369
+dio_chrysostom_orations,Dio Chrysostom,100,-174,-274,308,-382,34
+arrian_anabasis,Arrian,145,-296,-441,140,-505,-88
+pausanias_description,Pausanias,160,18,-142,223,-191,226
+lucian_true_history,Lucian,165,-60,-225,446,-268,148
+aelius_aristides_sacred,Aelius Aristides,170,-256,-426,540,-464,-48
+maximus_tyrius_orations,Maximus of Tyre,180,-33,-213,19,-242,175
+philostratus_lives_sophists,Philostratus,220,-70,-290,42,-278,138
+cassius_dio_roman,Cassius Dio,220,-219,-439,262,-427,-11
+libanius_orations,Libanius,360,-131,-491,216,-340,77

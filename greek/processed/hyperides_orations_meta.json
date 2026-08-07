@@ -1,0 +1,13 @@
+{
+  "id": "hyperides_orations",
+  "author": "Hyperides",
+  "work": "Orations",
+  "date_ce": -340,
+  "date_sigma": 15,
+  "genre": "prose_oratory",
+  "holdout": false,
+  "word_count": 940,
+  "sentence_count": 43,
+  "quote_frac_removed": 0.0,
+  "status": "ok"
+}

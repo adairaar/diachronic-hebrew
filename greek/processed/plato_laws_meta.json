@@ -1,0 +1,13 @@
+{
+  "id": "plato_laws",
+  "author": "Plato",
+  "work": "Laws",
+  "date_ce": -350,
+  "date_sigma": 15,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 66846,
+  "sentence_count": 2715,
+  "quote_frac_removed": 0.0135,
+  "status": "ok"
+}

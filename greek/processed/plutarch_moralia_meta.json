@@ -1,0 +1,13 @@
+{
+  "id": "plutarch_moralia",
+  "author": "Plutarch",
+  "work": "Moralia (selected)",
+  "date_ce": 100,
+  "date_sigma": 15,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 13241,
+  "sentence_count": 747,
+  "quote_frac_removed": 0.5706,
+  "status": "ok"
+}

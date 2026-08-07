@@ -1,0 +1,13 @@
+{
+  "id": "mark_gospel",
+  "author": "Mark (anonymous)",
+  "work": "Gospel of Mark",
+  "date_ce": 70,
+  "date_sigma": 15,
+  "genre": "prose_narrative",
+  "holdout": true,
+  "word_count": 6908,
+  "sentence_count": 1051,
+  "quote_frac_removed": 0.2857,
+  "status": "ok"
+}

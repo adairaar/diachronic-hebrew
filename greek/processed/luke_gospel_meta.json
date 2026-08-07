@@ -1,0 +1,13 @@
+{
+  "id": "luke_gospel",
+  "author": "Luke (anonymous)",
+  "work": "Gospel of Luke",
+  "date_ce": 120,
+  "date_sigma": 30,
+  "genre": "prose_narrative",
+  "holdout": true,
+  "word_count": 6006,
+  "sentence_count": 953,
+  "quote_frac_removed": 0.588,
+  "status": "ok"
+}

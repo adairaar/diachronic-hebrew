@@ -1,0 +1,13 @@
+{
+  "id": "plato_republic",
+  "author": "Plato",
+  "work": "Republic",
+  "date_ce": -375,
+  "date_sigma": 20,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 54685,
+  "sentence_count": 3216,
+  "quote_frac_removed": 0.3474,
+  "status": "ok"
+}

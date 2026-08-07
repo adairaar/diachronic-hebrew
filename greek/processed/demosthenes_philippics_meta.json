@@ -1,0 +1,13 @@
+{
+  "id": "demosthenes_philippics",
+  "author": "Demosthenes",
+  "work": "Philippics and selected orations",
+  "date_ce": -350,
+  "date_sigma": 15,
+  "genre": "prose_oratory",
+  "holdout": false,
+  "word_count": 1649,
+  "sentence_count": 84,
+  "quote_frac_removed": 0.044,
+  "status": "ok"
+}

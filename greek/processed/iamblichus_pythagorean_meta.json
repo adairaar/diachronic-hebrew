@@ -1,0 +1,13 @@
+{
+  "id": "iamblichus_pythagorean",
+  "author": "Iamblichus",
+  "work": "On the Pythagorean Life",
+  "date_ce": 305,
+  "date_sigma": 15,
+  "genre": "prose_philosophy",
+  "holdout": false,
+  "word_count": 11113,
+  "sentence_count": 544,
+  "quote_frac_removed": 0.5193,
+  "status": "ok"
+}
