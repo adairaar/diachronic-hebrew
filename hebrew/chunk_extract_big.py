@@ -44,6 +44,14 @@ def load():
 
 
 def unit_words(api, spec):
+    """Words in the given chapter ranges, restricted to Hebrew.
+
+    The restriction is not cosmetic.  Ezra 4:8-6:18 and 7:12-26 are Aramaic, and
+    without this filter they made up 28.9% of the Ezra unit.  Daniel's Aramaic
+    (2:4b-7:28) is excluded by its chapter range instead, and Jer 10:11 adds a
+    further 19 words.  A model of Hebrew morphosyntax must not be fitted to
+    Aramaic.
+    """
     F, L, T = api.F, api.L, api.T
     ws = []
     for book, ranges in spec:
@@ -53,7 +61,8 @@ def unit_words(api, spec):
         for ch in L.d(bn, "chapter"):
             c = int(F.chapter.v(ch))
             if any(s <= c <= e for s, e in ranges):
-                ws.extend(L.d(ch, "word"))
+                ws.extend(w for w in L.d(ch, "word")
+                          if F.language.v(w) == "Hebrew")
     return ws
 
 
