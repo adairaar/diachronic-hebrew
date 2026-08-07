@@ -1,0 +1,20 @@
+{
+  "phrase": {
+    "overlap": 84272,
+    "partial": 0,
+    "pct": 0.0,
+    "inflation": 1.0
+  },
+  "clause": {
+    "overlap": 30046,
+    "partial": 0,
+    "pct": 0.0,
+    "inflation": 1.0
+  },
+  "sentence": {
+    "overlap": 21743,
+    "partial": 16,
+    "pct": 0.07358690153152739,
+    "inflation": 1.0007364109172918
+  }
+}
