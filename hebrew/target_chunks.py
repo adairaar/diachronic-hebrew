@@ -47,6 +47,7 @@ def main(target):
     top_typ = [k for k, _ in collections.Counter(F.typ.v(p) for p in ph).most_common(12)]
     top_fun = [k for k, _ in collections.Counter(F.function.v(p) for p in ph).most_common(16)]
     top_rela = [k for k, _ in collections.Counter(F.rela.v(c) for c in cl).most_common(12)]
+    top_ctyp = [k for k, _ in collections.Counter(F.typ.v(c) for c in cl).most_common(14)]
 
     rows = []
     for uid, spec_ in TARGETS.items():
@@ -67,7 +68,7 @@ def main(target):
             if chunks and len(buf) < target * 0.5: chunks[-1].extend(buf)
             else: chunks.append(buf)
         for i, ch in enumerate(chunks):
-            fe = big.chunk_feats(ch, api, top_lex, top_pos, top_typ, top_fun, top_rela)
+            fe = big.chunk_feats(ch, api, top_lex, top_pos, top_typ, top_fun, top_rela, top_ctyp)
             rows.append(dict(chunk_id=f"{uid}_c{i:03d}", unit=uid, date_bce=np.nan,
                              genre=None, register=None, n_words=len(ch), **fe))
         print(f"  {uid:<15} {len(words):6d} w -> {len(chunks):3d} chunks")

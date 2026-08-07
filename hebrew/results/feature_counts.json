@@ -1,0 +1,11 @@
+{
+  "extracted": 634,
+  "used": 578,
+  "dead": 56,
+  "n_lexical": 250,
+  "n_POS/bigram": 207,
+  "n_verb": 57,
+  "n_agreement": 19,
+  "n_phrase": 40,
+  "n_structural": 5
+}

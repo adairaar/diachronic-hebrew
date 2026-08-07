@@ -85,6 +85,7 @@ def main(rates, seed=0):
     tt = [k for k, _ in collections.Counter(F.typ.v(p) for p in ph).most_common(12)]
     tf = [k for k, _ in collections.Counter(F.function.v(p) for p in ph).most_common(16)]
     trl = [k for k, _ in collections.Counter(F.rela.v(c) for c in cl).most_common(12)]
+    tct = [k for k, _ in collections.Counter(F.typ.v(c) for c in cl).most_common(14)]
 
     # ── dated corpus, unmodified: model + calibration ────────────────────────
     Dd = pd.read_csv("/home/claude/big_features_500.csv")
@@ -110,7 +111,7 @@ def main(rates, seed=0):
             papi = ProxyAPI(api, ProxyF(F, lexmap, spmap))
             recs = []
             for i, ch in enumerate(chunks_of(api, words)):
-                fe = big.chunk_feats(ch, papi, tl, tp, tt, tf, trl)
+                fe = big.chunk_feats(ch, papi, tl, tp, tt, tf, trl, tct)
                 recs.append(dict(chunk_id=f"{uid}_{r}_{i}", unit=uid, date_bce=np.nan,
                                  genre=None, register=None, n_words=len(ch), **fe))
             M = pd.DataFrame(recs)

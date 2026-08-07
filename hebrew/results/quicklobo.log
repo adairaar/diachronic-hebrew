@@ -1,0 +1,2 @@
+without clause-type feats    p= 578  MAE 117.7  rho +0.665  pair 72.9%  pre 6/8 post 14/17
+WITH clause-type feats       p= 628  MAE 119.7  rho +0.660  pair 72.5%  pre 6/8 post 13/17

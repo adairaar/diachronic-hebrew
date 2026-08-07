@@ -51,12 +51,13 @@ def main():
     tt = [k for k, _ in collections.Counter(F.typ.v(p) for p in ph).most_common(12)]
     tf = [k for k, _ in collections.Counter(F.function.v(p) for p in ph).most_common(16)]
     tr = [k for k, _ in collections.Counter(F.rela.v(c) for c in cl).most_common(12)]
+    tct = [k for k, _ in collections.Counter(F.typ.v(c) for c in cl).most_common(14)]
 
     rows = []
     for uid, (bk, ch, v1, v2) in UNITS.items():
         w = verse_words(api, bk, ch, v1, v2)
         if not w: print(f"  !! {uid}"); continue
-        fe = big.chunk_feats(w, api, tl, tp, tt, tf, tr)
+        fe = big.chunk_feats(w, api, tl, tp, tt, tf, tr, tct)
         rows.append(dict(chunk_id=uid, unit=uid, date_bce=np.nan, genre=None,
                          register=None, n_words=len(w), **fe))
         print(f"  {uid:<20} {len(w):4d} words")

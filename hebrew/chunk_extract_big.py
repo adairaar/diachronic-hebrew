@@ -66,7 +66,8 @@ def unit_words(api, spec):
     return ws
 
 
-def chunk_feats(words, api, top_lex, top_pos, top_typ, top_fun, top_rela):
+def chunk_feats(words, api, top_lex, top_pos, top_typ, top_fun, top_rela,
+                top_ctyp=None):
     F, L = api.F, api.L
     n = len(words)
     f = {}
@@ -98,7 +99,9 @@ def chunk_feats(words, api, top_lex, top_pos, top_typ, top_fun, top_rela):
     vs = collections.Counter(F.vs.v(w) for w in vb)
     vx = collections.Counter((F.vt.v(w), F.vs.v(w)) for w in vb)
     f["verb_rate"] = R(len(vb))
-    for k in ["perf","impf","wayq","impv","infc","infa","ptca","ptcp","weqt"]:
+    # BHSA vt values are perf/impf/wayq/impv/infc/infa/ptca/ptcp; there is no
+    # "weqt" -- weqatal is encoded at clause level as the WQt0 clause type.
+    for k in ["perf","impf","wayq","impv","infc","infa","ptca","ptcp"]:
         f[f"vt_{k}"] = R(vt.get(k, 0)); f[f"vtf_{k}"] = vt.get(k, 0) / nv
     for k in ["qal","hif","piel","nif","pual","hit","hof","hsht","poal","poel"]:
         f[f"vs_{k}"] = R(vs.get(k, 0)); f[f"vsf_{k}"] = vs.get(k, 0) / nv
@@ -126,10 +129,19 @@ def chunk_feats(words, api, top_lex, top_pos, top_typ, top_fun, top_rela):
     for k in top_typ: f[f"typ_{k}"] = tc.get(k, 0) / npz
     for k in top_fun: f[f"fun_{k}"] = fc.get(k, 0) / npz
     for k in top_rela: f[f"rela_{k}"] = rc.get(k, 0) / ncl
+    # Clause TYPE carries the Hebrew verbal-system contrast (Way0 narrative
+    # wayyiqtol, WQt0 weqatal, xQt0 fronted qatal, NmCl verbless) and is distinct
+    # from clause RELA.  Earlier versions counted clause types but indexed them
+    # with relation keys, whose value sets are disjoint, so every one of these
+    # features was structurally zero.
     ctyp = [F.typ.v(c) for c in clauses]
+    ctc = collections.Counter(ctyp)
+    tcl = top_ctyp or []
+    for k in tcl:
+        f[f"ctyp_{k}"] = ctc.get(k, 0) / ncl
     cbg = collections.Counter(zip(ctyp, ctyp[1:]))
-    for a in top_rela[:6]:
-        for b in top_rela[:6]:
+    for a in tcl[:6]:
+        for b in tcl[:6]:
             f[f"cb_{a}_{b}"] = cbg.get((a, b), 0) / ncl
 
     f["phrase_len"]   = n / npz
@@ -149,8 +161,9 @@ def main(target, k_lex):
     top_typ  = [k for k, _ in collections.Counter(F.typ.v(p) for p in ph).most_common(12)]
     top_fun  = [k for k, _ in collections.Counter(F.function.v(p) for p in ph).most_common(16)]
     top_rela = [k for k, _ in collections.Counter(F.rela.v(c) for c in cl).most_common(12)]
+    top_ctyp = [k for k, _ in collections.Counter(F.typ.v(c) for c in cl).most_common(14)]
     print(f"vocab: {len(top_lex)} lex, {len(top_pos)} pos, {len(top_typ)} typ, "
-          f"{len(top_fun)} fun, {len(top_rela)} rela")
+          f"{len(top_fun)} fun, {len(top_rela)} rela, {len(top_ctyp)} ctyp")
 
     man = json.load(open(os.path.join(HB, "corpus_manifest_v2.json")))
     rows = []
@@ -177,7 +190,8 @@ def main(target, k_lex):
                 if chunks and len(buf) < target * 0.5: chunks[-1].extend(buf)
                 else: chunks.append(buf)
             for i, ch in enumerate(chunks):
-                fe = chunk_feats(ch, api, top_lex, top_pos, top_typ, top_fun, top_rela)
+                fe = chunk_feats(ch, api, top_lex, top_pos, top_typ, top_fun, top_rela,
+                             top_ctyp)
                 rows.append(dict(chunk_id=f"{uid}_c{i:03d}", unit=uid,
                                  date_bce=t["date_bce"], genre=t.get("genre"),
                                  register=t.get("register"), n_words=len(ch), **fe))
