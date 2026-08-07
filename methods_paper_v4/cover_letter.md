@@ -48,18 +48,21 @@ becomes conditional and historically testable rather than rhetorical: for any
 disputed text, the question is whether its milieu supported the expensive kind of
 imitation.
 
-The dating model itself is built on 146,059 words of Hebrew, of which nineteen
-of the twenty-five units are anchored by synchronisms external to the biblical
-tradition and six by literary context; the manuscript reports how every result
-behaves when the latter are removed. Its one consequential design
-choice is that features are extracted from passages of about 500 words rather
-than from whole books, which turns 25 observations into 285 and forces the model
-onto grammatical rates that can actually be measured in a few hundred words.
-Under leave-one-book-out validation it gives a mean absolute error of 114 years
-against 137 for the constant predictor, a rank correlation of +0.70, and correct
-chronological ordering for 74.9% of 295 book pairs. Significance comes from a
-permutation null that re-runs the whole pipeline on shuffled dates 200 times, at
-p = 0.005; no permutation matched the observed value. Applied to the documentary
+The dating model itself is built on 146,059 words of Hebrew. Twelve of the
+twenty-five training units carry an explicit synchronism checkable against
+Assyrian, Babylonian, or Persian records, twelve rest on a datable event,
+institution, or language contact, and one, Jonah, is dated principally on
+typological grounds; the manuscript reports how the results behave when the last
+of these is removed. Its one consequential design choice is that features are
+extracted from passages of about 500 words rather than from whole books, which
+turns 25 observations into 285 and forces the model onto grammatical rates that
+can actually be measured in a few hundred words. Under leave-one-book-out
+validation it gives a mean absolute error of 114 years against 137 for the
+constant predictor, a rank correlation of +0.70, and correct chronological
+ordering for 74.9% of 295 book pairs. Significance comes from a permutation null
+that re-runs the whole pipeline on shuffled dates, and nesting the configuration
+search inside the validation, so that no part of the model is chosen using the
+book being scored, attenuates the correlation only to +0.64. Applied to the documentary
 sources with distribution-free conformal intervals, the Priestly, Deuteronomic,
 and JE composites fall after the exile with probability of at least 0.84, in the
 relative order JE → D → P, though none of them contributed to training. The Song

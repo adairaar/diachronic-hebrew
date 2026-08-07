@@ -1,0 +1,13 @@
+{
+  "poetry_resid": -137.0,
+  "narrative_resid": 112.8,
+  "prophecy_resid": -3.235294117647059,
+  "n_prophecy": 17,
+  "sea_raw": 797,
+  "sea_adj": 660,
+  "sea_p_adj": 0.32,
+  "deb_adj": 686,
+  "deb_p_adj": 0.28,
+  "sea_margin": 211,
+  "ratio": 1.5401459854014599
+}
