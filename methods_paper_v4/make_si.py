@@ -21,6 +21,17 @@ def esc(s):
     return str(s).replace("_", "\\_").replace("&", "\\&")
 
 
+def tt(s):
+    """Escape an ETCBC feature name for \\texttt.  The transliteration uses
+    <, > and [ as consonant signs, and OT1 would silently turn the angles into
+    inverted punctuation."""
+    return (str(s).replace("\\", "\\textbackslash{}").replace("_", "\\_")
+            .replace("&", "\\&").replace("#", "\\#").replace("%", "\\%")
+            .replace("$", "\\$").replace("<", "\\textless{}")
+            .replace(">", "\\textgreater{}").replace("^", "\\^{}")
+            .replace("~", "\\~{}"))
+
+
 # ── S1: source partitions, read out of the pipeline source ──────────────
 src = open(need(f"{R}/target_chunks.py")).read()
 m = re.search(r"TARGETS\s*=\s*(\{.*?\n\})", src, re.S)
@@ -133,4 +144,84 @@ open(f"{T}/tab_s6_registers.tex", "w").write(
     "\\label{tab:s6}\n\\begin{tabular}{lrrrrrr}\n\\toprule\n"
     + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
-print("wrote S1, S2, S3, S6")
+# ── S4: feature leverage ────────────────────────────────────────────────
+FF = pd.read_csv(need(f"{R}/sensitivity_features.csv"))
+FAM = pd.read_csv(need(f"{R}/sensitivity_families.csv"))
+FF = FF.sort_values("abs", ascending=False).reset_index(drop=True)
+
+fam_body = ["\\textbf{Family} & \\textbf{Features} & \\textbf{Total $|$leverage$|$} "
+            "& \\textbf{Share} \\\\\n\\midrule\n"]
+for _, r in FAM.iterrows():
+    fam_body.append(f"{esc(r['family'])} & {int(r['count'])} & "
+                    f"{r['total']:.0f} & {r['share']:.1f}\\% \\\\\n")
+fam_tab = ("\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
+           "\\caption{{\\bf S4 Table. Feature leverage by family.}  Leverage is the "
+           "shift in apparent date, in years, produced by moving a feature one "
+           "standard deviation while holding the rest of the passage fixed.  No "
+           "family carries the signal alone and no single feature approaches the "
+           "size of the effects being estimated; the full per-feature listing "
+           "follows.}\n\\label{tab:s4}\n\\begin{tabular}{lrrr}\n\\toprule\n"
+           + "".join(fam_body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+
+NC = 3                                    # feature/leverage pairs across the page
+rows = [FF.iloc[i:i + 1].iloc[0] for i in range(len(FF))]
+nr = -(-len(rows) // NC)
+lt = ["\\begingroup\\scriptsize\n",
+      "\\setlength{\\tabcolsep}{3pt}\n",
+      "\\begin{longtable}{" + "lr" * NC + "}\n",
+      "\\caption{{\\bf S4 Table, continued. Per-feature leverage.}  All "
+      f"{len(FF)} features, years of apparent date per standard-deviation shift, "
+      "ordered by magnitude.  Read down the first pair of columns, then the "
+      "second, then the third.}\n\\label{tab:s4full}\\\\\n\\toprule\n",
+      " & ".join(["\\textbf{Feature} & \\textbf{yr/sd}"] * NC) + " \\\\\n\\midrule\n"
+      "\\endfirsthead\n\\toprule\n"
+      + " & ".join(["\\textbf{Feature} & \\textbf{yr/sd}"] * NC)
+      + " \\\\\n\\midrule\n\\endhead\n\\bottomrule\n\\endfoot\n"]
+for i in range(nr):
+    cells = []
+    for c in range(NC):
+        k = c * nr + i
+        if k < len(rows):
+            cells += [f"\\texttt{{{tt(rows[k]['feature'])}}}",
+                      f"{rows[k]['yr_per_sd']:+.2f}"]
+        else:
+            cells += ["", ""]
+    lt.append(" & ".join(cells) + " \\\\\n")
+lt.append("\\end{longtable}\n\\endgroup\n")
+open(f"{T}/tab_s4_leverage.tex", "w").write(fam_tab + "\n" + "".join(lt))
+
+# ── S5: the Greek corpus ────────────────────────────────────────────────
+MAN = json.load(open(need(f"{G}/corpus_manifest.json")))
+MAN = sorted(MAN, key=lambda t: t["date_ce"])
+REG = {"ancient_Attic": "ancient Attic", "Atticizing": "Atticizing",
+       "Koine": "Koine", "LXX": "LXX"}
+S5HDR = ("\\textbf{Author} & \\textbf{Work} & \\textbf{Date} & "
+         "\\textbf{Genre} & \\textbf{Register} & \\textbf{Tokens} "
+
+         "\\\\\n\\midrule\n")
+lt = ["\\begingroup\\footnotesize\n\\setlength{\\tabcolsep}{3pt}\n",
+      "\\begin{longtable}{p{2.6cm}p{4.1cm}rll r}\n",
+      "\\caption{{\\bf S5 Table. The Greek corpus.}  All "
+      f"{len(MAN)} texts, with the composition date and its assumed standard "
+      "deviation, the genre, the register label from the manifest, and the token "
+      "count after extraction.  Dates are CE; negative values are BCE.  The "
+      "fourteen texts labelled Atticizing are the archaizing authors whose "
+      "displacement is measured in the Greek section; they are excluded from "
+      "the training set under variant~A of Table~\\ref{tab:s6}.  A dagger marks "
+      "the five texts reserved as a date-validation holdout."
+      "}\n\\label{tab:s5}\\\\\n\\toprule\n",
+      S5HDR + "\\endfirsthead\n\\toprule\n" + S5HDR
+      + "\\endhead\n\\bottomrule\n\\endfoot\n"]
+for t in MAN:
+    w = esc(t["work"])
+    if t.get("holdout"): w += " $^{\\dagger}$"
+    ntok = f"{int(t.get('n_tokens', 0)):,}".replace(",", "\\,")
+    lt.append(f"{esc(t['author'])} & {w} & "
+              f"{int(t['date_ce'])}\\,$\\pm$\\,{int(t['date_sigma'])} & "
+              f"{esc(t['genre'].replace('prose_', '').replace('_', ' '))} & "
+              f"{esc(REG.get(t['register'], t['register']))} & "
+              f"{ntok} \\\\\n")
+lt.append("\\end{longtable}\n\\endgroup\n")
+open(f"{T}/tab_s5_greek.tex", "w").write("".join(lt))
+
+print(f"wrote S1, S2, S3, S4 ({len(FF)} features), S5 ({len(MAN)} texts), S6")

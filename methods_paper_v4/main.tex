@@ -20,6 +20,7 @@
 \usepackage[table]{xcolor}
 \usepackage{array}
 \usepackage{booktabs}
+\usepackage{longtable}
 
 \newcolumntype{+}{!{\vrule width 2pt}}
 \newlength\savedwidth
@@ -1341,6 +1342,8 @@ resembles the cheap mechanism rather than the expensive one.
 \input{tables/tab_s1_partitions}
 \input{tables/tab_s2_power}
 \input{tables/tab_s3_sweep}
+\input{tables/tab_s4_leverage}
+\input{tables/tab_s5_greek}
 \input{tables/tab_s6_registers}
 
 \paragraph*{S1 Appendix.}
@@ -1363,11 +1366,12 @@ calibration with out-of-sample metrics, including the uncalibrated variants
 \paragraph*{S4 Table.}
 \label{S4_Table}
 {\bf Feature leverage.}  Years of apparent date per standard-deviation shift
-for every feature, by family.
+for every feature, by family (Tables~\ref{tab:s4} and~\ref{tab:s4full}).
 
 \paragraph*{S5 Table.}
 \label{S5_Table}
-{\bf Greek corpus.}  All texts with dates, registers, genres and sources.
+{\bf Greek corpus.}  All texts with dates, registers, genres and token counts
+(Table~\ref{tab:s5}).
 
 \paragraph*{S6 Table.}
 \label{S6_Table}
