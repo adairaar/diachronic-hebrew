@@ -102,6 +102,22 @@ Roorda D.
 \newblock Research Data Journal for the Humanities and Social Sciences.
   2018;3:27-41.
 
+\bibitem{Wolff1986}
+Wolff HW.
+\newblock Obadiah and {Jonah}: A Commentary.
+\newblock Minneapolis: Augsburg; 1986.
+
+\bibitem{Dell1996}
+Dell KJ.
+\newblock Reinventing the Wheel: The Shaping of the Book of {Jonah}.
+\newblock In: Barton J, Reimer DJ, editors. After the Exile: Essays in Honour
+  of {Rex Mason}. Macon, GA: Mercer University Press; 1996. p. 85-101.
+
+\bibitem{Krutchkoff1967}
+Krutchkoff RG.
+\newblock Classical and Inverse Regression Methods of Calibration.
+\newblock Technometrics. 1967;9(3):425-39.
+
 \bibitem{Vovk2005}
 Vovk V, Gammerman A, Shafer G.
 \newblock Algorithmic Learning in a Random World.
@@ -112,6 +128,11 @@ Lei J, G'Sell M, Rinaldo A, Tibshirani RJ, Wasserman L.
 \newblock Distribution-Free Predictive Inference for Regression.
 \newblock Journal of the American Statistical Association.
   2018;113(523):1094-111.
+
+\bibitem{Barber2021}
+Barber RF, Cand\`{e}s EJ, Ramdas A, Tibshirani RJ.
+\newblock Predictive Inference with the Jackknife+.
+\newblock The Annals of Statistics. 2021;49(1):486-507.
 
 \bibitem{Albright1968}
 Albright WF.

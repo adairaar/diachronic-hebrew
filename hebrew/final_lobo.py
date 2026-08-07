@@ -91,8 +91,11 @@ t, p, sd, lams = lobo(y)
 M = metrics(t, p)
 cal, resid = M["cal"], M["resid"]
 ar = np.sort(np.abs(resid)); n = len(ar)
-q68 = ar[min(int(np.ceil((n + 1) * .68)) - 1, n - 1)]
-q90 = ar[min(int(np.ceil((n + 1) * .90)) - 1, n - 1)]
+def _q(a):
+    k = int(np.ceil((n + 1) * a))
+    return np.inf if k > n else ar[k - 1]
+q68 = _q(.68)
+q90 = _q(.90)
 mean_pred = float(np.abs(t - t.mean()).mean())
 print(f"one LOBO in {time.time()-t0:.1f} s")
 print(f"variance-match scale S = {M['S']:.2f}   modal lambda = {max(set(lams), key=lams.count):.0e}")

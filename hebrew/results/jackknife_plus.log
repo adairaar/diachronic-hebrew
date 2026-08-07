@@ -1,0 +1,47 @@
+  fitted without Amos
+  fitted without Hosea
+  fitted without Micah
+  fitted without Isaiah_1
+  fitted without Zephaniah
+  fitted without Nahum
+  fitted without Habakkuk
+  fitted without Lamentations
+  fitted without Ezekiel
+  fitted without Obadiah
+  fitted without Isaiah_2
+  fitted without Zechariah_1
+  fitted without Malachi
+  fitted without Joel
+  fitted without Jonah
+  fitted without Isaiah_3
+  fitted without Ezra
+  fitted without Nehemiah
+  fitted without Zechariah_2
+  fitted without Chronicles
+  fitted without Esther
+  fitted without Ecclesiastes
+  fitted without Daniel
+  fitted without Jer_oracle
+  fitted without Haggai
+
+==============================================================================
+JACKKNIFE+ INTERVALS vs THE INTERVALS AS PREVIOUSLY REPORTED
+==============================================================================
+unit             point     68% as reported      68% jackknife+   P>ex
+Song_Deborah       809             948-673            1010-576   0.10
+Song_Sea           638             775-500             840-402   0.38
+D_Song             523             661-386             721-310   0.64
+JE_source          425             555-280             619-173   0.86
+D_source           378             508-234             571-113   0.94
+P_source           344             476-202              535-72   0.96
+D_Code             421             558-284             619-158   0.84
+D_Frame            332             461-186             530-101   0.96
+Lev_Holiness       393             527-252             589-129   0.92
+Lev_Priestly       319             448-173              520-60   0.96
+Jer_DTR            445             583-308             646-190   0.84
+
+  mean 68% interval width: 275 -> 447 yr (+62%)
+  P(post-exilic) for the three sources: P 0.96, JE 0.86, D 0.94
+  minimum across the three: 0.86 (was 0.84)
+
+wrote jackknife_plus_targets.csv, jackknife_plus.json

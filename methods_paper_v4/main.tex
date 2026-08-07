@@ -99,7 +99,9 @@ ridge model over \HBfeat{} features gives a mean absolute error of \HBmae{}
 years against \HBmaebase{} for the constant predictor, a rank correlation of
 $\HBrho$, and correct chronological ordering for \HBpair\% of \HBnpair{} book
 pairs; a permutation null that re-runs the whole pipeline on shuffled dates
-gives $p = \HBpermrho$.  With distribution-free conformal intervals, the
+gives $p = \HBpermrho$.  Nesting the configuration search inside the validation,
+so that nothing about the model is chosen using the book being scored,
+attenuates these to $\NSrho$ and \NSpair\%.  With distribution-free conformal intervals, the
 Priestly, Deuteronomic, and JE composites are placed after the exile with
 probability of at least \srcminpost, in the relative order JE $\rightarrow$ D
 $\rightarrow$ P, though none of them contributed to training.  Archaizing was
@@ -387,7 +389,11 @@ for an attribution decision.
 
 All Hebrew analysis uses the Biblia Hebraica Stuttgartensia Amstelodamensis
 (\bhsa{}) database~\cite{BHSA2021}, accessed through
-Text-Fabric~\cite{Roorda2018}.  \bhsa{} supplies a complete morphological and
+Text-Fabric~\cite{Roorda2018}.  Extraction is restricted to words that \bhsa{}
+marks as Hebrew, which matters more than it sounds: Ezra 4:8--6:18 and 7:12--26
+are Aramaic and account for \arwEzra\% of that book, and Jer~10:11 adds a
+further \arwJer{} words.  Daniel's Aramaic section, 2:4b--7:28, is excluded by
+the chapter range assigned to that unit.  \bhsa{} supplies a complete morphological and
 syntactic annotation of the Masoretic text: for every word, a lexeme
 identifier, part of speech, verbal tense/aspect and stem, person, number,
 gender, pronominal suffix and state; and for every phrase and clause, a type,
@@ -408,8 +414,10 @@ The units differ in the kind of evidence that fixes their dates, and the
 difference is marked in the table along the lines set out above.  Twelve carry an
 explicit synchronism and twelve a datable historical referent, neither of which
 depends on the feature cline under analysis.  Jonah alone is dated principally
-by typology, and even there a terminus post quem is available, since Nineveh is
-described as a city that already lay in ruins (Jonah 3:3).
+by typology, following the critical commentary~\cite{Wolff1986}, with some
+recent work pressing it later still~\cite{Dell1996}; even there a terminus post
+quem is available, since Nineveh is described as a city that already lay in
+ruins (Jonah 3:3).
 
 Table~\ref{tab:anchors} reports how much any of this matters.  A
 leave-one-unit-out jackknife, re-running the entire pipeline 25 times, gives a
@@ -470,41 +478,70 @@ a delicate one.
 Passages respect verse boundaries: words are accumulated verse by verse until
 the target is reached.  A trailing remainder shorter than half the target is
 merged into the preceding passage rather than kept as a short, high-variance
-observation.
+observation.  The resulting passages are close to the nominal size, from
+\cszMin{} to \cszMax{} words with a median of \cszMed{} and \cszBand\% falling
+between 400 and 700.  Two units, Obadiah and Nahum, are short enough to yield a
+single passage and are therefore book-level observations; their
+passage-level dispersion in Table~\ref{tab:lobo} is zero for that reason rather
+than because they are homogeneous.
+
+Cutting at verse boundaries also makes the phrase- and clause-level features
+well defined.  Those features are collected over every phrase and clause
+overlapping a passage, so an object straddling a boundary would be counted in
+both neighbours and its type credited to each.  In \bhsa{} this scarcely
+happens: across the whole database only 0.01\% of phrases and 0.06\% of clauses
+span a verse boundary, and in the \HBchunks{} passages of the training corpus
+the number of partially contained phrases and clauses is \bndPhr{} and \bndCl{}
+respectively.  Sentences are the exception, spanning verses in 1.4\% of cases
+overall and leaving \bndSent{} partially contained passages here
+(\bndSentPct\%), which biases the mean sentence length by $-0.2$\%.
 
 \subsection*{Feature Extraction}
 
 The feature set is fixed by frequency rank computed over the whole \bhsa{}
-corpus, without reference to date.  It comprises \HBfeat{} features in six
-families:
+corpus, without reference to date.  \Fextract{} features are extracted, of which
+\Fdead{} are structurally constant on this corpus and are dropped inside each
+fold, leaving \HBfeat{} in six families:
 
 \begin{enumerate}
-  \item \textbf{Lexical rates} (250 features): occurrences per 1000 words of
+  \item \textbf{Lexical rates} (\Flex{} features): occurrences per 1000 words of
     each of the 250 most frequent lexemes in the corpus.  Since selection goes
     by corpus frequency, these are dominated by function words --- articles,
     prepositions, conjunctions, pronouns --- rather than by the rare
     diagnostic vocabulary of the \cbh{}/\lbh{} literature.  This is deliberate,
     as the sparsity constraint above rules out the rare items, and the
     consequences of that are taken up below.
-  \item \textbf{Part-of-speech transition rates} (207 features): rates of each
+  \item \textbf{Part-of-speech transition rates} (\Fpos{} features): rates of each
     ordered pair of parts of speech across adjacent words, capturing local
     syntactic profile without reference to any particular construction.
-  \item \textbf{Verb morphology} (57 features): distributions over tense/aspect
+  \item \textbf{Verb morphology} (\Fverb{} features): distributions over tense/aspect
     (qatal, yiqtol, wayyiqtol, participle, infinitive, imperative), stem (qal,
     nifal, piel, hifil, hitpael, pual, hofal), and their interaction.
-  \item \textbf{Phrase and clause structure} (40 features): phrase type and
+  \item \textbf{Phrase and clause structure} (\Fphr{} features): phrase type and
     syntactic function rates, and clause-relation rates from the \bhsa{}
     clause hierarchy.
-  \item \textbf{Agreement and suffix morphology} (20 features): person, number,
+  \item \textbf{Agreement and suffix morphology} (\Fagr{} features): person, number,
     gender and pronominal-suffix rates.
-  \item \textbf{Structural} (5 features): mean phrase and clause length,
+  \item \textbf{Structural} (\Fstruct{} features): mean phrase and clause length,
     clauses per passage, and type--token ratio.
 \end{enumerate}
 
-A character and part-of-speech n-gram extension adding 689 further features
-was built and evaluated (S3 Table).  It does not improve out-of-sample
-performance at the selected passage size and is not used in the reported
-model; it is retained in the repository for replication.
+Two extensions were built and evaluated and neither is used.  A character and
+part-of-speech n-gram extension adding 689 further features does not improve
+out-of-sample performance at the selected passage size (S3 Table).  A
+clause-type family --- rates and transition rates over the \bhsa{} clause types
+that encode the Hebrew verbal system, including the wayyiqtol narrative clause
+(Way0) and the weqatal clause (WQt0) --- was added after an audit found that an
+earlier implementation had counted clause types while indexing them by clause
+relation, whose value sets are disjoint, so that the family had been silently
+absent.  Implemented correctly, its members are among the most strongly
+date-correlated single features in the corpus, reaching $|\rho| = 0.54$ for
+fronted yiqtol and $0.50$ for weqatal clauses, and yet adding all 50 of them
+leaves out-of-sample performance unchanged ($\rho$ $+0.665$ to $+0.660$, mean
+absolute error 118 to 120~yr).  Their information is already carried by the
+verb-morphology and part-of-speech transition features.  The reported model is
+therefore the one without them, and the exercise is reported because it
+indicates the feature set is saturated rather than arbitrary.
 
 Features whose standard deviation is zero on the training fold, or which are
 missing in more than 20\% of passages, are dropped inside the fold.  Remaining
@@ -566,7 +603,11 @@ S = \frac{\mathrm{sd}(d)}{\mathrm{sd}(\hat{d}_{\text{raw}})},
 \end{equation}
 with $\bar d$, $\mathrm{sd}(d)$, $\bar d_{\text{raw}}$ and $S$ all computed
 from leave-one-book-out predictions on the training corpus only.  Here
-$S = \HBscale$.
+$S = \HBscale$.  The step is the inverse-calibration correction familiar from
+the classical-versus-inverse regression literature~\cite{Krutchkoff1967}: when
+the object is to recover the predictor rather than to minimise squared error in
+the response, matching the spread of the estimates to the spread of the
+quantity being estimated is the appropriate adjustment.
 
 This is a deliberate trade, and both sides of it ought to be stated.  Rescaling
 \emph{increases} the mean absolute error, since inflating the spread of the
@@ -585,21 +626,38 @@ say ``early'' is a property of the estimator, not evidence that nothing is
 early.  Readers whose interest is point accuracy rather than calibration should
 use the uncalibrated variant, whose figures are in S3 Table.
 
-\subsection*{Conformal Prediction Intervals}
+\subsection*{Jackknife+ Prediction Intervals}
 
-Intervals are conformal, calibrated on the absolute leave-one-book-out
-residuals of the rescaled predictions.  For coverage level $1-\alpha$ the
-half-width is the $\lceil (n+1)(1-\alpha) \rceil$-th smallest absolute
-residual.  This is distribution-free and has finite-sample marginal
-coverage~\cite{Vovk2005,Lei2018}: it assumes only that the target text is
-exchangeable with the anchored corpus, not that residuals are Gaussian or
-homoscedastic.  On this corpus the half-widths are $\pm\HBqsixeight$~yr at
-68\% and $\pm\HBqninety$~yr at 90\%.
+Split conformal prediction assumes that every calibration residual comes from a
+single fitted model, on data exchangeable with the target~\cite{Vovk2005,Lei2018}.
+That assumption does not hold here.  Each residual in this design comes from a
+\emph{different} model, fitted without its own book, which makes the procedure
+a jackknife rather than split conformal, and naive jackknife intervals carry no
+finite-sample guarantee.  Intervals are therefore built by the jackknife+ of
+Barber et al.~\cite{Barber2021}.  Writing $\mu_{-i}$ for the model fitted
+without book $i$ and $R_i$ for that book's leave-one-out residual, the interval
+for a target $x$ is
+\begin{equation}
+\Big[\; q^{-}_{\alpha}\{\mu_{-i}(x) - R_i\},\;\;
+        q^{+}_{1-\alpha}\{\mu_{-i}(x) + R_i\} \;\Big],
+\end{equation}
+which is distribution-free and has finite-sample coverage of at least
+$1-2\alpha$.  The price of the guarantee is that a nominal 90\% interval is
+warranted only to 80\% and a nominal 68\% interval only to 36\%; empirical
+coverage on the anchored corpus is \covsixeight\% and \covninety\%
+respectively, so in practice the intervals are conservative rather than
+optimistic.
 
-For a target unit, $P(\text{post-exilic})$ is computed by adding the empirical
-residual distribution to the point estimate and taking the fraction of the
-resulting draws that fall after 586~BCE.  This inherits the conformal
-guarantee and makes no distributional assumption.
+The variance-matching constants are recomputed inside each fold, so that
+$\mu_{-i}$ and $R_i$ are free of the book being predicted.  Estimating them
+once on all \HBbooks{} leave-one-out predictions, as an earlier version did,
+understates the mean absolute error by about ten years and narrows the
+68\% half-width from \qnestedsixeight{} to \HBqsixeight~yr.  Rank correlation
+and pairwise ordering are unaffected either way, since the rescaling is a
+positive linear map.
+
+For a target unit, $P(\text{post-exilic})$ is the fraction of the jackknife+
+ensemble $\{\mu_{-i}(x) \pm R_i\}$ falling after 586~BCE.
 
 % =====================================================================
 \section*{Validation}
@@ -685,6 +743,38 @@ from \HBbooks{} books are not independent, as each book appears in
 The permutation figures above are the correct ones, and any comparison with
 pairwise accuracies reported elsewhere should take this into account.
 
+\subsection*{Correcting for the Configuration Search}
+
+The figures above come from a configuration --- passage size, weighting
+exponent, ridge penalty --- that was itself chosen by comparing out-of-sample
+performance across a search on this same corpus.  A permutation null that holds
+the winning configuration fixed does not account for that choice, so the
+reported correlation is the maximum over a search and is optimistic by an
+unknown amount.
+
+The amount can be measured by nesting the search.  For each held-out book, the
+entire configuration was selected by an inner leave-one-book-out loop over the
+remaining 24 units, drawn from a grid of \NSgrid{} combinations, and only then
+was the held-out book predicted.  Nothing about the configuration is informed by
+the book being scored.
+
+Under that protocol the mean absolute error is \NSmae~yr against \HBmaebase~yr
+for the constant predictor, the rank correlation is $\NSrho$ ($p = \NSrhop$),
+pairwise ordering is \NSpair\%, and \NSside{} of \HBbooks{} books fall on the
+correct side of the exile.  Selection therefore inflates the rank correlation by
+about 0.06 and the pairwise accuracy by roughly two points.  The attenuated
+figures are the ones a fresh corpus should be expected to reproduce, and the
+substantive conclusions do not depend on the difference.  The search is also
+stable: the same weighting exponent is chosen in 24 of the 25 folds, and the
+passage size alternates between the two adjacent settings whose performance the
+sweep found indistinguishable.
+
+Variance matching is excluded from this grid deliberately.  It is a positive
+linear map of the predictions, so it leaves both the rank correlation and the
+pairwise ordering exactly unchanged and cannot inflate either.  It is applied
+always, as an a priori correction for shrinkage of the kind long used in
+inverse calibration~\cite{Krutchkoff1967}, rather than tuned for performance.
+
 \subsection*{Two-Sidedness and Calibration}
 
 What matters for the Pentateuchal application is whether the model can say
@@ -740,8 +830,11 @@ The model, fitted on all \HBbooks{} anchored books, was applied to
 \NTargets{} undated units: the three classical documentary sources, their
 conventional sub-strata, the five Pentateuchal books as received, the
 Deuteronomistic prose of Jeremiah, and the three archaic poems.  Source
-partitions follow the standard critical division, specified by chapter and
-verse in S1 Appendix.  No target contributed to training, feature selection,
+partitions follow the standard critical division at chapter granularity,
+specified in S1 Appendix.  Chapter granularity is exact for the sub-strata,
+whose ranges partition their parent sources without remainder, and nearly so for
+the three sources: Genesis 6 and 25, where the Priestly and JE material is
+interwoven verse by verse, are the only chapters assigned to two sources.  No target contributed to training, feature selection,
 weighting, regularization or calibration.
 
 \input{tables/tab_targets}
@@ -839,14 +932,27 @@ any text in the corpus.  The model places it at \lamPred{} BCE against a true
 \lamTruth{} BCE, an error of \lamErr~yr toward greater antiquity.  Lamentations
 is poetry.
 
+The pattern across the corpus is consistent: narrative books carry a mean
+residual of \genNarr~yr, poetry \genPoetry, and the \genNProph{} prophetic
+books, which dominate the corpus, only \genProph.  Genre displaces an estimate
+by roughly the width of a conformal interval.
+
 This bears directly on the poems above.  If poetry as such is placed early by
 this model, then some part of the antiquity assigned to the Songs of the Sea and
-Deborah may be genre rather than date.  I decline to apply a genre correction.
-With a single securely dated poetic book in the anchored corpus, any such
-correction would be estimated from one observation.  What can be said is that
-the early placement of the poems is supported by the model but partly confounded
-with genre, and that enlarging the anchored poetic corpus is the way to separate
-the two.
+Deborah is genre rather than date.  I decline to apply a correction, since with
+one securely dated poetic book any such correction rests on a single
+observation.  What can be done instead is to ask whether the conclusion survives
+applying it anyway.  Subtracting the full \genPoetryAbs~yr poetic residual moves
+the Song of the Sea from \poemSea{} to \genSeaAdj{} BCE and the Song of Deborah
+from \poemDeb{} to \genDebAdj{} BCE.  Both remain pre-exilic, both remain the
+earliest of the \NTargets{} undated units, and their probability of being
+post-exilic rises only to \genSeaPadj{} and \genDebPadj.  For the Song of the
+Sea to cross the exile, the genre effect would have to be \genRatio{} times the
+value observed in Lamentations.
+
+The early placement of the poems is therefore partly confounded with genre and
+survives the confound at its observed magnitude.  Enlarging the anchored poetic
+corpus remains the way to separate the two properly.
 
 % =====================================================================
 \section*{The Price of Archaizing}
@@ -966,7 +1072,14 @@ of archaizing texts that Hebrew cannot provide.
 
 The same pipeline was built on a \GKtexts-text corpus of non-archaizing Greek
 prose spanning the Classical and Koine periods, partitioned into \GKchunks{}
-passages, with \GKfeat{} features.  Greek lacks a morphological annotation
+passages, with \GKfeat{} features.  The texts were collected from the Perseus
+and First1KGreek repositories, where an author's corpus is stored one work per
+file, so that the orators, the Lives of Plutarch and the dialogues of Lucian
+each occupy dozens of separate files.  Collecting only the complete corpus of
+each author matters: an earlier version of this corpus resolved a single work
+per author and thereby represented Lysias by one speech and Plutarch by one
+Life, which left the Classical end of the scale, the part the model most needs,
+severely under-sampled.  Greek lacks a morphological annotation
 comparable to \bhsa{}, so hand-built morphosyntactic rates (optative, infinitive
 and participle rates, particle and negation rates, the $\tau\tau$ versus
 $\sigma\sigma$ contrast, sentence length) are supplemented by word-form,
@@ -988,6 +1101,17 @@ texts placed earlier than they were written (Fig~\ref{fig:archaize}B).
 \GKmae~yr error on non-archaizing texts, this is a large effect.  Deliberate
 and professionally trained archaizing displaces a text by more than a full
 error width, and in the worst cases by half a millennium.
+
+The displacement also tracks how programmatic an author's Atticism was, which is
+the pattern one would expect if it measures imitation rather than noise.  The
+strict Atticists are displaced furthest: Libanius by \GKattmaxearly~yr, Arrian
+by 441, Cassius Dio by 439, Aelius Aristides by 426, Philostratus by 290, Dio
+Chrysostom by 274, and Lucian by 225.  The authors who wrote a literary Koine
+rather than a reconstructed Attic are barely moved at all: Plutarch's
+\textit{Lives} by 6~yr, Strabo by $+38$, and Dionysius' critical essays by $+9$.
+A dose-response relation of this kind across authors whose Atticizing intensity
+is independently described in the literary histories is difficult to obtain from
+a model that is merely noisy.
 
 Two features of the Greek corpus bear on how this number should be read.
 
@@ -1027,12 +1151,11 @@ when the Atticizing program was still young.  The displacement grows with the
 maturity of the movement, which is what one would expect if it measures
 imitation rather than noise.
 
-Additionally, the available texts vary greatly in length, from four passages to
-five hundred, so a four-passage estimate is correspondingly noisy.  The result is not driven
-by the short texts.  Weighting each text by its passage count gives
+Additionally, text lengths remain uneven, from \GKattminpass{} passages to
+\GKattmaxpass, so a short estimate is correspondingly noisy.  The result is not
+driven by the short texts: weighting each text by its passage count gives
 \GKattshiftW~yr, and restricting to the \GKattbign{} texts with at least 40
-passages gives \GKattshiftBig~yr, with all \GKattbign{} placed earlier than they
-were written.
+passages gives \GKattshiftBig~yr.
 
 \subsection*{What the Two Experiments Establish}
 
@@ -1087,11 +1210,15 @@ therefore a heavy one, and it now has a number attached to it.
 
 \subsection*{Limitations}
 
-\textbf{Interval width.}  The 68\% intervals are $\pm\HBqsixeight$~yr and the
-90\% intervals $\pm\HBqninety$~yr.  These are honest but wide, and they
-preclude any claim about position within the Persian period.  Every
-substantive claim above is either a side-of-the-exile claim or an ordering
-claim.
+\textbf{Interval width and what the guarantee covers.}  Jackknife+ intervals are
+wide here, averaging \jkwidth~yr at the 68\% level, and their distribution-free
+warranty is $1-2\alpha$, so the nominal 90\% level is guaranteed only to 80\%.
+Empirical coverage on the anchored corpus is \covsixeight\% and \covninety\%,
+comfortably above nominal, but that is an observation about this corpus rather
+than a guarantee.  No claim in this paper depends on interval width: every
+substantive claim is a side-of-the-exile claim or an ordering claim, and both
+rest on the point estimates and the ensemble probabilities rather than on the
+endpoints.
 
 \textbf{Genre.}  Poetic texts are placed early and narrative texts late
 relative to their true dates.  With one securely dated poetic book in the

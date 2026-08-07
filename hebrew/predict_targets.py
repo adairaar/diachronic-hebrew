@@ -76,6 +76,12 @@ def main():
     cal = lambda v: C_out + S * (v - C_in)
     resid = oof_t - cal(oof_p)
     ar = np.sort(np.abs(resid)); n = len(ar)
+    # A coverage level the calibration set cannot support has no finite
+    # distribution-free interval; clamping to the maximum residual would
+    # silently break the guarantee.
+    def _q(a):
+        k = int(np.ceil((n + 1) * a))
+        return np.inf if k > n else ar[k - 1]
     q68 = ar[min(int(np.ceil((n + 1) * .68)) - 1, n - 1)]
     q90 = ar[min(int(np.ceil((n + 1) * .90)) - 1, n - 1)]
     print(f"variance-match scale S = {S:.2f}   LOBO MAE = {np.abs(resid).mean():.1f} yr")

@@ -1,0 +1,28 @@
+========================================================================
+1.  QUANTILE INDEX
+========================================================================
+  coverage 0.68:  k = ceil(26 x 0.68) = 18   valid
+  coverage 0.90:  k = ceil(26 x 0.90) = 24   valid
+  coverage 0.95:  k = ceil(26 x 0.95) = 25   valid
+  coverage 0.99:  k = ceil(26 x 0.99) = 26   EXCEEDS n = 25; the guarantee requires an infinite interval, but the code clamps to the max
+
+========================================================================
+2 & 3.  ARE THE CALIBRATION CONSTANTS OUT OF SAMPLE?
+========================================================================
+                                 MAE     q68     q90  cover68  cover90
+  as implemented               117.7     137     281    72.0%    96.0%
+  calibration nested           127.3     158     290    72.0%    96.0%
+
+  estimating S on all 25 books understates the error by +9.6 yr
+  (rank correlation and pairwise ordering are unaffected: a positive
+   linear map cannot change them)
+
+========================================================================
+4.  JACKKNIFE+ INTERVALS, WHICH DO CARRY A GUARANTEE
+========================================================================
+  nominal 68%: naive jackknife half-width 158 yr, guaranteed coverage >= 36%
+  nominal 90%: naive jackknife half-width 290 yr, guaranteed coverage >= 80%
+  The jackknife+ guarantee is 1 - 2*alpha, so a 68% nominal interval
+  guarantees only 36% and a 90% nominal interval guarantees 80%.
+
+wrote conformal_audit.json
