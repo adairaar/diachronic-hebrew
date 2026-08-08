@@ -27,6 +27,13 @@ TARGETS = {
     "D_Song":    [("Deuteronomium",[(32,32)])],
     "Lev_Holiness":[("Leviticus",[(17,26)])],
     "Lev_Priestly":[("Leviticus",[(1,16)])],
+    # The three poems are extracted at VERSE precision, not chapter.  Exodus 15
+    # is 47% prose by word count and Judges 5 and Deuteronomy 32 likewise carry
+    # narrative frames; because this model places narrative late, including the
+    # frame drags the poem's estimate later.  Chapter-level extraction of these
+    # units is an artifact, documented in the Results, and every consumer of
+    # this file -- the target table and the specification curve alike -- must
+    # therefore see the poem rather than the chapter.
     "Song_Sea":  [("Exodus",[(15,15)])],
     "Song_Deborah":[("Judices",[(5,5)])],
     "Jer_DTR":   [("Jeremia",[(7,7),(11,11),(17,18),(21,21),(24,29),(32,45),(52,52)])],
@@ -36,6 +43,33 @@ TARGETS = {
     "Numbers":   [("Numeri",[(1,36)])],
     "Deuteronomy":[("Deuteronomium",[(1,34)])],
 }
+
+
+# unit -> (first verse, last verse) within its single chapter
+VERSES = {
+    "Song_Sea": (1, 18),        # Exod 15:1--18
+    "Song_Deborah": (2, 31),    # Judg 5:2--31
+    "D_Song": (1, 43),          # Deut 32:1--43
+}
+
+
+def clip_to_verses(api, words, uid):
+    """Restrict a unit's words to a verse range inside its chapter."""
+    if uid not in VERSES:
+        return words
+    lo, hi = VERSES[uid]
+    F, L = api.F, api.L
+    out = []
+    for w in words:
+        v = L.u(w, "verse")
+        if not v:
+            continue
+        n = F.verse.v(v[0])
+        if n is None:
+            continue
+        if lo <= int(n) <= hi:
+            out.append(w)
+    return out
 
 
 def main(target):
@@ -51,7 +85,7 @@ def main(target):
 
     rows = []
     for uid, spec_ in TARGETS.items():
-        words = big.unit_words(api, spec_)
+        words = clip_to_verses(api, big.unit_words(api, spec_), uid)
         if not words:
             print(f"  !! no words for {uid}"); continue
         verses, cur, curv = [], [], None

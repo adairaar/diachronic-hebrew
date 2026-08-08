@@ -124,10 +124,17 @@ print(f"side accuracy overall              : {((R.pred>586)==(R.truth>586)).sum(
 
 # ---- book-level permutation null through the ENTIRE pipeline ----
 CKPT = "/home/claude/final_lobo_null.csv"
+# A checkpoint written against a different feature matrix must not be resumed;
+# see ckpt_guard.py for what went wrong when that was not enforced.
+import importlib.util as _ilu
+_g = _ilu.spec_from_file_location("ckpt_guard", "/home/claude/ckpt_guard.py")
+_G = _ilu.module_from_spec(_g); _g.loader.exec_module(_G)
+_RESUMABLE = _G.check(CKPT, ["/home/claude/big_features_500.csv"],
+                      extra="seed=0")
 rng = np.random.default_rng(0)
 nulls = []
 done = 0
-if os.path.exists(CKPT):                      # resume a killed run
+if _RESUMABLE and os.path.exists(CKPT):                      # resume a killed run
     prev = np.loadtxt(CKPT, delimiter=",", skiprows=1, ndmin=2)
     if prev.size:
         nulls = [tuple(r) for r in prev]
@@ -143,7 +150,7 @@ for k in range(NPERM):
     tt, pp, _, _ = lobo(yp)
     mm = metrics(tt, pp)
     nulls.append((mm["rho"], mm["pair"], mm["mae"]))
-    if (k + 1) % 5 == 0 or k == NPERM - 1:    # checkpoint often; these die
+    if (k + 1) % 2 == 0 or k == NPERM - 1:    # checkpoint often; these die
         np.savetxt(CKPT, np.array(nulls), delimiter=",",
                    header="rho,pair,mae", comments="")
         el = time.time() - t0

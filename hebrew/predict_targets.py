@@ -111,7 +111,7 @@ def main():
                          chunk_sd=float(sub.pred.std()) if len(sub) > 1 else np.nan,
                          p_post=float(np.mean(draws < 586))))
     R = pd.DataFrame(rows).sort_values("pred", ascending=False)
-    R.to_csv("/home/claude/target_predictions_final.csv", index=False)
+    R.to_csv("/home/claude/target_predictions_naive.csv", index=False)
 
     ORDER = ["Song_Sea","Song_Deborah","D_Song","JE_source","Gen_JE","Exo_JE","Num_JE",
              "P_source","Lev_Priestly","Lev_Holiness","D_source","D_Code","D_Frame",
@@ -130,3 +130,14 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # The file written above carries the estimator's own symmetric interval.
+    # The published table replaces those with jackknife+ intervals;
+    # finalize_targets.py does that and must run before anything reads
+    # target_predictions_final.csv.  This copy is deliberately INSIDE the
+    # __main__ guard: several downstream scripts import this module for its
+    # helper functions, and an import must not touch any result file.
+    import shutil
+    shutil.copy("/home/claude/target_predictions_naive.csv",
+                "/home/claude/target_predictions_final.csv")
+    print("wrote target_predictions_naive.csv (provisional final copy made; "
+          "run finalize_targets.py to publish)")

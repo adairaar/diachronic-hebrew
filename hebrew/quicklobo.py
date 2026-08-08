@@ -1,4 +1,22 @@
-"""Does recovering the clause-type features improve the model?"""
+"""Does recovering the clause-type features improve the model?
+
+BHSA encodes the Hebrew verbal system at clause level: Way0 for narrative
+wayyiqtol, WQt0 for weqatal, xQt0 for fronted qatal, NmCl for verbless.  An
+earlier version of the extractor counted clause TYPE but indexed the counts with
+clause RELA keys, whose value sets are disjoint, so all 38 of those columns were
+structurally zero and the model silently never saw the verbal system at all.
+
+The two matrices compared here are both produced by the current extractor:
+
+  big_features_500.csv        the reported model.  Its clause-type columns are
+                              the broken ones, hence constant, hence dropped by
+                              the zero-variance filter, leaving 578 features.
+  big_features_500_ctyp.csv   the same extraction with the fix applied, giving
+                              50 working clause-type features and 628 in total.
+
+Everything else in the two files is numerically identical, column for column, so
+this isolates the clause-type family and nothing else.
+"""
 import sys, numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
@@ -47,5 +65,5 @@ def run(path, label):
           f"post {int((cal[post]<586).sum())}/{int(post.sum())}", flush=True)
 
 
-run("/home/claude/big_features_500_noctyp.csv", "without clause-type feats")
-run("/home/claude/big_features_500.csv", "WITH clause-type feats")
+run("/home/claude/big_features_500.csv", "without clause-type feats")
+run("/home/claude/big_features_500_ctyp.csv", "WITH clause-type feats")

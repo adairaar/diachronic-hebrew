@@ -21,14 +21,27 @@ Second, the variance-matching constants were estimated from all 25 leave-one-out
 predictions, including the book being scored.  They are now recomputed inside
 each fold, which widens the residuals and is the honest version.
 """
-import json
+import json, os
 import numpy as np, pandas as pd, importlib.util
 
 pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 Dd = pd.read_csv("/home/claude/big_features_500.csv")
+# The poem variants -- whole chapter, poem proper, prose remainder -- are scored
+# alongside the ordinary targets so that they receive genuine jackknife+
+# intervals from the same folds.  Computing their intervals separately from a
+# point estimate would silently substitute a different estimator: jackknife+
+# needs the per-fold predictions aligned with the per-fold residuals, not a
+# scalar.
 Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+_poems = "/home/claude/poem_chunks.csv"
+if os.path.exists(_poems):
+    Dp = pd.read_csv(_poems)
+    Dt = pd.concat([Dt, Dp[[c for c in Dp.columns if c in Dt.columns]]],
+                   ignore_index=True)
+    print(f"scoring {Dt.unit.nunique()} units "
+          f"({Dp.unit.nunique()} of them poem variants)")
 Pm = pd.read_csv("/home/claude/poem_chunks.csv")
 Pm = Pm[Pm.unit.isin(["SongSea_poem", "SongDeborah_poem", "SongMoses_poem",
                       "SongSea_prose"])]
@@ -108,7 +121,9 @@ for u in units:
 J = pd.DataFrame(rows).set_index("unit")
 J.to_csv("/home/claude/jackknife_plus_targets.csv")
 
-old = pd.read_csv("/home/claude/target_predictions_final.csv").set_index("unit")
+# compare against the estimator's own symmetric intervals, not against a file
+# this script's own output may already have been merged into
+old = pd.read_csv("/home/claude/target_predictions_naive.csv").set_index("unit")
 print("\n" + "=" * 78)
 print("JACKKNIFE+ INTERVALS vs THE INTERVALS AS PREVIOUSLY REPORTED")
 print("=" * 78)
@@ -130,6 +145,12 @@ print(f"  P(post-exilic) for the three sources: "
       f"{', '.join(f'{u.split(chr(95))[0]} {J.loc[u].p_post:.2f}' for u in srcs)}")
 print(f"  minimum across the three: {J.loc[srcs].p_post.min():.2f} "
       f"(was {old.loc[srcs].p_post.min():.2f})")
+# the leave-one-out residual ensemble is corpus-level, not unit-specific, so
+# any prediction can be given a jackknife+ interval from it; finalize_poems.py
+# uses it for the three poems, whose own script emits symmetric intervals
+np.savetxt("/home/claude/jackknife_plus_residuals.csv", R, delimiter=",",
+           header="residual", comments="")
+
 json.dump(dict(width_old=w_old, width_new=w_new,
                minpost=float(J.loc[srcs].p_post.min()),
                sea=int(J.loc["Song_Sea"].pred) if "Song_Sea" in J.index else None,

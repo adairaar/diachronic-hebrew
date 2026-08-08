@@ -5,6 +5,7 @@ Drop each anchored unit in turn, re-run the entire pipeline on the remaining 24,
 and record rho and pairwise accuracy.  This is the influence diagnostic a referee
 would run, and it says how much any single unit is carrying.
 """
+import os
 import numpy as np, pandas as pd, importlib.util, json
 from scipy import stats
 
@@ -55,14 +56,30 @@ def run(drop):
 
 full = run([])
 print(f"full corpus:  rho {full[0]:+.3f}  pair {100*full[1]:.1f}%  MAE {full[2]:.1f}\n")
-rows = []
+# Checkpoint after each dropped book.  A full pass is 25 leave-one-out fits of
+# a model that is itself leave-one-book-out, and in this environment a process
+# that long is not guaranteed to survive; resuming beats restarting.
+CKPT = "/home/claude/.jackknife_partial.csv"
+rows, done = [], set()
+if os.path.exists(CKPT):
+    prev = pd.read_csv(CKPT)
+    rows = prev.to_dict("records")
+    done = set(prev.dropped)
+    print(f"resuming: {len(done)} of {len(ALL)} books already done", flush=True)
 for b in ALL:
+    if b in done:
+        continue
     r, pr, m = run([b])
     rows.append(dict(dropped=b, rho=r, pair=pr, mae=m, d_rho=r - full[0]))
+    # fixed precision: a resumed row round-trips through CSV and a fresh one
+    # does not, so without this the file's bytes depend on where the run was
+    # interrupted even though every value is identical
+    pd.DataFrame(rows).to_csv(CKPT, index=False, float_format="%.12g")
     print(f"  without {b:<14} rho {r:+.3f} ({r-full[0]:+.3f})  "
           f"pair {100*pr:4.1f}%  MAE {m:5.1f}", flush=True)
 J = pd.DataFrame(rows).sort_values("rho")
-J.to_csv("/home/claude/jackknife.csv", index=False)
+J.to_csv("/home/claude/jackknife.csv", index=False, float_format="%.12g")
+os.path.exists(CKPT) and os.remove(CKPT)
 print(f"\nrho across all 25 leave-one-out fits: "
       f"min {J.rho.min():+.3f} ({J.iloc[0].dropped}), "
       f"median {J.rho.median():+.3f}, max {J.rho.max():+.3f}")

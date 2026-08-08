@@ -197,11 +197,33 @@ def main(target, k_lex):
                                  register=t.get("register"), n_words=len(ch), **fe))
             print(f"  {uid:<15} {len(words):6d} w -> {len(chunks):3d} chunks")
     D = pd.DataFrame(rows)
-    out = f"/home/claude/big_features_{target}.csv"
-    D.to_csv(out, index=False)
-    nf = len([c for c in D.columns if c not in
-              ("chunk_id","unit","date_bce","genre","register","n_words")])
-    print(f"\n{len(D)} chunks x {nf} features -> {out}")
+    META = ("chunk_id", "unit", "date_bce", "genre", "register", "n_words")
+
+    # Two matrices are written, and which is which is a decision rather than an
+    # accident of when the extractor was last run.
+    #
+    # The clause-type family encodes the Hebrew verbal system (Way0 narrative
+    # wayyiqtol, WQt0 weqatal, xQt0 fronted qatal, NmCl verbless).  Its members
+    # are individually among the most date-correlated features in the corpus,
+    # and adding them nonetheless leaves out-of-sample performance unchanged,
+    # because their information is already carried by the verb-morphology and
+    # part-of-speech transition features (see quicklobo.py).  The reported model
+    # therefore excludes them, and the file it reads excludes them too, so that
+    # a fresh run of this script reproduces the published feature set rather
+    # than a superset of it.
+    ctyp_cols = [c for c in D.columns
+                 if c.startswith("ctyp_") or c.startswith("cb_")]
+    base = f"/home/claude/big_features_{target}"
+
+    D.drop(columns=ctyp_cols).to_csv(f"{base}.csv", index=False)
+    D.to_csv(f"{base}_ctyp.csv", index=False)
+
+    n_all = len([c for c in D.columns if c not in META])
+    print(f"\n{len(D)} chunks")
+    print(f"  {n_all - len(ctyp_cols):>4} features -> {base}.csv        "
+          f"(reported model)")
+    print(f"  {n_all:>4} features -> {base}_ctyp.csv   "
+          f"(+{len(ctyp_cols)} clause-type, for the comparison only)")
 
 
 if __name__ == "__main__":
