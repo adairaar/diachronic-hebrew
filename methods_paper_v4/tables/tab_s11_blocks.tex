@@ -1,0 +1,24 @@
+\begin{table}[!ht]
+\centering
+\footnotesize
+\caption{{\bf Block separations under the genre screen.}  Difference in median passage estimate between the conventionally distinguished blocks of each source, recomputed with the most genre-diagnostic features removed.  A positive gap places the first-named block earlier.  Screening improves the model's genre-controlled ordering of the anchors (third column) while removing the separations entirely, and reversing the Deuteronomic one.  Widening intervals reflect the smaller feature set; the sign change in Deuteronomy does not.}
+\label{tab:s11}
+\begin{tabular}{lrrlrrr}
+\toprule
+\textbf{Feature set} & \textbf{$p$ feats} & \textbf{$\rho|$genre} & \textbf{Comparison} & \textbf{Gap} & \textbf{95\% CI} & \textbf{$p$} \\
+\midrule
+All features & 578 & +0.404 & Deuteronomic law code vs frame & +97 & +27 to +129 & 0.007 \\
+ & &  & Holiness Code vs Leviticus 1-16 & +79 & +38 to +145 & 0.016 \\
+ & &  & Genesis JE vs Exodus JE & +71 & +13 to +120 & 0.039 \\
+\addlinespace
+Drop top 25\% & 434 & +0.422 & Deuteronomic law code vs frame & +7 & -78 to +73 & 0.584 \\
+ & &  & Holiness Code vs Leviticus 1-16 & -53 & -214 to +52 & 0.150 \\
+ & &  & Genesis JE vs Exodus JE & +10 & -96 to +115 & 0.995 \\
+\addlinespace
+Drop top 50\% & 289 & +0.511 & Deuteronomic law code vs frame & -156 & -253 to -32 & 0.005 \\
+ & &  & Holiness Code vs Leviticus 1-16 & -17 & -222 to +86 & 0.254 \\
+ & &  & Genesis JE vs Exodus JE & +26 & -106 to +157 & 0.432 \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}

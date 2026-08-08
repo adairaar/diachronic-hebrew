@@ -10,9 +10,11 @@
 set -e
 cd "$(dirname "$0")"
 
+python3 consistency.py || { echo "CONSISTENCY CHECK FAILED"; exit 1; }
 python3 make_numbers.py
 python3 make_tables.py
 python3 make_si.py
+python3 make_tab_layers.py
 python3 make_figs.py
 
 rm -f main.aux main.bbl main.blg main.out

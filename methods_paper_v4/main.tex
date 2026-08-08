@@ -67,8 +67,8 @@
 
 \begin{flushleft}
 {\Large
-\textbf{Calibrated date ranges for the Pentateuchal sources, and a direct
-measurement of what archaizing can buy: Biblical Hebrew and Ancient Greek}
+\textbf{Composition and date in the Pentateuchal sources: what a linguistic
+model recovers, and what archaizing would cost}
 }
 \newline
 \\
@@ -86,36 +86,33 @@ Aaron Adair\textsuperscript{1*}
 \section*{Abstract}
 % =====================================================================
 
-Linguistic dating of ancient texts assumes that a late author cannot
-convincingly write like an early one.  Should that assumption fail, every
-argument for the antiquity of a biblical text fails with it.  Both sides of the
-Classical/Late Biblical Hebrew debate have asserted an answer for decades, but
-neither has measured one.  It is measured here, and then used to date the
-Pentateuchal sources.  Features were extracted from \HBwords{} words of
-Biblical Hebrew anchored by synchronisms with Assyrian, Babylonian, and Persian
-records, partitioned into \HBchunks{} passages of about 500 words so that
-high-frequency morphosyntax could be estimated within a passage rather than
-only across a whole book.  Under leave-one-book-out validation, a weighted
-ridge model over \HBfeat{} features gives a mean absolute error of \HBmae{}
-years against \HBmaebase{} for the constant predictor, a rank correlation of
-$\HBrho$, and correct chronological ordering for \HBpair\% of \HBnpair{} book
-pairs; a permutation null that re-runs the whole pipeline on shuffled dates
-gives $p = \HBpermrho$.  Nesting the configuration search inside the validation,
-so that nothing about the model is chosen using the book being scored,
-attenuates these to $\NSrho$ and \NSpair\%.  With distribution-free conformal intervals, the
-Priestly, Deuteronomic, and JE composites are placed after the exile with
-probability of at least \srcminpost, in the relative order JE $\rightarrow$ D
-$\rightarrow$ P, though none of them contributed to training.  Archaizing was
-then priced two ways.  Replacing every Late Biblical Hebrew form in six
-securely dated late books with its Classical counterpart moves their estimated
-dates by only \arcMean{} years, as no lexical item is worth more than
-\sensTopLever{} years per standard deviation.  But the Second Sophistic
-Atticizers, who imitated Classical Attic under a formal curriculum of prose
-composition, are pushed \GKattshiftAbs{} years too early by an equivalent model
-trained only on non-archaizing Greek.  The price of archaizing depends on its
-mechanism: swapping vocabulary is cheap, while rebuilding a grammar is not.  An
-archaizing account of an apparently early Hebrew text therefore requires a
-scribal training for which the Second Temple period offers no evidence.
+Linguistic dating assumes that a late author cannot convincingly write like an
+early one, and that the language of a text carries its date rather than its
+subject.  Both are tested here on \HBwords{} words of anchored Biblical Hebrew,
+partitioned into \HBchunks{} passages of about \HBtarget{} words.  Genre, not chronology, proves to be the dominant axis
+of variation: \GNbetween\% of the variance in the model's predictions lies
+between genres, and rank correlation with true date falls from $\GNrhoRaw$ to
+$\GNrhoPartial$ once genre is held fixed.  A permutation null shuffling dates
+only within genre confirms that a chronological signal survives ($p =
+\GNnullP$), but the surviving signal is entirely lexical---refitting on
+morphosyntax alone gives $\RTBgenre$---and includes the classical-to-late
+first-person pronoun shift, recovered unsupervised in the correct direction.
+Across \SPpass{} analytic specifications the Deuteronomic and Priestly sources
+fall after the exile in every one and the JE composite in \SPJEpost, in the
+classical order JE $\rightarrow$ D $\rightarrow$ P, with central estimates in
+the Persian period and intervals too wide to quote any single date.  Within the sources, D is measurably the most homogeneous; but the apparent
+separations between each source's conventional blocks are significant on the
+full feature set and dissolve under the genre control, the Deuteronomic one
+reversing.  They are register effects, not dates.  Archaizing was tested separately, with opposite outcomes in
+the two languages.  Substituting the recognized Classical forms throughout six
+securely dated late Hebrew books moves their estimates by \arcMeanAbs{} years,
+which is \DETpct\% of this model's residual scale: a non-detection, not a
+measurement that archaizing is cheap.  In Greek, where the archaizing
+is real and its practitioners known, the Second Sophistic Atticizers are placed
+\GKattshiftAbs{} years too early---\GKwithinAbs{} against texts of their own
+genre---by a model trained on non-archaizing Greek.  Deliberate imitation can displace a
+linguistic date by centuries, and the poems dated here should be read with that
+possibility open.
 
 \clearpage
 \newgeometry{top=0.85in,left=1in,right=1in,footskip=0.75in}
@@ -131,73 +128,104 @@ of ancient texts.  The transition from Classical Biblical Hebrew (\cbh{}; also
 called Standard Biblical Hebrew) to Late Biblical Hebrew (\lbh{}) is among the
 best-documented diachronic shifts in any ancient
 language~\cite{Hurvitz1982,Rooker1990,Polzin1976}, and comparable transitions
-are well attested in Ancient Greek~\cite{Horrocks2010} and Akkadian.  Despite
-this rich empirical tradition, linguistic dating almost never produces
-calibrated probability estimates; scholars identify features as ``archaic'' or
-``late'' and assign texts to qualitative categories, but the resulting claims
-carry no quantified uncertainty.
+are well attested in Ancient Greek~\cite{Horrocks2010} and Akkadian.  The
+practice has an obvious appeal for the Pentateuch, whose sources carry no
+colophons and whose dates have been argued from literary and historical
+grounds for two centuries.
 
-Beneath the practice sits an assumption that is stated often and tested never.
-The enterprise presupposes that a late author cannot convincingly write like an
-early one.  Were deliberate archaizing easy, so that a Persian-period scribe
-could adopt Classical vocabulary and thereby acquire a Classical date, every
-linguistic argument for the antiquity of a biblical text would be worthless,
-and the objection would apply to traditional and computational methods alike.
-The dialectal school has pressed this point for two
-decades~\cite{Young2008,Rezetko2014}, while the mainstream reply has been that
-sustained archaizing is difficult.  Both positions are assertions.  Neither
-side has put a number on the matter.
+I set out to produce calibrated dates for those sources.  The main finding of
+this article is that the linguistic evidence supports much less than the
+literature assumes, and that the largest obstacle is not the one the field has
+been arguing about.
 
-In this article I put a number on it, in two ways, and then use a model whose
-sensitivity to archaizing is known to date the Pentateuchal sources.
+That obstacle is genre.  In a corpus assembled by date, genre rather than
+chronology turns out to be the dominant axis of variation: \GNbetween\% of the
+variance in the model's predictions lies between genres, and rank correlation
+with true date falls from $\GNrhoRaw$ to $\GNrhoPartial$ once genre is held
+fixed.  A permutation null that shuffles dates only within genre---preserving
+the genre--date association the corpus happens to contain and destroying only
+the within-genre chronology---confirms that a chronological signal survives ($p
+= \GNnullP$).  But it is roughly half the raw figure, and studies in this
+literature that report raw correlations without a genre control are overstating
+their evidence.  The surviving signal is moreover entirely lexical: refitting on
+verb morphology, clause structure and agreement, with every lexeme removed,
+gives $\RTBgenre$.  Whatever grammatical change occurred over this period is
+not detectable at this sample size.
 
-The dating model is built on \HBwords{} words of independently anchored Hebrew,
-partitioned into \HBchunks{} passages of about 500 words.  This partition
-matters more than it might seem.  At the level of whole books, the corpus
-supplies \HBbooks{} observations for hundreds of candidate features, a regime
-in which nothing can be estimated honestly.  At the level of passages, the same
-corpus supplies \HBchunks{} observations, and the features that survive are the
-high-frequency morphological and syntactic rates that can actually be measured
-in a few hundred words.  Dates are reported as distribution-free conformal
-intervals calibrated on out-of-sample residuals rather than as point estimates.
+What the evidence does support is a placement claim.  Across \SPpass{}
+defensible analytic specifications the Deuteronomic and Priestly sources fall
+after the exile without exception, and the JE composite in \SPJEpost{} of them,
+in the classical sequence JE $\rightarrow$ D $\rightarrow$ P, with central
+estimates in the Persian period.  The intervals are roughly \SPPhalf~yr wide at
+68\% on either side, and no individual date in this study should be quoted to a
+century.  I report the full specification curve rather than a preferred
+configuration, because no configuration here has a strong claim to being the
+right one.
 
-Archaizing is then priced twice, by two routes that disagree informatively.
-The investigator can perform archaizing himself, so the ground truth is known
+Within the sources the picture is mixed, and the negative half of it is worth as
+much as the positive.  The Deuteronomic source is measurably the most internally
+homogeneous of the three, and that holds however hard the genre-diagnostic
+features are screened out.  But the separations between each source's
+conventional blocks---the Deuteronomic law code from its narrative frame, the
+Holiness Code from the Priestly material of Leviticus 1--16, the JE material of
+Genesis from that of Exodus---behave differently.  On the full feature set all
+three are significant and all three point the way the critical literature would
+predict.  Under the genre control they vanish, and the Deuteronomic separation
+reverses and becomes significant in the opposite direction.  The law code is
+legal prose and its frame is hortatory narrative; the gap between them was
+carried by the vocabulary that distinguishes those registers.  I report this at
+length because the unscreened numbers are exactly what a study would publish if
+it stopped one step early, and because it shows what the genre control is for.
+
+Beneath the whole enterprise sits an assumption that is stated often and tested
+never.  Linguistic dating presupposes that a late author cannot convincingly
+write like an early one.  Were deliberate archaizing easy, so that a
+Persian-period scribe could adopt Classical vocabulary and thereby acquire a
+Classical date, every linguistic argument for the antiquity of a biblical text
+would be worthless, and the objection would apply to traditional and
+computational methods alike.  The dialectal school has pressed this point for
+two decades~\cite{Young2008,Rezetko2014}, while the mainstream reply has been
+that sustained archaizing is difficult.  Both positions are assertions.
+Neither side has put a number on the matter.
+
+Archaizing is therefore tested here twice, and the two tests do not come out
+the same way.  I can perform archaizing myself, so the ground truth is known
 exactly: securely dated \emph{late} books have their \lbh{} forms replaced by
 \cbh{} counterparts at controlled rates, every feature is re-extracted from the
-altered text, and the result is dated by a model that never saw it.  This prices the \emph{lexical} mechanism, and the price is low.
+altered text, and the result is dated by a model that never saw it.  The
+displacement this produces is far below the model's own noise, so what the
+Hebrew experiment establishes is that archaizing of that kind cannot be detected
+here---not that it would be cheap for a scribe.
 Ancient Greek then supplies what Hebrew cannot, namely texts whose authors
 really did archaize, deliberately and expertly, and whose dates of composition
 are securely known.  The Second Sophistic Atticizers wrote imitation Classical
 Attic four to seven centuries after the fact, taught by a formal curriculum,
 well enough to be read as models of style for a millennium.  This prices the
 \emph{morphosyntactic} mechanism, and the price is an order of magnitude
-higher.
+higher.  The Greek measurement is put through the same genre control as the
+Hebrew one, and survives it: Atticizing texts are dated \GKwithinAbs~yr
+earlier than non-archaizing texts of the same genre.
 
-That contrast is the answer offered here to the standing objection.  Archaizing
-is neither uniformly cheap nor uniformly hard; its cost depends on how deep
-into the grammar the imitation reaches, and the two depths differ by roughly a
-factor of twenty in their effect on an estimated date.  Whether a given text
-could have been archaized thus turns on what its author was trained to do,
-which is a historical question about scribal education rather than a
-statistical one.
-
-The results are bounded in both directions.  The model orders books in time far
-better than chance and places the Pentateuchal sources after the exile with
-high probability, but its 68\% intervals are \HBqsixeight~years wide on either
-side, and it cannot resolve dates within the Persian period.  What it does
-resolve is whether a text falls before or after the exile, which is the
-question the Pentateuchal debate has actually turned on.
+That contrast is what this study offers against the standing objection, and it
+is narrower than a price list.  Where archaizing is real and documented it
+displaces a linguistic date by centuries, which settles that the objection has
+teeth.  Where it is simulated by substituting diagnostic vocabulary, this model
+cannot see it at all, which settles only that this model is the wrong instrument
+for that question.  Whether a given text could have been archaized therefore
+turns on what its author was trained to do---a historical question about scribal
+education, not a statistical one---and on an instrument more sensitive than this
+one.
 
 The Background section reviews the CBH/LBH distinction, the dialectal
 challenge, and the problem of circularity.  The Data section describes the
 anchored corpus, the passage-level design, and feature extraction.  The Model
 section presents the weighted ridge estimator, the variance-matching step, and
-the conformal intervals.  The Validation section documents a failure mode that
-inflates reported accuracy in this literature and then reports
-leave-one-book-out performance against a permutation null.  The Results section
-dates the undated units, and the section following it reports both archaizing
-measurements.
+the jackknife+ intervals.  The Validation section documents a failure mode that
+inflates reported accuracy in this literature, establishes the genre confound
+and the lexical character of the signal, and reports leave-one-book-out
+performance against two permutation nulls.  The two Results sections report the
+internal structure of the sources and their placement relative to the exile,
+and the section following them reports both archaizing measurements.
 
 % =====================================================================
 \section*{Background: Diachronic Biblical Hebrew}
@@ -246,7 +274,7 @@ This debate has been conducted almost entirely through argument.  Its empirical
 core, however, is a quantitative question: how much apparent antiquity does
 deliberate archaizing actually purchase?  That question is answerable.  A model
 that assigns dates can be fed texts whose archaizing status is known, either
-because the investigator performed the archaizing or because the author's
+because I performed the archaizing myself or because the author's
 imitative program is a matter of literary-historical record.  Both experiments
 are reported below.  Neither resolves the dispute, but each supplies a
 measurement that either side can now argue from, which is more than the debate
@@ -368,14 +396,16 @@ part-of-speech transition rates, clause-relation profiles) that vary with
 period rather than subject matter.  This is what permits comparison of poetry
 against narrative, which a bag-of-words representation cannot do.
 
-\textbf{A measured sensitivity to archaizing.}  Attribution methods offer no
+\textbf{An explicit accounting of archaizing.}  Attribution methods offer no
 mechanism for telling a genuinely ancient text from one composed in a
 deliberately archaic register.  A Persian-period author who archaizes to D
 norms will be assigned to D regardless of when he wrote.  Rather than claim
-immunity from the problem, the sensitivity is measured directly below and
-reported as a quantity.  A reader who thinks archaizing was widespread can take
-that exchange rate and work out how much of any reported date it might account
-for.
+immunity from the problem, the sensitivity is tested directly below.  In Greek,
+where the archaizing is real and its authors are known, it is measured and it is
+large.  In Hebrew the test returns a non-detection: the displacement produced by
+substituting the recognized diagnostic vocabulary is well below this model's
+noise floor, so the honest report is that archaizing of that kind cannot be
+detected here rather than that it is cheap.
 
 These are differences of purpose rather than deficiencies in either approach.
 The ideal treatment of a disputed text would apply both, as attribution output
@@ -426,16 +456,47 @@ rank correlation between $\JKrhomin$ and $\JKrhomax$ with a median of
 $\JKrhomed$, and pairwise accuracy between \JKpairmin\% and \JKpairmax\%.
 That spread is the leverage a single unit carries at this corpus size, and it
 falls almost entirely on the late anchors that fix the recent end of the scale:
-removing Nehemiah, Esther, Daniel, Ezra, or Jonah each costs between 0.14 and
-0.17 of correlation, while removing any pre-exilic unit costs at most 0.05.  The
+removing Nehemiah, Esther, Daniel, Ezra, or Jonah each costs between \JKcostMin{} and
+\JKcostMid{} of correlation, while removing any pre-exilic unit costs at most 0.05.  The
 full-corpus figure of $\HBrho$ should accordingly be read against that range
 rather than as a point estimate.
 
 Removing the less securely anchored units changes little.  Dropping all six that
-lack an explicit synchronism leaves $\rho$ at $+0.69$ with a mean absolute error
-of 95~yr against a 127~yr baseline, better in both respects than the full
-corpus.  Dropping Jonah and Ecclesiastes together costs 0.19 of correlation,
+lack an explicit synchronism leaves $\rho$ at \ANCrho{} with a mean absolute error
+of \ANCmae~yr against a \ANCbase~yr baseline, better in both respects than the full
+corpus.  Dropping Jonah and Ecclesiastes together costs \JKcostMax{} of correlation,
 which is what dropping any two late anchors costs and is not peculiar to them.
+
+What matters more than whether the anchors might be wrong is which way being
+wrong would push the results, and that is not symmetric.  The model learns its
+mapping from language to date from the anchors, so an anchor whose true date is
+\emph{later} than the date assigned to it teaches the model to associate that
+book's linguistic profile with too early a date, and the error is carried into
+every target whose language resembles it.  Anchor error propagates to the
+targets with the same sign.
+
+Displacing the whole chronology \ABshift~yr toward the present and re-running
+the estimator moves the three sources by \ABAllJE, \ABAllD{} and \ABAllP~yr:
+pass-through is \ABpass\% and one for one.  Confining the displacement to the
+six anchors that lack an external synchronism---the case where the securely
+fixed dates are right and only the judgment calls are wrong---moves them by at
+most \ABsoftMax~yr, so the units whose dating is most open to argument carry
+correspondingly little of the result.  Displacing only the post-exilic anchors
+moves the sources \ABLateJE, \ABLateD{} and \ABLateP~yr, slightly more than the
+displacement applied, since it is the late anchors that fix where late-looking
+targets land.
+
+The direction of any likely error therefore matters, and it is worth stating
+which way the field has been moving.  A century of critical work has revised
+biblical dates later, not earlier, and the recent archaeological
+argument~\cite{Adler2022} runs the same way.  If the anchors used here are
+systematically wrong, they are more probably assigned too early than too late.
+Since the conclusion drawn below is that the Pentateuchal sources are
+\emph{late}, an anchor chronology erring early makes that conclusion
+conservative: correcting it would move the sources later still.  The error that
+would threaten the conclusion is the opposite one, and it is the less likely of
+the two.  This is an argument about direction, not a correction, and no
+adjustment is applied anywhere in what follows.
 
 \input{tables/tab_corpus}
 
@@ -444,7 +505,7 @@ which is what dropping any two late anchors costs and is not peculiar to them.
 \subsection*{Why Passages Rather Than Books}
 
 The most consequential design choice in this article is that features are
-extracted from passages of about 500 words rather than from whole books.
+extracted from passages of about \HBtarget{} words rather than from whole books.
 
 At the level of whole books the corpus offers only \HBbooks{} observations.  Any
 feature set large enough to describe Hebrew morphosyntax then has more
@@ -455,14 +516,14 @@ inflate apparent performance.  Worse, a whole-book rate is a single number
 summarizing tens of thousands of words, so a book whose passages are internally
 consistent cannot be told apart from one that is a composite.
 
-Partitioning at $\sim$500 words yields \HBchunks{} passages from the same
+Partitioning at $\sim$\HBtarget{} words yields \HBchunks{} passages from the same
 \HBwords{} words.  This is not a free multiplication of the sample size.
 Passages from one book are correlated, so the appropriate measure is the
 effective sample size $n_{\mathrm{eff}} = n / (1 + (\bar{m}-1)\rho_{I})$, where
 $\rho_I$ is the intraclass correlation and $\bar m$ the mean number of passages
-per book.  Across passage sizes from 200 to 1000 words the median intraclass
-correlation runs 0.20--0.32, and the effective sample size is three to seven
-times the book-level figure (S2 Table).  That is the real gain, and it is what
+per book.  Across passage sizes from \ICCszLo{} to \ICCszHi{} words the median
+intraclass correlation runs \ICClo--\ICChi, and the effective sample size is
+\ICCgainLo{} to \ICCgainHi{} times the book-level figure (S2 Table).  That is the real gain, and it is what
 makes a feature set of this width estimable at all.
 
 Passage size trades two effects against each other.  Smaller passages give more
@@ -489,7 +550,7 @@ than because they are homogeneous.
 Cutting at verse boundaries also makes the phrase- and clause-level features
 well defined.  Those features are collected over every phrase and clause
 overlapping a passage, so an object straddling a boundary would be counted in
-both neighbours and its type credited to each.  In \bhsa{} this scarcely
+both neighbors and its type credited to each.  In \bhsa{} this scarcely
 happens: across the whole database only 0.01\% of phrases and 0.06\% of clauses
 span a verse boundary, and in the \HBchunks{} passages of the training corpus
 the number of partially contained phrases and clauses is \bndPhr{} and \bndCl{}
@@ -528,7 +589,7 @@ fold, leaving \HBfeat{} in six families:
 \end{enumerate}
 
 Two extensions were built and evaluated and neither is used.  A character and
-part-of-speech n-gram extension adding 689 further features does not improve
+part-of-speech n-gram extension adding \NGfeat{} further features does not improve
 out-of-sample performance at the selected passage size (S3 Table).  A
 clause-type family --- rates and transition rates over the \bhsa{} clause types
 that encode the Hebrew verbal system, including the wayyiqtol narrative clause
@@ -536,10 +597,12 @@ that encode the Hebrew verbal system, including the wayyiqtol narrative clause
 earlier implementation had counted clause types while indexing them by clause
 relation, whose value sets are disjoint, so that the family had been silently
 absent.  Implemented correctly, its members are among the most strongly
-date-correlated single features in the corpus, reaching $|\rho| = 0.54$ for
-fronted yiqtol and $0.50$ for weqatal clauses, and yet adding all 50 of them
-leaves out-of-sample performance unchanged ($\rho$ $+0.665$ to $+0.660$, mean
-absolute error 118 to 120~yr).  Their information is already carried by the
+date-correlated single features in the corpus: \CTYPnHalf{} of the \CTYPnAll{}
+clause types correlate with true date above $|\rho| = 0.5$ at book level, led by
+\CTYPtopName{} at $\CTYPtopRho$ and \CTYPsecName{} at $\CTYPsecRho$.  And yet
+adding all \CTYPfeat{} of them
+leaves out-of-sample performance unchanged ($\rho$ \CTYPrhoBefore{} to
+\CTYPrhoAfter, mean absolute error \CTYPmaeBefore{} to \CTYPmaeAfter~yr).  Their information is already carried by the
 verb-morphology and part-of-speech transition features.  The reported model is
 therefore the one without them, and the exercise is reported because it
 indicates the feature set is saturated rather than arbitrary.
@@ -606,7 +669,7 @@ with $\bar d$, $\mathrm{sd}(d)$, $\bar d_{\text{raw}}$ and $S$ all computed
 from leave-one-book-out predictions on the training corpus only.  Here
 $S = \HBscale$.  The step is the inverse-calibration correction familiar from
 the classical-versus-inverse regression literature~\cite{Krutchkoff1967}: when
-the object is to recover the predictor rather than to minimise squared error in
+the object is to recover the predictor rather than to minimize squared error in
 the response, matching the spread of the estimates to the spread of the
 quantity being estimated is the appropriate adjustment.
 
@@ -626,6 +689,38 @@ useless for that purpose whatever its mean absolute error.  Its inability to
 say ``early'' is a property of the estimator, not evidence that nothing is
 early.  Readers whose interest is point accuracy rather than calibration should
 use the uncalibrated variant, whose figures are in S3 Table.
+
+\subsection*{Computational Reproducibility}
+
+The analysis is a single pipeline of \NPipeStages{} stages, run by one script,
+in dependency order: corpus extraction from \bhsa{}, feature construction,
+validation, the permutation nulls, the undated predictions, and every robustness
+analysis reported below.  No number in this article is now produced by hand or
+at an interactive prompt; that this was not always true is the subject of the
+third paragraph.
+
+Two properties are enforced, not merely claimed.  First, every quantity in the
+text is a macro read from a result file at build time; a missing result file
+fails the build instead of leaving a stale figure in place, and a mechanical
+check refuses to compile the manuscript if any number appears in the prose that
+did not come from a result file.  Second, the pipeline records a cryptographic
+digest of each of its \NPipeOutputs{} outputs and compares them on the next run,
+so that a change anywhere becomes visible at once, not at the next reading.
+
+Running the pipeline twice from the corpus reproduces all \NPipeOutputs{}
+outputs byte for byte.  Achieving that required fixing three defects that a
+casual re-run would not have exposed: a feature matrix that no longer matched
+the extractor that had supposedly produced it, three result files that had been
+generated at an interactive prompt and never committed, and a permutation
+checkpoint that survived a corpus rebuild and was silently reused against a
+model it no longer described.  Each is the kind of error that changes published
+numbers without changing anything a reader can see.  Long-running stages now
+record a fingerprint of their inputs beside their checkpoint and refuse to
+resume across a mismatch.
+
+The verification log is included in the repository.  Readers should note that
+reproducing the permutation nulls takes several hours; every other stage
+completes in about fifteen minutes.
 
 \subsection*{Jackknife+ Prediction Intervals}
 
@@ -705,7 +800,7 @@ the training books, features with zero variance or excessive missingness are
 dropped, medians for imputation are computed, standardization constants are
 computed, inverse-density weights are computed, $\lambda$ is selected by an
 inner leave-one-book-out loop, and the variance-matching constants and
-conformal residuals are derived.  The held-out book's date is used only to
+jackknife+ residuals are derived.  The held-out book's date is used only to
 score the result.
 
 A book's estimate is the median of its passage estimates.  The dispersion of
@@ -744,6 +839,88 @@ from \HBbooks{} books are not independent, as each book appears in
 The permutation figures above are the correct ones, and any comparison with
 pairwise accuracies reported elsewhere should take this into account.
 
+\subsection*{Genre Is the Dominant Confound}
+
+The rank correlation just reported is not what it appears to be, and the
+correction is large enough that reporting the raw figure alone would be
+misleading.
+
+The anchored corpus is \GNnProph{} prophetic books, \GNnNar{} narrative books,
+and one book each of poetry, wisdom and apocalyptic.  Residuals are strongly
+structured by genre: narrative books are placed \GNoffNar~yr from their true
+dates on average and prophetic books \GNoffPro~yr.  \GNbetween\% of the
+variance in the model's predictions lies between genres rather than within
+them.
+
+This could be an artifact of where the genres sit on the timeline, since all
+\GNnNar{} narrative anchors are post-exilic.  The test that separates the two
+is a date-matched contrast.  Among anchors written between \GNwinHi{} and
+\GNwinLo~BCE, where both genres are represented, narrative residuals average
+\GNwinNar~yr and prophetic residuals \GNwinPro~yr, a difference of
+\GNwinDiff~yr (Welch $t = \GNwinT$, $p = \GNwinP$).  Regressing residual on
+true date across all narrative and prophetic anchors, the narrative indicator
+is \GNregNar~yr ($t = \GNregT$, $p = \GNregP$).  The effect is genre, not the
+endpoint.
+
+The consequence is that raw rank correlation overstates the chronological
+signal.  Centering both truth and prediction within genre, the correlation
+falls from $\GNrhoRaw$ to $\GNrhoPartial$.  Within the \GNnProph{} prophetic
+books alone---a single register spanning \GNprophHi{} to \GNprophLo~BCE, the
+best-controlled comparison this corpus permits---it is $\GNrhoProph$ ($p =
+\GNpProph$).  Both figures are reported throughout in preference to the raw
+one.
+
+Whether anything survives the confound is a question a permutation null can
+answer, provided the null is the right one.  A null that shuffles dates freely
+destroys the genre--date association along with the chronology, and so tests
+only whether the model can tell genres apart, which it plainly can.  The
+appropriate null is restricted: dates are permuted only \emph{within} genre, so
+the genre--date association this corpus happens to contain is preserved exactly
+and only the within-genre chronology is destroyed.  Against \GNnullN{} such
+permutations, each a complete re-run of the pipeline, the observed
+genre-controlled correlation of $\GNrhoPartial$ has $p = \GNnullP$ (null median
+$\GNnullMed$).  A chronological signal survives the confound, and it is that
+signal, not the raw correlation, that the results below rest on.
+
+\subsection*{The Signal Is Lexical, Not Morphosyntactic}
+
+The features fall into two families: \LXnlex{} lexeme frequencies, and
+\RTBfeat{} morphosyntactic features covering verb stem and tense, clause type
+and relation, phrase structure, agreement and suffixation.  Refitting on each
+family separately settles which carries the result, and the answer is
+one-sided.
+
+On the morphosyntactic features alone, genre-controlled $\rho$ is
+$\RTBgenre$ and within-prophecy $\rho$ is $\RTBproph$.  On the lexemes alone it
+is $\RTCgenre$ and $\RTCproph$, marginally better than the full feature set.
+Grammatical change over this period, as encoded in the \bhsa{} annotation and
+measured across \HBbooks{} books, is not detectable by this model.  Whatever
+diachrony the model uses is vocabulary.
+
+That is not by itself an objection.  Lexical replacement is the backbone of the
+existing method~\cite{Hurvitz1982}, and Persian loanwords and Aramaisms are its
+standard evidence.  But it invites a sharper one: a model keyed to vocabulary
+may be detecting subject matter rather than date, and the highest-leverage
+lexemes include \emph{Israel}, \emph{Jacob}, YHWH and \emph{holy}.
+
+Two checks argue against that reading.  First, high-leverage lexemes are only
+weakly more genre-diagnostic than low-leverage ones---across the \LXnlex{}
+lexemes, leverage correlates with genre $\eta^2$ at $\LXrhoEta$, and the fifty
+highest-leverage lexemes average \LXetaTop{} against \LXetaBot{} for the fifty
+lowest.  Topic discrimination is too weak to account for a signal this size.
+
+Second, and more directly: the model recovers the textbook first-person pronoun
+shift unprompted.  Of the recognized CBH/LBH diagnostic lexemes, only
+\LXdiagPresent{} of \LXdiagTotal{} are frequent enough to survive the frequency
+filter---the Persian loans and Aramaisms that constitute the strongest evidence
+in the literature are all too rare---and both that do survive rank in the top
+fifth by leverage, at a median rank of \LXdiagRank{} of \LXnlex.  They are the
+two members of one pair.  Classical \emph{'an\=ok\^\i}{} ranks
+\LXanokiRank{} and pushes estimates earlier; late \emph{'\u{a}n\^\i}{}
+ranks \LXaniRank{} and pushes them later.  That is the direction the literature
+predicts, learned from dated books without any encoding of the pair.  A topic
+classifier has no reason to place those two words high and in opposition.
+
 \subsection*{Correcting for the Configuration Search}
 
 The figures above come from a configuration --- passage size, weighting
@@ -763,7 +940,7 @@ Under that protocol the mean absolute error is \NSmae~yr against \HBmaebase~yr
 for the constant predictor, the rank correlation is $\NSrho$ ($p = \NSrhop$),
 pairwise ordering is \NSpair\%, and \NSside{} of \HBbooks{} books fall on the
 correct side of the exile.  Selection therefore inflates the rank correlation by
-about 0.06 and the pairwise accuracy by roughly two points.  The attenuated
+\SELinflate{} and the pairwise accuracy by \SELinflatePair{} points.  The attenuated
 figures are the ones a fresh corpus should be expected to reproduce, and the
 substantive conclusions do not depend on the difference.  The search is also
 stable: the same weighting exponent is chosen in 24 of the 25 folds, and the
@@ -786,16 +963,16 @@ Without those two steps the model places almost nothing before the exile, and
 its apparent confidence that everything is late is an artifact of how the
 corpus is distributed in time rather than evidence about any text.
 
-Fig~\ref{fig:calibration} shows estimated against true date with the conformal
+Fig~\ref{fig:calibration} shows estimated against true date with the jackknife+
 bands.  Empirical coverage of the nominal 68\% band is slightly conservative,
-which is the expected behavior of conformal intervals at this sample size.
+which is the expected behavior of jackknife+ intervals at this sample size.
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.62\textwidth]{figures/fig_calibration.pdf}
 \caption{{\bf Leave-one-book-out calibration.}  Each point is one anchored
 book, dated by a model fitted without it.  The dashed line is exact recovery;
-shaded bands are the 68\% and 90\% conformal intervals.  Books whose estimate
+shaded bands are the 68\% and 90\% jackknife+ intervals.  Books whose estimate
 falls on the wrong side of the exile are marked with diamonds.  Standardization,
 weighting, regularization and interval calibration were all performed inside
 the fold.}
@@ -823,7 +1000,7 @@ therefore confined to the pre-exilic/post-exilic distinction and to relative
 ordering, both of which the validation supports.
 
 % =====================================================================
-\section*{Results: Dating the Undated Units}
+\section*{Results: Within the Sources}
 \label{sec:results}
 % =====================================================================
 
@@ -835,54 +1012,214 @@ partitions follow the standard critical division at chapter granularity,
 specified in S1 Appendix.  Chapter granularity is exact for the sub-strata,
 whose ranges partition their parent sources without remainder, and nearly so for
 the three sources: Genesis 6 and 25, where the Priestly and JE material is
-interwoven verse by verse, are the only chapters assigned to two sources.  No target contributed to training, feature selection,
-weighting, regularization or calibration.
+interwoven verse by verse, are the only chapters assigned to two sources.  No
+target contributed to training, feature selection, weighting, regularization or
+calibration.
 
-\input{tables/tab_targets}
+This section asks what the model sees inside a source rather than where it
+places the source as a whole.  Two quantities are available.  Dispersion---how
+widely a source's own passages scatter---is invariant to the calibration, since
+variance matching multiplies every prediction by one positive constant and so
+leaves the ordering of units by dispersion unchanged.  Separation between a
+source's conventional blocks is not invariant in that way, and turns out not to
+be invariant to the genre control either.  The first survives in part and the
+second does not, and both are reported.
 
-\subsection*{The Documentary Sources Are Post-Exilic}
+\subsection*{The Sources Differ in How Internally Varied They Are}
 
-The Priestly source is placed at \srcP{} BCE (68\% conformal interval
-\srcPlo--\srcPhi{} BCE) with $P(\text{post-exilic}) = \srcPpost$; the
-Deuteronomic source at \srcD{} BCE (\srcDlo--\srcDhi) with \srcDpost; and the
-JE composite at \srcJE{} BCE (\srcJElo--\srcJEhi) with \srcJEpost{}
-(Fig~\ref{fig:targets}).  All three fall after the exile with probability at
-least \srcminpost.
+Each source is made of many \HBtarget-word passages, and each passage receives
+its own estimate (Fig~\ref{fig:layers}, Table~\ref{tab:layers}).  If a source is a single composition, its passages should
+scatter about as widely as the passages of a single dated book do.  If it is a
+rolling document---an older core with later accretion---it should scatter more.
+
+The yardstick is the anchored corpus itself.  Across the \LYrefN{} anchor books
+with at least four passages, the within-book standard deviation of passage
+estimates has a median of \LYrefMed~yr.  That figure is generous to the
+sources rather than harsh on them, because several anchors are themselves
+composite; Isaiah 1--39 is the obvious case.
+
+Dispersion rises with the number of passages a unit contains ($\rho = \LYsizeRho$
+across the anchors, $p = \LYsizeP$), and the three sources contain \LYJEn, \LYDn{}
+and \LYPn{} passages, so the comparison is made at matched count.  Subsampling
+each source to \LYDn{} passages, the standard deviation of passage estimates is
+\LYJEsd~yr for the JE composite, \LYPsd~yr for P and \LYDsd~yr for D.  The
+ordering is \LYorder.  Bootstrapping over passages, $P(\mathrm{SD}_{JE} >
+\mathrm{SD}_{D}) = \LYpJEgtD$, $P(\mathrm{SD}_{JE} > \mathrm{SD}_{P}) =
+\LYpJEgtP$ and $P(\mathrm{SD}_{D} > \mathrm{SD}_{P}) = \LYpDgtP$.
+
+Only part of that ordering is robust.  Applying the genre screen described in
+the Validation section, D remains the least dispersed of the three at every
+screen level, with $P(\mathrm{SD}_{JE} > \mathrm{SD}_{D})$ never falling below
+\DRminJEgtD.  A source usually described as layered is, by this measure, the
+tidiest one in the Pentateuch, and that holds however hard the genre-diagnostic
+features are screened out.
+
+The rank of JE does not hold.  Unscreened, JE is the most varied of the three,
+at the \LYJEpct{}th percentile of single dated books.  With a quarter of the
+genre-diagnostic features removed, P overtakes it
+($P(\mathrm{SD}_{JE} > \mathrm{SD}_{P}) = \DRQpJEgtP$), and with half removed
+the comparison is a coin flip (\DRHpJEgtP).  Screening also inflates every
+dispersion---JE rises from \DRFullJE{} to \DRHJE~yr and P from \DRFullP{} to
+\DRHP---because half as many features make a noisier estimate, so some of this
+is lost power rather than a changed answer.  Either way the evidence does not
+distinguish JE from P, and the claim that JE is the most heterogeneous of the
+three sources is not supported.  What survives is that D is the least.
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.92\textwidth]{figures/fig_targets.pdf}
-\caption{{\bf Undated units with conformal intervals.}  Thick bars are 68\%
-intervals, thin bars 90\%; the dashed line is the exile of 586~BCE.  Colour
-marks which side of the exile the point estimate falls on.  The three poems
-are extracted at verse precision.  No unit shown contributed to training,
-feature selection, weighting, regularization or calibration.}
-\label{fig:targets}
+\includegraphics[width=0.98\textwidth]{figures/fig_layers.pdf}
+\caption{{\bf Passage-level estimates within each source.}  One point per
+\HBtarget-word passage; bars are interquartile ranges and the rule is the
+median.  Sub-blocks are indented beneath their source.  The shaded band is
+pre-exilic.  Dispersion within a source and separation between its blocks are
+different measurements.  The separations between blocks shown here do not
+survive a genre control and are discussed as register effects in the text;
+the dispersion ordering is robust only for D.}
+\label{fig:layers}
 \end{figure}
+
+\input{tables/tab_layers}
+
+\subsection*{The Apparent Block Separations Are Register, Not Date}
+
+Splitting each source at the division its critical literature already draws
+produces a striking result that does not survive inspection.  I report it, and
+its failure, because the failure is the more useful of the two.
+
+On the full feature set the blocks separate cleanly and in the expected
+direction.  The law code of Deuteronomy 12--26 is placed \BRFullDCodegap~yr
+earlier than the surrounding frame of chapters 1--11 and 27--34 (95\% CI
+\BRFullDCodelo{} to \BRFullDCodehi, Mann--Whitney $p = \BRFullDCodep$).  The
+Holiness Code separates from the Priestly material of Leviticus 1--16 by
+\BRFullHolgap~yr ($p = \BRFullHolp$), and the JE material of Genesis from that
+of Exodus by \BRFullGenJEgap~yr ($p = \BRFullGenJEp$).  None of those
+boundaries was supplied to the model, which received chapter ranges and nothing
+else, and all three point the way two centuries of literary criticism would
+predict.
+
+The Validation section, however, establishes that genre is the dominant axis of
+variation in this corpus, and that screening out the most genre-diagnostic
+features improves the model's ability to order the anchors once genre is held
+fixed.  Applying that same screen to the block comparisons dissolves them
+(Table~\ref{tab:s11}).  With the most genre-diagnostic quarter of the features
+removed, the Deuteronomic separation falls to \BRQDCodegap~yr ($p =
+\BRQDCodep$) and neither of the others remains significant.  With half removed,
+at the screen level that gives the \emph{best} genre-controlled ordering
+($\rho = \BRHrho$ against $\BRFullrho$ unscreened), the Deuteronomic
+separation is \BRHDCodegap~yr---reversed, and significant in the opposite
+direction ($p = \BRHDCodep$).
+
+The specification curve shows the same thing from the other side: across the
+\SPcodeN{} validated specifications the law code is placed earlier than the
+frame in only \SPcodeEarlier, and the direction tracks the feature screen
+almost perfectly.
+
+The reading that fits is unwelcome and simple.  The law code is legal prose and
+the frame is hortatory narrative; the Holiness Code and the Priestly material of
+Leviticus differ likewise in register.  The apparent chronological gap between
+them was carried by the vocabulary that distinguishes those registers, and when
+that vocabulary is removed the gap goes with it.  These are register effects,
+not dates.
+
+Two things are worth saying about this.  The first is that the loss of
+significance in the Holiness and JE comparisons is partly a loss of power:
+screening halves the feature count and the intervals widen accordingly.  The
+Deuteronomic reversal is not that---a sign flip significant at $p =
+\BRHDCodep$ is not what attenuation looks like.
+
+The second is that this is what a genre control is for.  A study that reported
+the unscreened numbers, which are individually significant and align with prior
+expectation, would have produced three publishable claims and three false ones.
+The screen that the anchored corpus forces on the dating results turns out to be
+load-bearing here too, and any future attempt to detect compositional strata
+this way will have to clear the same bar.  Detecting internal structure by
+linguistic date remains a reasonable ambition; \HBbooks{} anchor books spanning
+a single religious literature are not enough to do it.
+
+\subsection*{Three Sources of Variance, and Their Sizes}
+
+It is worth stating plainly how the uncertainties in this study compare, since
+they are easily conflated.  The model's own uncertainty is much the largest:
+the 68\% jackknife+ interval has a half-width of roughly \SPPhalf~yr for each
+source.  Within-source heterogeneity is next, at \LYDsd--\LYJEsd~yr.  The
+instability of the estimate across analytic specifications is the smallest of
+the three, at \SPDspecsd--\SPPspecsd~yr (below).
+
+The sources are more internally variable than the analysis is unstable.  A
+single date for a source made of passages spanning a century or more was never
+a well-defined quantity to estimate, and this is the reason estimates of it
+move when the specification moves.
+
+% =====================================================================
+\section*{Results: Placement Relative to the Exile}
+\label{sec:placement}
+% =====================================================================
+
+Absolute dates are the weaker half of this study, and I report them in the form
+the evidence supports: not as point estimates but as the range a defensible
+analysis can produce.
+
+\subsection*{Every Defensible Specification, at Once}
+
+Four analytic choices in this pipeline have no principled answer---the passage
+size, whether to screen genre-diagnostic features and how hard, whether to
+weight by inverse density, and whether to variance-match.  Crossing them gives
+\SPtotal{} specifications across \SPsizes{} passage sizes, each a complete
+leave-one-book-out run with its own jackknife+ intervals.  Reporting one and
+relegating the rest to an appendix would invite the reader to treat the
+reported figure as privileged, which it is not.  Fig~\ref{fig:speccurve} shows
+all of them, ordered by how well each orders the anchors once genre is held
+fixed.  \SPpass{} of \SPtotal{} clear the validation threshold of
+$\rho_{\text{genre}} > 0.20$.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.98\textwidth]{figures/fig_speccurve.pdf}
+\caption{{\bf All \SPtotal{} specifications.}  Point estimates with 68\%
+jackknife+ intervals for the three sources under every combination of passage
+size, feature screen, weighting and calibration, ordered by genre-controlled
+Spearman $\rho$.  Open circles fail validation.  The lower panel marks which
+choices are active in each specification.  The intervals never narrow, and no
+analytic choice organizes the estimates.}
+\label{fig:speccurve}
+\end{figure}
+
+Across the \SPpass{} validated specifications, the Deuteronomic source falls
+after 586~BCE in \SPDpost{} of \SPpass{} and the Priestly source in
+\SPPpost{} of \SPpass---without exception.  The JE composite falls after the
+exile in \SPJEpost{} of \SPpass.  Median estimates are \SPJEmed{} BCE for JE,
+\SPDmed{} for D and \SPPmed{} for P, with full ranges of \SPJElo--\SPJEhi,
+\SPDlo--\SPDhi{} and \SPPlo--\SPPhi{} BCE.  Averaged over validated
+specifications, the share of the 68\% interval falling after the exile is
+\SPJEmass\% for JE, \SPDmass\% for D and \SPPmass\% for P.
+
+The conclusion the evidence supports is therefore that D and P are
+post-exilic, and that JE is very probably so but not securely: three
+specifications place it before the exile.  The central estimates fall in the
+Persian period.  The Hellenistic era is not excluded---\SPPhell{} of \SPpass{}
+specifications place P after 332~BCE---but it is not where the estimates point,
+and no validated specification places JE or D that late.
+
+Reading the lower panel of Fig~\ref{fig:speccurve} against the upper ones, no
+analytic choice sorts the estimates: the best-validating specifications give
+substantially the same answer as the worst.  One choice does affect validation
+itself.  Screening out the half of the features that best discriminate genre
+raises mean genre-controlled $\rho$ from \SPscreenAll{} to \SPscreenHalf.
+Weighting and calibration make no difference to it at all.
+
+Point estimates for every undated unit under a single reference
+specification, with their intervals, are given in S8 Table and S1 Fig.  They
+are placed there rather than here deliberately: a table of dates invites
+exactly the reading this section argues against, and the specification curve
+above is the honest summary of what the model supports.
 
 The relative ordering is JE $\rightarrow$ D $\rightarrow$ P, the classical
 sequence of the documentary hypothesis, recovered from linguistic evidence
 alone by a model trained only on independently anchored prophetic and
-post-exilic books.  The \emph{ordering} is the better-supported half of this
-result.  With intervals of \HBqsixeight~yr, the ranges of the three sources
-overlap substantially, and the ordering claim rests on the model's demonstrated
-ability to order rather than on any separation between the point estimates.
-
-\subsection*{Sub-Strata}
-
-Splitting Deuteronomy into its law code (chapters 12--26) and its narrative
-frame places the code at \srcDCode{} BCE and the frame at \srcDFrame{} BCE ---
-the code earlier than the frame, in the direction the critical consensus
-expects if the code is the older core around which the frame was later built.
-Within Leviticus, the Holiness Code (17--26) is placed at \srcHol{} BCE
-against \srcLevP{} BCE for the Priestly material of 1--16.  The JE material of
-Genesis, Exodus and Numbers is placed at \srcGenJE, \srcExoJE{} and \srcNumJE{}
-BCE respectively.  The Deuteronomistic prose of Jeremiah is placed at
-\srcJerD{} BCE.
-
-These differences among sub-strata are small relative to the interval width.
-They ought to be read as ordering statements consistent with existing
-literary-critical arguments, not as independent confirmation of them.
+post-exilic books.  The ordering is better supported than any of the dates.
+With intervals of \SPPhalf~yr, the three sources overlap substantially, and the
+ordering rests on the model's demonstrated ability to order rather than on
+separation between point estimates.
 
 \subsection*{The Archaic Poems and an Extraction Artifact}
 
@@ -923,37 +1260,47 @@ late.  Whether the archaic theology of these verses was preserved in a later
 idiom, or whether the linguistic estimate is simply wrong for a text this short,
 cannot be settled from the present evidence.
 
-\subsection*{Genre as the Dominant Confound}
+\subsection*{Applying the Genre Correction to Everything}
 
-Residuals on the anchored corpus are structured by genre, with narrative books
-placed \emph{late} and poetic books \emph{early} relative to their true dates.
-The clearest case is Lamentations, whose date is fixed by its subject matter,
-since it laments the destruction of 586~BCE, making it as securely anchored as
-any text in the corpus.  The model places it at \lamPred{} BCE against a true
-\lamTruth{} BCE, an error of \lamErr~yr toward greater antiquity.  Lamentations
-is poetry.
+The genre effect established in the Validation section bears on every estimate
+in this one, and it must be applied symmetrically or not at all.  A correction
+imposed only where it strengthens a conclusion is not a correction.
 
-The pattern across the corpus is consistent: narrative books carry a mean
-residual of \genNarr~yr, poetry \genPoetry, and the \genNProph{} prophetic
-books, which dominate the corpus, only \genProph.  Genre displaces an estimate
-by roughly the width of a conformal interval.
+The clearest single case is Lamentations, whose date is fixed by its subject
+matter---it laments the destruction of 586~BCE---making it as securely anchored
+as any text in the corpus.  The model places it at \lamPred{} BCE against a
+true \lamTruth{} BCE, an error of \lamErr~yr toward greater antiquity.
+Lamentations is poetry, and poetry as a class carries a mean residual of
+\genPoetry~yr.
 
-This bears directly on the poems above.  If poetry as such is placed early by
-this model, then some part of the antiquity assigned to the Songs of the Sea and
-Deborah is genre rather than date.  I decline to apply a correction, since with
-one securely dated poetic book any such correction rests on a single
-observation.  What can be done instead is to ask whether the conclusion survives
-applying it anyway.  Subtracting the full \genPoetryAbs~yr poetic residual moves
-the Song of the Sea from \poemSea{} to \genSeaAdj{} BCE and the Song of Deborah
-from \poemDeb{} to \genDebAdj{} BCE.  Both remain pre-exilic, both remain the
-earliest of the \NTargets{} undated units, and their probability of being
-post-exilic rises only to \genSeaPadj{} and \genDebPadj.  For the Song of the
-Sea to cross the exile, the genre effect would have to be \genRatio{} times the
-value observed in Lamentations.
+For the poems, correcting in the direction the residual indicates makes the
+claim weaker, and it survives.  Subtracting the full \genPoetryAbs~yr poetic
+residual moves the Song of the Sea from \poemSea{} to \genSeaAdj{} BCE and the
+Song of Deborah from \poemDeb{} to \genDebAdj{} BCE.  Both remain pre-exilic,
+both remain the earliest of the \NTargets{} undated units, and their
+probability of being post-exilic rises only to \genSeaPadj{} and \genDebPadj.
+For the Song of the Sea to cross the exile the genre effect would have to be
+\genRatio{} times the value observed in Lamentations.
 
-The early placement of the poems is therefore partly confounded with genre and
-survives the confound at its observed magnitude.  Enlarging the anchored poetic
-corpus remains the way to separate the two properly.
+For the sources, the same correction runs the other way, and I report it on the
+same terms.  JE is largely narrative, and narrative carries a residual of
+\GNoffNar~yr.  Applying it moves JE from \srcJE{} to \GNadjJE{} BCE, D to
+\GNadjD{} and P to \GNadjP.  The minimum probability of post-exilic composition
+across the three falls from \GNminUncorr{} to \GNminNar.  All three remain
+post-exilic, and the ordering is unchanged, but the margin on JE becomes thin.
+This is the single largest adjustment any defensible correction makes to the
+results above, and it is the reason JE is described throughout as probably
+rather than securely post-exilic.
+
+D and P are largely legal material, a register with no anchor at all in this
+corpus---the \HBbooks{} anchors contain no law.  Their correction is therefore
+bounded rather than known: between \GNoffPro~yr if legal prose behaves like
+prophecy and \GNoffNar~yr if it behaves like narrative, giving minimum
+post-exilic probabilities of \GNminPro{} and \GNminNar{} respectively.  Both
+bounds leave D and P after the exile.  Extending the anchored corpus to include
+dated legal material is the obvious way to replace that bound with a
+measurement, and I know of no candidate that does not import the circularity
+this paper is arguing against.
 
 % =====================================================================
 \section*{The Price of Archaizing}
@@ -971,7 +1318,7 @@ whose authors performed it themselves.
 Take a securely dated \emph{late} book, replace its \lbh{} forms with their
 \cbh{} counterparts at a controlled rate $r$, re-extract all \HBfeat{} features
 from the modified text, and re-date it with a model trained on the other 24
-books.  Since the substitution was performed by the investigator, the ground
+books.  Since I performed the substitution myself, the ground
 truth is known exactly.
 
 The substitutions are the classical diagnostics of the \cbh{}/\lbh{}
@@ -1030,7 +1377,7 @@ clause-relation profiles, which are high-frequency grammatical habits rather
 than choices of vocabulary.
 
 Moreover, these are the features that the passage-level design forces the model
-to rely on.  Requiring a feature to be measurable within 500 words demotes the rare
+to rely on.  Requiring a feature to be measurable within \HBtarget{} words demotes the rare
 diagnostic vocabulary, which is the manipulable part of the language, and
 promotes high-frequency morphology, which is not.  The resistance to archaizing documented below is therefore a structural
 consequence of the passage-level design rather than an additional assumption:
@@ -1092,7 +1439,7 @@ replication is therefore a real one, with the same design recovering a
 diachronic signal in an unrelated language.
 
 The \GKatt{} Atticizing texts were excluded from training entirely and then
-dated.
+dated (Table~\ref{tab:greek}).
 
 \input{tables/tab_greek}
 
@@ -1106,10 +1453,11 @@ error width, and in the worst cases by half a millennium.
 The displacement also tracks how programmatic an author's Atticism was, which is
 the pattern one would expect if it measures imitation rather than noise.  The
 strict Atticists are displaced furthest: Libanius by \GKattmaxearly~yr, Arrian
-by 441, Cassius Dio by 439, Aelius Aristides by 426, Philostratus by 290, Dio
-Chrysostom by 274, and Lucian by 225.  The authors who wrote a literary Koine
+by \GKaArr, Cassius Dio by \GKaDio, Aelius Aristides by \GKaAris,
+Philostratus by \GKaPhil, Dio Chrysostom by \GKaChrys, and Lucian by \GKaLuc.  The authors who wrote a literary Koine
 rather than a reconstructed Attic are barely moved at all: Plutarch's
-\textit{Lives} by 6~yr, Strabo by $+38$, and Dionysius' critical essays by $+9$.
+\textit{Lives} by \GKaPlut~yr, Strabo by \GKaStrab, and Dionysius' critical
+essays by \GKaDionEss.
 A dose-response relation of this kind across authors whose Atticizing intensity
 is independently described in the literary histories is difficult to obtain from
 a model that is merely noisy.
@@ -1158,15 +1506,55 @@ driven by the short texts: weighting each text by its passage count gives
 \GKattshiftW~yr, and restricting to the \GKattbign{} texts with at least 40
 passages gives \GKattshiftBig~yr.
 
+\subsection*{The Greek Measurement Under the Same Genre Control}
+
+Genre is the dominant confound in the Hebrew corpus, and the Greek corpus is
+structured in a way that invites the same problem.  Its \GKntexts{} training
+texts divide into five genres, and genre is correlated with register: the
+ancient Attic baseline is oratory-heavy and contains no narrative at all, while
+the Koine material is dominated by history and narrative.  A model that had
+learned to recognize oratory would look like a model that had learned to
+recognize early Greek.  The Atticizers are spread across genres---six
+histories, three philosophical works, two orations, two narratives and one
+scientific text---but that spread is not by itself a defense.
+
+The Greek model turns out to be markedly less genre-confounded than the Hebrew
+one.  \GKbetween\% of the variance in its predictions lies between genres,
+against \GNbetween\% for Hebrew, and rank correlation falls only from
+$\GKrhoRaw$ to $\GKrhoGenre$ when genre is held fixed, against $\GNrhoRaw$ to
+$\GNrhoPartial$.  With \GKntexts{} texts spanning eight centuries rather than
+\HBbooks{} books spanning six, there is enough within-genre chronological range
+for the model to use.
+
+The displacement itself is almost untouched.  Scoring each Atticizer against
+the mean displacement of non-archaizing texts \emph{in its own genre} rather
+than against the corpus as a whole moves the mean from \GKshiftRaw{} to
+\GKshiftAdj~yr; the genre correction accounts for 2\% of it.  The decisive
+comparison is within genre: Atticizing texts are dated \GKwithinAbs~yr
+earlier than non-archaizing texts of the same genre (95\% CI \GKwithinAbsLo{}
+to \GKwithinAbsHi~yr earlier, bootstrap $p < 0.001$), and \GKwithinNeg{} of the \GKwithinN{}
+genres point the same way.  The single exception is scientific prose, which
+contributes one Atticizing text.
+
+The archaizing measurement is therefore not a genre effect in disguise.  This
+matters more than a routine robustness check would, because the Hebrew half of
+the paper argues that genre confounding is severe enough to halve a reported
+correlation; a Greek result that had not been put through the same test would
+not deserve to be believed.
+
 \subsection*{What the Two Experiments Establish}
 
-The two experiments do not give the same number, and that difference is itself
-the substantive finding.
+The two experiments do not come out the same way, and the asymmetry is the
+substantive finding---though not in the form of a price comparison.
 
-Total \emph{lexical} archaizing in Hebrew buys \arcMeanAbs~yr of apparent
-antiquity, while real \emph{morphosyntactic} archaizing in Greek buys
-\GKattshiftAbs~yr.  The gap is
-roughly an order of magnitude, and it falls where the feature-leverage analysis
+Simulated \emph{lexical} archaizing in Hebrew displaces an estimate by
+\arcMeanAbs~yr, which is \DETpct\% of this model's residual scale and thus
+indistinguishable from no displacement at all.  Real \emph{morphosyntactic}
+archaizing in Greek displaces one by \GKattshiftAbs~yr, an order of magnitude
+above that model's noise floor.  One arm returns a measurement and the other
+returns a non-detection, so the two cannot be divided to yield an exchange rate.
+What can be said is that the detectable case is the grammatical one, and that
+this falls where the feature-leverage analysis
 said it would.  Swapping out diagnostic vocabulary moves a handful of the
 \sensLexCount{} weak lexical features and leaves the other half of the model's
 leverage untouched.  The Atticizers did not swap vocabulary.  They reconstructed
@@ -1179,13 +1567,16 @@ centuries, and they managed it because an entire educational apparatus existed
 to teach them how.
 
 The conclusion is therefore conditional rather than absolute, and it ought to be
-stated in that form.  Archaizing can defeat a model of this class.  What it
+stated in that form.  Archaizing can defeat a model of this class; the Greek
+case demonstrates it.  Whether the cheaper lexical route can do so is not
+answered here, because the instrument used to ask is not sensitive enough to
+return an answer either way.  What it
 takes is not a scribe who knows the old words, but one trained to write the old
 grammar and to sustain it across a whole composition.  For any particular text,
 then, the question is whether such training existed in its milieu.
 
-For the Hebrew Bible this becomes a historical question rather than a
-statistical one, and it is not settled here.  The institutional preconditions do
+For the Hebrew Bible this becomes a historical question, not a statistical
+one, and it is not settled here.  The institutional preconditions do
 differ sharply between the two cases.  The Second Sophistic had a documented
 curriculum of Attic prose composition, lexica of permitted usage, and a literary
 culture that rewarded successful imitation, whereas no comparable program of
@@ -1216,16 +1607,53 @@ wide here, averaging \jkwidth~yr at the 68\% level, and their distribution-free
 warranty is $1-2\alpha$, so the nominal 90\% level is guaranteed only to 80\%.
 Empirical coverage on the anchored corpus is \covsixeight\% and \covninety\%,
 comfortably above nominal, but that is an observation about this corpus rather
-than a guarantee.  No claim in this paper depends on interval width: every
-substantive claim is a side-of-the-exile claim or an ordering claim, and both
-rest on the point estimates and the ensemble probabilities rather than on the
-endpoints.
+than a guarantee.  No claim in this paper depends on interval width: every substantive
+claim is a side-of-the-exile claim, an ordering claim, or a claim about
+dispersion, and none rests on where an endpoint falls.  Point dates are
+reported only as medians across specifications and should not be quoted to a
+century.
 
-\textbf{Genre.}  Poetic texts are placed early and narrative texts late
-relative to their true dates.  With one securely dated poetic book in the
-anchored corpus, genre cannot be separated from date by this design.  This
-directly affects the archaic poems, which are the results most likely to be
-cited and are also the ones most exposed to this confound.
+\textbf{Exchangeability, on which the intervals depend.}  The jackknife+
+guarantee holds for exchangeable observations.  The unit here is the book, and
+these \HBbooks{} books are not obviously exchangeable: \GNnProph{} are
+prophetic against \GNnNar{} narrative, every narrative anchor is post-exilic,
+and genre displaces an estimate by up to \genNarr~yr.  Under exchangeability the coverage floor is $1-2\alpha$; how far it degrades
+when exchangeability fails in this particular way is established neither in the
+literature nor here.  Empirical coverage on the anchored corpus is above nominal
+(\covsixeight\% and \covninety\%), which is reassuring, but it is an observation about
+this corpus and not a guarantee.  A reader who doubts the
+exchangeability of prophecy and narrative should treat the intervals as
+descriptive.
+
+\textbf{Genre.}  Genre, not chronology, is the dominant axis of variation in
+this corpus: \GNbetween\% of the variance in the predictions lies between
+genres, and rank correlation with true date falls from $\GNrhoRaw$ to
+$\GNrhoPartial$ once genre is held fixed.  A within-genre permutation null
+establishes that a chronological signal survives ($p = \GNnullP$), but the
+surviving signal is roughly half the raw figure, and every number reported here
+should be read against the genre-controlled version rather than the raw one.
+With one securely dated poetic book and no dated legal text at all, the genre
+correction for two of the three sources is a bound rather than a measurement.
+This is the largest single weakness of the design, and enlarging the anchored
+corpus in genre rather than in size is what would most improve it.
+
+\textbf{The signal is lexical only.}  Refitting on the \RTBfeat{}
+morphosyntactic features with every lexeme removed gives a genre-controlled
+$\rho$ of $\RTBgenre$ and a within-prophecy $\rho$ of $\RTBproph$.  Whatever
+grammatical change occurred over this period is not detectable at this sample
+size, so the results speak to lexical diachrony and to nothing else.  A reader
+who takes \cbh{}/\lbh{} to be centrally a grammatical distinction will find no
+support for it here, in either direction: absence of detection across
+\HBbooks{} books is not absence of the phenomenon.
+
+\textbf{Anchor dates that are partly linguistic.}  Six of the \HBbooks{}
+anchors rest on literary rather than external grounds, and two of those
+(Jonah, Ecclesiastes) are dated partly by the linguistic profile this model
+measures.  Refitting on externally anchored books alone drops genre-controlled
+$\rho$ to $\RTDgenre$.  That test is confounded---four of the six dropped
+books are late prophetic, so it also strips the late end of the within-genre
+range---and the two effects cannot be separated with this corpus.  The
+circularity is reduced relative to conventional practice but not eliminated.
 
 \textbf{Corpus asymmetry.}  The anchored corpus is skewed post-exilic, because
 that is where external synchronisms are dense.  Inverse-density weighting
@@ -1261,6 +1689,114 @@ date discussed here.  The features used are drawn from the consonantal text
 and its morphological parse, but the parse itself is a modern scholarly
 product.
 
+\subsection*{The Hebrew Experiment Is a Non-Detection, Not a Measurement}
+
+The Hebrew archaizing result is reported above as a small number, and it is
+worth being explicit about what a small number means when the instrument
+measuring it is this coarse.
+
+Total lexical archaizing of six securely dated late books moves their estimates
+by \arcMeanAbs~yr.  The model's own leave-one-out residuals average
+\DETresid~yr, and the 68\% jackknife+ interval on a single undated unit has a
+half-width of about \DEThalf~yr.  The observed displacement is therefore
+\DETpct\% of the noise against which it would have to be seen.  A shift that
+size is not distinguishable from no shift at all.
+
+The correct statement is consequently weaker than ``lexical archaizing is
+cheap'', and it is a statement about the instrument rather than about scribes:
+\emph{this model cannot detect archaizing of this kind}.  It does not follow
+that a Persian-period scribe substituting Classical vocabulary would gain
+little; it follows that if he did, this model would not notice.  The two
+propositions are easy to conflate and only the second is supported here.
+
+Two features of the design explain the non-detection and bound what it can be
+generalized to.  The substitution operates on the recognized \cbh{}/\lbh{}
+diagnostic pairs, of which only \LXdiagPresent{} of \LXdiagTotal{} are frequent
+enough to enter the feature set at all; the rest---the Persian loanwords and
+Aramaisms that carry most of the weight in the philological literature---are too
+rare to survive a filter that requires a feature to be measurable within
+\HBtarget{} words.  And the model's own signal, though entirely lexical, is
+spread thinly across \LXnlex{} common lexemes of which none is worth more than
+\sensTopLever~yr per standard deviation.  Substituting a handful of diagnostic
+items therefore alters a handful of features out of \LXnlex{} and moves the
+estimate very little.  A human philologist reasoning from exactly the rare
+markers this model discards is not subject to the same insensitivity, and may
+well be harder to deceive than the model is.
+
+The Greek experiment is what carries the argument about archaizing, because
+there the imitation is real, its authors are known, and the displacement is
+\GKattshiftAbs~yr---an order of magnitude above this model's noise floor, and
+\GKwithinAbs~yr when each Atticizer is compared only with texts of its own
+genre.
+
+\subsection*{What This Means for the Archaic Poems}
+
+The non-detection bears directly on the results most likely to be cited from
+this paper, and it cuts against them.
+
+The Song of the Sea is placed at \poemSea{} BCE and the Song of Deborah at
+\poemDeb.  Neither is anywhere near the twelfth- or eleventh-century dates
+sometimes proposed for them on prosodic and orthographic
+grounds~\cite{Albright1968,Cross1975}; on this evidence they are early
+monarchic at best.  That gap is worth stating plainly, because a reader who
+takes these results as corroborating a very early date for the Song of the Sea
+will have read them backwards.
+
+Set beside that, the poems sit closer to the exile than the point estimates
+suggest once two displacements are admitted.  Lamentations, the corpus's only
+securely dated poetry, is placed \genPoetryAbs~yr earlier than it was written.
+Lamentations is not archaizing: it is genuine poetry of its own date, and the
+displacement is what poetic register alone buys.  Applying that correction moves
+the Song of the Sea to \DETseaAdj{} BCE, leaving \DETseaAdjMargin~yr between it
+and the exile---less than one further correction of the same size.
+
+A deliberately archaizing poem would be expected to exceed that figure rather
+than match it, since it would carry intentional archaism on top of the register
+effect Lamentations already exhibits.  The displacement required to bring the
+Song of the Sea to the exile is \DETseaExileX{} times the Lamentations residual,
+and to the end of the exile, where the material of Isaiah 40--55 belongs,
+\DETseaDeuteroX{} times.  Neither multiple is extravagant for a text composed in
+conscious imitation of older verse.
+
+I do not argue that case here; the evidence assembled in this paper cannot
+settle it, and the poems' pre-exilic placement remains this study's best
+estimate.  What the paper can establish is the shape of the argument that would
+be needed.  An exilic Song of the Sea is not excluded by these results---it
+requires a register-plus-archaizing displacement of roughly twice what an
+unremarkable poetic book already shows, in a model demonstrably unable to detect
+archaizing at all.  Whether the poem's language, imagery and theology support
+that reading is a question for philology rather than for this model, and one I
+intend to take up separately.
+
+\subsection*{Which Analyses Were Planned, and Which Were Not}
+
+This study grew by responding to its own failures, and a reader is entitled to
+know which results were sought and which were stumbled into, because the two
+carry different evidential weight.
+
+Planned before any result was seen: the corpus and its anchoring, the
+passage-level design, the leave-one-book-out protocol, the free-shuffle
+permutation null, the archaizing simulation, and the Greek replication.  Those
+are confirmatory.
+
+Everything else in this article was prompted by something that had already gone
+wrong.  The genre analysis began when narrative books were noticed to be
+systematically misplaced; the within-genre null, the feature screen and the
+genre-controlled statistic all follow from it.  The lexical-versus-morphosyntactic
+ablation was a response to the suspicion that the model was classifying subject
+matter.  The specification curve was built after the point estimates proved
+unstable.  The block-separation analysis was undertaken as a positive result and
+is reported as a negative one.  The feature-encoding comparison came last of
+all.  These are exploratory, and the two nulls are the only inferential
+statements among them that were computed against a pre-declared number of draws.
+
+The distinction matters most for the block separations, where an exploratory
+analysis produced three significant results in the expected direction that a
+subsequent control dissolved.  Had the control not been applied, three false
+claims would have entered the literature with $p$-values attached.  I report the
+sequence rather than the tidied outcome so that the reader can weigh the
+exploratory results accordingly.
+
 \subsection*{Scholarly Context for a Late Torah}
 
 The finding that the Pentateuchal sources are post-exilic is not novel in
@@ -1274,11 +1810,92 @@ argument for a pre-exilic P~\cite{Hurvitz1982,Hurvitz2014} and the broader
 neo-documentary position maintain earlier dates.
 
 What is offered here is not the direction of the result but its arrival with a
-calibrated uncertainty and a measured sensitivity to archaizing.  The linguistic
-argument for a pre-exilic P has always had to assume that the post-exilic
-appearance of a text cannot be manufactured, while the argument for a
-post-exilic P has always had to assume the converse.  The measurements above
-constrain both assumptions.
+calibrated uncertainty, an explicit genre control, and a stated limit on what
+can be said about archaizing.  The linguistic argument for a pre-exilic P has
+always had to assume that the post-exilic appearance of a text cannot be
+manufactured, while the argument for a post-exilic P has assumed the converse.
+This study constrains the second assumption and, in Greek, the first; in Hebrew
+it establishes only that the question is beyond the resolution of a model of
+this kind, which is itself worth knowing before the assumption is made again.
+
+\subsection*{Feature Encoding, and a Better Way to Build the Features}
+
+Two questions about the feature encoding were raised late in this work and are
+reported because one of them points somewhere useful.
+
+The features are rates per \HBtarget{} words rather than proportions, so a
+linear model in them does not imply an impossible value.  But if the trajectory
+of a form over time is logistic, as language change generally is, then a model
+linear in the raw rate is fitting a curve with a straight line.  Refitting on
+transformed rates confirms the mismatch is real but small: $\log(1+x)$ improves
+mean absolute error from \FSrawMae{} to \FSlogMae~yr and rank correlation from
+$\FSrawRho$ to $\FSlogRho$.  It does nothing for the confound that actually
+limits this study---genre-controlled $\rho$ is $\FSlogGenre$ against
+$\GNrhoPartial$ unscreened---so the reported model is left on the raw scale.
+
+The second question is more consequential.  A rate per \HBtarget{} words
+measures how often an author reaches for a form at all, which is substantially a
+matter of genre, mixed together with which of the competing forms he chooses
+when he does, which is the diachronic signal.  Variationist linguistics
+separates them by dividing within the set of alternants: the share of
+\emph{'an\=ok\^\i}{} among first-person singular pronouns, rather than
+\emph{'an\=ok\^\i}{} per \HBtarget{} words.  Encoded as a share, that single
+variable's genre-controlled correlation with date rises from \FSanokiGenre{} to
+\FSshareGenre.
+
+Applied at the scale the corpus currently permits, the effect is larger than one
+variable would suggest.  \VTpairs{} alternant pairs have both members above the
+frequency filter, of which \VTstrict{} are strict linguistic variables and the
+rest near-synonyms an automatic procedure cannot distinguish.  A model built on
+those \VTshareFeat{} share features alone---against \HBfeat{} rate
+features---gives a genre-controlled $\rho$ of $\VTshareGenre$, well above the
+$\GNrhoPartial$ of the full rate model, though its raw correlation
+($\VTshareRho$) and error (\VTshareMae~yr) are worse.  That is what the theory
+predicts: shares discard the frequency information that genre drives, keeping
+only the choice between forms.  Jackknifing over books, the share model's
+genre-controlled $\rho$ runs \VTjkLo{} to \VTjkHi{} with a median of
+\VTjkMed, against \VTjkRateMed{} for the rate model, and beats it in
+\VTjkWin{} of \VTjkN{} single-book deletions.  Combining both feature sets gives
+$\VTbothGenre$ at \VTbothMae~yr.
+
+Two controls establish that this is the encoding rather than an artifact of
+fitting seven features instead of \HBfeat.  Refitting on the \emph{same fourteen
+lexemes} as plain rates---identical linguistic material, differently
+encoded---gives a genre-controlled $\rho$ of $\VTctlSame$, less than half the
+share encoding's $\VTshareGenre$.  And seven rate features drawn at random give
+a median of $\VTctlRandMed$ over \VTctlRandN{} draws, reaching at most
+$\VTctlRandMax$; none attains the share model's value.  Parsimony does not
+produce this, and neither does the choice of lexemes, since the same-material
+control holds those fixed.
+
+The pair list, however, will not bear the weight the comparison invites, and
+the reason is worth reporting because it is the same failure the paper documents
+elsewhere.  Only \VTlitPairs{} of the \VTpairs{} surviving pairs come from the
+diachronic literature---the first-person pronoun~\cite{Rooker1990,Polzin1976}
+and the \emph{'el}/\emph{le} merger~\cite{Polzin1976}.  The remaining five were
+assembled by me as plausible alternations, and three of them are
+not linguistic variables at all but near-synonyms.  Fitted on the two
+literature-derived pairs alone the model gives $\VTlitGenre$; on the five
+investigator-added pairs it gives $\VTnonlitGenre$.  The result does not come
+from the pairs the literature vouches for.
+
+Nor is it stable across the pair set.  Dropping one pair at a time moves
+genre-controlled $\rho$ between $\VTlooLo$ and $\VTlooHi$, and the seven-pair
+model is one of \VTsubsets{} non-empty subsets that could have been reported.
+The number quoted above is therefore a point in a space that was searched after
+the outcome was visible, and the specification-curve discipline applied to the
+dating results has not been applied to it.
+
+What survives is narrower and worth keeping separate from what does not.  The
+\emph{encoding} effect is controlled: identical lexemes, differently encoded,
+differ by more than a factor of two, and no random seven-feature model
+approaches the share model.  The particular seven-pair \emph{feature set} is
+not a result, and I do not offer it as one.  A model built on shares would need
+its pair list specified in advance on linguistic grounds, and its own passage
+through the specification curve, the permutation nulls and the ablations---which is a study, not a revision.  The reason to say so plainly is that this
+encoding is the only change tried here that moved the confound rather than the
+accuracy, and that makes it exactly the kind of promising result that a
+post-hoc feature list would be most likely to overstate.
 
 \subsection*{Extensibility}
 
@@ -1304,14 +1921,37 @@ than merely reported.
 \section*{Conclusion}
 % =====================================================================
 
-Biblical Hebrew morphosyntax carries a diachronic signal strong enough to order
-books in time and to tell pre-exilic from post-exilic composition, but too weak
-to resolve dates within the post-exilic period.  Applied to the Pentateuchal
-sources, a model calibrated on independently anchored books places the Priestly,
-Deuteronomic, and JE composites after the exile with probability of at least
-\srcminpost, and recovers the classical sequence JE $\rightarrow$ D
-$\rightarrow$ P without having been trained on any of them.  The Song of the Sea
-and the Song of Deborah are the earliest of the \NTargets{} undated units.
+Biblical Hebrew carries a diachronic signal strong enough to order books in
+time and to separate pre-exilic from post-exilic composition, and far too weak
+to date any single text to a century.  Across \SPpass{} defensible
+specifications the Deuteronomic and Priestly sources fall after the exile
+without exception and the JE composite in \SPJEpost, in the classical sequence
+JE $\rightarrow$ D $\rightarrow$ P, with central estimates in the Persian
+period.  The Song of the Sea and the Song of Deborah remain the earliest of the
+\NTargets{} undated units.  No individual date in this study should be quoted
+to a century, and the intervals say so.
+
+Two findings about method matter more than the dates, and both cut against
+current practice.  Genre, not chronology, is the dominant axis of variation in a
+corpus assembled this way; a study reporting raw rank correlation without
+controlling for it overstates its signal by roughly half.  And the diachronic
+signal that survives is entirely lexical: refitting on verb morphology, clause
+structure and agreement gives nothing.  That is a quantitative datum in a debate
+conducted largely by example, and it favors the lexical emphasis of Hurvitz's
+method over accounts appealing to grammatical change.
+
+The paper also reports a claim it could not sustain, and I think that is the
+most instructive part of it.  Splitting each source at the division its critical
+literature already draws produces three significant separations, all in the
+expected direction, from a model that was told nothing about those divisions.
+Under the genre control the separations disappear and the Deuteronomic one
+reverses.  Legal prose and hortatory narrative differ in vocabulary, and that
+difference was doing the work.  The unscreened result is precisely what a study
+would publish if it stopped one step short of its own control, and it would have
+been wrong.  Detecting compositional strata by linguistic date remains a
+reasonable ambition; \HBbooks{} anchor books spanning a single religious
+literature are not enough to do it, and any future attempt will have to clear
+the same bar.
 
 The premise on which all such conclusions rest, that a late author cannot
 convincingly write early, has been treated as an assumption for two decades.  It
@@ -1345,12 +1985,36 @@ resembles the cheap mechanism rather than the expensive one.
 \input{tables/tab_s4_leverage}
 \input{tables/tab_s5_greek}
 \input{tables/tab_s6_registers}
+\input{tables/tab_s7_stopping}
+\input{tables/tab_s9_speccurve}
+\input{tables/tab_s10_redteam}
+\input{tables/tab_s11_blocks}
+\input{tables/tab_targets}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig_targets.pdf}
+\caption{{\bf S1 Fig. Undated units under the reference specification.}  Thick
+bars are 68\% jackknife+ intervals, thin bars 90\%; the dashed line is the
+exile of 586~BCE.  The three poems are extracted at verse precision.  No unit
+shown contributed to training, feature selection, weighting, regularization or
+calibration.  These are the estimates from one configuration among the
+\SPtotal{} reported in Fig~\ref{fig:speccurve}, and carry that configuration's
+arbitrariness.}
+\label{fig:targets}
+\end{figure}
 
 \paragraph*{S1 Appendix.}
 \label{S1_Appendix}
 {\bf Source partitions.}  Chapter-and-verse specification of every
 documentary source, sub-stratum and poem dated in this study
 (Table~\ref{tab:s1}).
+
+\paragraph*{S1 Fig.}
+\label{S1_Fig}
+{\bf Undated units under the reference specification.}  Point estimates with
+68\% and 90\% jackknife+ intervals for all \NTargets{} undated units
+(Fig~\ref{fig:targets}).
 
 \paragraph*{S2 Table.}
 \label{S2_Table}
@@ -1380,14 +2044,53 @@ of the Atticizers under three definitions of the non-archaizing training set
 (Table~\ref{tab:s6}).
 
 % =====================================================================
+\paragraph*{S7 Table.}
+\label{S7_Table}
+{\bf Permutation $p$-values by stopping point.}  Each null's $p$-value
+computed on every prefix of its draw sequence, so that the dependence of the
+conclusion on where the run stopped can be inspected directly
+(Table~\ref{tab:s7}).
+
+\paragraph*{S8 Table.}
+\label{S8_Table}
+{\bf Undated units, numerical.}  The same estimates in tabular form, with
+passage counts and the probability of post-exilic composition
+(Table~\ref{tab:targets}).
+
+\paragraph*{S9 Table.}
+\label{S9_Table}
+{\bf Every analytic specification.}  All \SPtotal{} combinations of passage
+size, feature screen, weighting and calibration, with per-source estimates and
+the validation statistic for each (Table~\ref{tab:s9}).
+
+\paragraph*{S11 Table.}
+\label{S11_Table}
+{\bf Block separations under the genre screen.}  Each within-source block
+comparison recomputed at three levels of the genre-diagnostic feature screen,
+showing that the separations do not survive it (Table~\ref{tab:s11}).
+
+\paragraph*{S10 Table.}
+\label{S10_Table}
+{\bf Ablations designed to break the result.}  Refits with the lexical or
+morphosyntactic feature family removed, and with the six anchors lacking an
+external synchronism dropped (Table~\ref{tab:s10}).
+
 \section*{Data Availability}
 % =====================================================================
 
-All code, extracted feature matrices, and result files are available at the
-repository cited in the acknowledgments.  The \bhsa{} database is
+All code, extracted feature matrices, model outputs, and the scripts that
+regenerate every table, figure and numerical claim in this article are
+available at \url{https://github.com/adairaar/diachronic-hebrew}.  The
+repository includes \texttt{run\_pipeline.py}, which executes the analysis end
+to end and verifies its own output (see \emph{Computational reproducibility}
+below).
+
+Two inputs are third-party and are not redistributed.  The \bhsa{} database is
 available under its own license from the Eep Talstra Centre for Bible and
-Computer.  Greek texts derive from the open First1KGreek and Perseus
-collections.
+Computer and is retrieved automatically by the Text-Fabric access layer on
+first run; the repository records the version used.  Greek texts derive from
+the open First1KGreek and Perseus collections and are retrieved by a script in
+the repository.  No other data are required.
 
 \section*{Acknowledgments}
 

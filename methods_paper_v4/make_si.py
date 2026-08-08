@@ -224,4 +224,117 @@ for t in MAN:
 lt.append("\\end{longtable}\n\\endgroup\n")
 open(f"{T}/tab_s5_greek.tex", "w").write("".join(lt))
 
-print(f"wrote S1, S2, S3, S4 ({len(FF)} features), S5 ({len(MAN)} texts), S6")
+# ── S7: p-values as a function of where a permutation run is stopped ────
+NS = pd.read_csv(need(f"{R}/null_stability.csv"))
+NAME = {"within-genre": "Within-genre shuffle, genre-controlled $\\rho$",
+        "free shuffle": "Free shuffle, raw $\\rho$"}
+body = ["\\textbf{Null} & \\textbf{Draws} & \\textbf{$p$} \\\\\n\\midrule\n"]
+for t, sub in NS.groupby("test", sort=False):
+    first = True
+    for _, r in sub.iterrows():
+        lab = NAME[t] if first else ""
+        body.append(f"{lab} & {int(r.draws)} & {r.p:.4f} \\\\\n")
+        first = False
+    body.append("\\addlinespace\n")
+open(f"{T}/tab_s7_stopping.tex", "w").write(
+    "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
+    "\\caption{{\\bf Sensitivity of each permutation $p$-value to the stopping "
+    "point.}  Permutation runs are expensive, and a run stopped after its "
+    "result is known invites the objection that it was stopped favourably.  "
+    "Both nulls are therefore reported at a stopping point declared in advance, "
+    "and this table gives the $p$-value that each prefix of the same draw "
+    "sequence would have produced.  The within-genre $p$ falls below 0.05 "
+    "before 100 draws and stays there; the free-shuffle $p$ is below 0.01 "
+    "throughout.  The exact value drifts, but neither conclusion depends on "
+    "where the run was stopped.}\n"
+    "\\label{tab:s7}\n\\begin{tabular}{lrr}\n\\toprule\n"
+    + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+
+# ── S9: the full specification grid ─────────────────────────────────────
+SC = pd.read_csv(need(f"{R}/spec_curve.csv")).sort_values("rho_genre",
+                                                          ascending=False)
+body = ["\\textbf{Words} & \\textbf{Keep} & \\textbf{Wt} & \\textbf{Cal} & "
+        "\\textbf{$\\rho$} & \\textbf{$\\rho|$g} & \\textbf{MAE} & "
+        "\\textbf{JE} & \\textbf{D} & \\textbf{P} \\\\\n\\midrule\n"]
+for _, r in SC.iterrows():
+    mark = "" if r.rho_genre > 0.20 else "$^{\\dagger}$"
+    body.append(
+        f"{int(r['size'])}{mark} & {int(100*r.frac)}\\% & "
+        f"{'yes' if r.alpha else 'no'} & {'var' if r.calib=='var' else 'none'} & "
+        f"{r.rho_raw:+.2f} & {r.rho_genre:+.2f} & {r.mae:.0f} & "
+        f"{r.JE_source_pred:.0f} & {r.D_source_pred:.0f} & "
+        f"{r.P_source_pred:.0f} \\\\\n")
+open(f"{T}/tab_s9_speccurve.tex", "w").write(
+    "\\begin{table}[!ht]\n\\centering\n\\scriptsize\n"
+    "\\caption{{\\bf Every analytic specification.}  All "
+    f"{len(SC)} combinations of passage size, feature screen (share of features "
+    "retained after dropping the most genre-diagnostic), inverse-density "
+    "weighting and variance-matched calibration.  Each row is a complete "
+    "leave-one-book-out run.  $\\rho$ is raw Spearman correlation with true "
+    "date, $\\rho|$g the same with genre held fixed, MAE the mean absolute "
+    "error in years, and the last three columns the point estimates for the "
+    "sources in BCE.  Rows marked $\\dagger$ fall below the "
+    "$\\rho|\\mathrm{g} > 0.20$ validation threshold and are excluded from "
+    "every figure quoted in the text.  Sorted by validation statistic.}\n"
+    "\\label{tab:s9}\n\\begin{tabular}{rrllrrrrrr}\n\\toprule\n"
+    + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+
+# ── S10: the red-team ablations ─────────────────────────────────────────
+RT = pd.read_csv(need(f"{R}/red_team.csv"))
+body = ["\\textbf{Variant} & \\textbf{Features} & \\textbf{Books} & "
+        "\\textbf{MAE} & \\textbf{$\\rho$} & \\textbf{$\\rho|$genre} & "
+        "\\textbf{$\\rho$ proph} \\\\\n\\midrule\n"]
+NAMES = {"A": "Baseline: all features, all anchors",
+         "B": "Morphosyntax only (lexemes removed)",
+         "C": "Lexemes only (morphosyntax removed)",
+         "D": "Externally anchored books only",
+         "E": "Morphosyntax only, external anchors only"}
+for _, r in RT.iterrows():
+    body.append(f"{NAMES[r.label[0]]} & {int(r.n_feats)} & {int(r.n_books)} & "
+                f"{r.mae:.0f} & {r.rho_raw:+.3f} & {r.rho_genre:+.3f} & "
+                f"{r.rho_proph:+.3f} \\\\\n")
+open(f"{T}/tab_s10_redteam.tex", "w").write(
+    "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
+    "\\caption{{\\bf Ablations designed to break the result.}  Each variant "
+    "removes something the result might depend on and refits from scratch.  "
+    "Comparing B against C isolates which feature family carries the signal; "
+    "D and E remove the anchors whose dates rest on literary rather than "
+    "external grounds.  Note that D also strips four late prophetic books and "
+    "so restricts the within-genre chronological range, which cannot be "
+    "separated from the circularity it is meant to test.}\n"
+    "\\label{tab:s10}\n\\begin{tabular}{lrrrrrr}\n\\toprule\n"
+    + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+
+# ── S11: block separations under the genre screen ───────────────────────
+BR = pd.read_csv(need(f"{R}/block_robustness.csv"))
+DRj = json.load(open(need(f"{R}/disp_robustness.json")))
+LAB = {1.0: "All features", 0.75: "Drop top 25\\%", 0.5: "Drop top 50\\%"}
+body = ["\\textbf{Feature set} & \\textbf{$p$ feats} & "
+        "\\textbf{$\\rho|$genre} & \\textbf{Comparison} & \\textbf{Gap} & "
+        "\\textbf{95\\% CI} & \\textbf{$p$} \\\\\n\\midrule\n"]
+for fr in (1.0, 0.75, 0.5):
+    sub = BR[BR.frac == fr]
+    first = True
+    for _, r in sub.iterrows():
+        lead = (f"{LAB[fr]} & {int(r.n_feats)} & {r.rho_genre:+.3f}"
+                if first else " & & ")
+        body.append(f"{lead} & {r['pair']} & {r.gap:+.0f} & "
+                    f"{r.lo:+.0f} to {r.hi:+.0f} & {r.p:.3f} \\\\\n")
+        first = False
+    body.append("\\addlinespace\n")
+open(f"{T}/tab_s11_blocks.tex", "w").write(
+    "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
+    "\\caption{{\\bf Block separations under the genre screen.}  Difference in "
+    "median passage estimate between the conventionally distinguished blocks of "
+    "each source, recomputed with the most genre-diagnostic features removed.  "
+    "A positive gap places the first-named block earlier.  Screening improves "
+    "the model's genre-controlled ordering of the anchors (third column) while "
+    "removing the separations entirely, and reversing the Deuteronomic one.  "
+    "Widening intervals reflect the smaller feature set; the sign change in "
+    "Deuteronomy does not.}\n"
+    "\\label{tab:s11}\n\\begin{tabular}{lrrlrrr}\n\\toprule\n"
+    + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
+
+print(f"wrote S1, S2, S3, S4 ({len(FF)} features), S5 ({len(MAN)} texts), "
+      f"S6, S7 ({len(NS)} stopping points), S9 ({len(SC)} specs), "
+      f"S10 ({len(RT)} variants), S11 ({len(BR)} block tests)")

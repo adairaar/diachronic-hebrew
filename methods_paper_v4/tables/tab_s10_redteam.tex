@@ -1,0 +1,17 @@
+\begin{table}[!ht]
+\centering
+\footnotesize
+\caption{{\bf Ablations designed to break the result.}  Each variant removes something the result might depend on and refits from scratch.  Comparing B against C isolates which feature family carries the signal; D and E remove the anchors whose dates rest on literary rather than external grounds.  Note that D also strips four late prophetic books and so restricts the within-genre chronological range, which cannot be separated from the circularity it is meant to test.}
+\label{tab:s10}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Variant} & \textbf{Features} & \textbf{Books} & \textbf{MAE} & \textbf{$\rho$} & \textbf{$\rho|$genre} & \textbf{$\rho$ proph} \\
+\midrule
+Baseline: all features, all anchors & 578 & 25 & 118 & +0.665 & +0.404 & +0.378 \\
+Morphosyntax only (lexemes removed) & 328 & 25 & 130 & +0.538 & +0.140 & +0.059 \\
+Lexemes only (morphosyntax removed) & 250 & 25 & 104 & +0.678 & +0.458 & +0.429 \\
+Externally anchored books only & 577 & 19 & 111 & +0.592 & +0.052 & +0.102 \\
+Morphosyntax only, external anchors only & 327 & 19 & 115 & +0.618 & +0.109 & +0.212 \\
+\bottomrule
+\end{tabular}
+\end{table}
