@@ -20,19 +20,27 @@ configuration got here in the first place.
 Lambda and the retention fraction are chosen jointly, since the eigendecomposition
 makes the whole lambda path cost what one lambda costs.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, time
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 EX = 586
 SRC = ["JE_source", "D_source", "P_source"]
 FRACS = [1.00, 0.75, 0.50, 0.30]
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META and c in Dt.columns]
 Xa = Dd[feats].astype(float)
 keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -148,9 +156,9 @@ resid = t - cal
 
 D = pd.DataFrame(dict(book=books, truth=t, pred=cal, resid=resid,
                       genre=[bgenre[b] for b in books]))
-D.to_csv("/home/claude/genre_invariant_nested_books.csv", index=False)
+D.to_csv(DH.f("genre_invariant_nested_books.csv"), index=False)
 CH = pd.DataFrame(chosen)
-CH.to_csv("/home/claude/genre_invariant_nested_choices.csv", index=False)
+CH.to_csv(DH.f("genre_invariant_nested_choices.csv"), index=False)
 
 rho_raw = stats.spearmanr(t, cal)[0]
 rho_par = genre_rho(books, t, cal)
@@ -194,7 +202,7 @@ for u in SRC + ["D_Code", "D_Frame", "Lev_Holiness", "Lev_Priestly", "Jer_DTR",
     v = float(tgt[u]); pp = float(np.mean((v + resid) < EX))
     rows.append(dict(unit=u, pred=round(v), p_post=round(pp, 2)))
     print(f"  {u:<15}{v:>7.0f}{pp:>17.2f}")
-pd.DataFrame(rows).to_csv("/home/claude/genre_invariant_nested_targets.csv",
+pd.DataFrame(rows).to_csv(DH.f("genre_invariant_nested_targets.csv"),
                           index=False)
 
 json.dump(dict(mae=float(np.abs(resid).mean()), rho_raw=float(rho_raw),
@@ -205,6 +213,6 @@ json.dump(dict(mae=float(np.abs(resid).mean()), rho_raw=float(rho_raw),
                frac_counts={f"{f:.2f}": int((CH.frac == f).sum()) for f in FRACS},
                preds={r["unit"]: r["pred"] for r in rows},
                p_post={r["unit"]: r["p_post"] for r in rows}),
-          open("/home/claude/genre_invariant_nested.json", "w"), indent=2)
+          open(DH.f("genre_invariant_nested.json"), "w"), indent=2)
 print(f"\ntotal {(time.time()-t0)/60:.1f} min")
 print("wrote genre_invariant_nested{,_books,_choices,_targets}")

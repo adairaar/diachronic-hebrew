@@ -15,11 +15,19 @@ anything.
   lexemes as plain rates: identical material, different encoding, so any
   selection bias applies equally to both arms.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-exec(open("/home/claude/variationist_test.py").read().split('print(f"  {\'model\'')[0])
+exec(open(DH.script("variationist_test.py")).read().split('print(f"  {\'model\'')[0])
 
 y = Dd.date_bce.values.astype(float); g = Dd.unit.values
 med = Dd[feats0].astype(float).median()
@@ -65,5 +73,5 @@ print(f"      over {NDRAW} draws: {rand.min():+.3f} to {rand.max():+.3f}; "
       f"{int((rand >= shares).sum())} reach the share model")
 json.dump(dict(shares=float(shares), same_lexemes=float(same),
                random7=rand.tolist(), n_draws=NDRAW),
-          open("/home/claude/share_control.json", "w"), indent=2)
+          open(DH.f("share_control.json"), "w"), indent=2)
 print("\nwrote share_control.json")

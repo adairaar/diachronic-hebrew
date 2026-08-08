@@ -18,6 +18,14 @@ Reported alongside MAE:
   two-sided calls  whether the model ever makes a CONFIDENT PRE-EXILIC call,
                    which is the failure that sank the previous design
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, itertools, sys, json
 from scipy import stats
 
@@ -27,9 +35,9 @@ META = {"chunk_id", "unit", "date_bce", "genre", "register", "n_words"}
 def load(target, kind):
     parts = []
     if kind in ("base", "both"):
-        parts.append(pd.read_csv(f"/home/claude/big_features_{target}.csv"))
+        parts.append(pd.read_csv(DH.f(f"big_features_{target}.csv")))
     if kind in ("ngram", "both"):
-        d = pd.read_csv(f"/home/claude/ngram_features_{target}.csv")
+        d = pd.read_csv(DH.f(f"ngram_features_{target}.csv"))
         if parts:
             d = d.drop(columns=[c for c in d.columns if c in META and c != "chunk_id"])
         parts.append(d)
@@ -138,14 +146,14 @@ if __name__ == "__main__":
                 except FileNotFoundError:
                     continue
                 out.append(m)
-                with open("/home/claude/sweep_results.jsonl","a") as fh:
+                with open(DH.f("sweep_results.jsonl"),"a") as fh:
                     fh.write(json.dumps({k:(float(v) if isinstance(v,(int,float,np.floating)) else v) for k,v in m.items()})+"\n")
                 print(f"~{target:>4}w {kind:<6} calib={str(cal):<5} p={m['p']:>4} | "
                        f"MAE {m['mae']:6.1f}  rho {m['rho']:+.3f}  pair {m['pair']*100:4.1f}%  "
                        f"cov {m['cov']:.2f}  range [{m['pmax']:.0f},{m['pmin']:.0f}]  "
                        f"pre-calls {m['lo_ok']}/{m['lo_calls']}  post {m['hi_ok']}/{m['hi_calls']}",
                        flush=True)
-                R.to_csv(f"/home/claude/sweep_{target}_{kind}_{int(cal)}.csv", index=False)
+                R.to_csv(DH.f(f"sweep_{target}_{kind}_{int(cal)}.csv"), index=False)
                 del R; gc.collect()
-    pd.DataFrame(out).to_csv("/home/claude/sweep_summary.csv", index=False)
+    pd.DataFrame(out).to_csv(DH.f("sweep_summary.csv"), index=False)
     print("\nwrote sweep_summary.csv")

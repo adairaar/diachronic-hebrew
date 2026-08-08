@@ -6,12 +6,20 @@ Nothing in main.tex is a hand-typed number.  If a pipeline is re-run and a
 value changes, the manuscript changes with it; if a result file is missing,
 this script fails loudly rather than leaving a stale figure in the text.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, os, re, sys
 import numpy as np, pandas as pd
 
-R = "/home/claude"
-G = "/home/claude/greek"
-OUT = "/home/claude/ms/numbers.tex"
+
+G = DH.GREEK
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "numbers.tex")
 M = {}
 META_COLS = {"chunk_id", "unit", "date_bce", "genre", "register", "n_words"}
 
@@ -45,10 +53,10 @@ def signed(x, d=0):
 # ══════════════════════════════════════════════════════════════════════
 # 1. Hebrew corpus and model
 # ══════════════════════════════════════════════════════════════════════
-hb = json.load(open(need(f"{R}/final_lobo_metrics.json")))
+hb = json.load(open(need(DH.f("final_lobo_metrics.json"))))
 # The nominal passage size is a specification, not a measurement; it is defined
 # here anyway so the text cannot disagree with the matrix that was actually read.
-put("HBtarget", int(need(f"{R}/big_features_500.csv").split("_")[-1].split(".")[0]))
+put("HBtarget", int(need(DH.f("big_features_500.csv")).split("_")[-1].split(".")[0]))
 put("HBfeat", hb["n_feats"])
 put("HBchunks", hb["n_chunks"])
 put("HBbooks", hb["n_books"])
@@ -73,7 +81,7 @@ put("HBnullrho", signed(hb["null_rho_med"], 2))
 put("HBnullpair", hb["null_pair_med"] * 100, "{:.1f}")
 put("HBnullmae", hb["null_mae_med"], "{:.0f}")
 
-B = pd.read_csv(need(f"{R}/final_lobo_books.csv"))
+B = pd.read_csv(need(DH.f("final_lobo_books.csv")))
 put("HBoldest", int(B.truth.max())); put("HBlatest", int(B.truth.min()))
 put("HBworstbook", B.loc[B.resid.abs().idxmax(), "book"].replace("_", " "))
 put("HBworsterr", int(abs(B.resid).max()))
@@ -83,32 +91,32 @@ put("lamErr", int(abs(lam_.resid)))
 
 put("arwEzra", 28.9, "{:.1f}"); put("arwJer", 19)
 
-JP = json.load(open(need(f"{R}/jackknife_plus.json")))
+JP = json.load(open(need(DH.f("jackknife_plus.json"))))
 put("jkwidth", JP["width_new"], "{:.0f}")
 put("jkwidthold", JP["width_old"], "{:.0f}")
 
-CA = json.load(open(need(f"{R}/conformal_audit.json")))
+CA = json.load(open(need(DH.f("conformal_audit.json"))))
 put("covsixeight", CA["cov68_impl"] * 100, "{:.0f}")
 put("covninety", CA["cov90_impl"] * 100, "{:.0f}")
 put("qnestedsixeight", CA["q68_nested"], "{:.0f}")
 put("maenested", CA["mae_nested"], "{:.0f}")
 
-BA = json.load(open(need(f"{R}/boundary_audit.json")))
+BA = json.load(open(need(DH.f("boundary_audit.json"))))
 put("bndPhr", BA["phrase"]["partial"]); put("bndCl", BA["clause"]["partial"])
 put("bndSent", BA["sentence"]["partial"])
 put("bndSentPct", BA["sentence"]["pct"], "{:.1f}")
-CS = json.load(open(need(f"{R}/chunk_sizes.json")))
+CS = json.load(open(need(DH.f("chunk_sizes.json"))))
 put("cszMin", CS["min"]); put("cszMed", CS["med"]); put("cszMax", CS["max"])
 put("cszBand", CS["pct_in_band"], "{:.0f}")
 put("cszSingle", CS["n_single"])
 
-FC = json.load(open(need(f"{R}/feature_counts.json")))
+FC = json.load(open(need(DH.f("feature_counts.json"))))
 put("Fextract", FC["extracted"]); put("Fdead", FC["dead"])
 put("Flex", FC["n_lexical"]); put("Fpos", FC["n_POS/bigram"])
 put("Fverb", FC["n_verb"]); put("Fphr", FC["n_phrase"])
 put("Fagr", FC["n_agreement"]); put("Fstruct", FC["n_structural"])
 
-GC = json.load(open(need(f"{R}/genre_check.json")))
+GC = json.load(open(need(DH.f("genre_check.json"))))
 put("genPoetry", GC["poetry_resid"], "{:+.0f}")
 put("genPoetryAbs", abs(GC["poetry_resid"]), "{:.0f}")
 put("genNarr", GC["narrative_resid"], "{:+.0f}")
@@ -118,7 +126,7 @@ put("genSeaAdj", GC["sea_adj"]); put("genSeaPadj", GC["sea_p_adj"], "{:.2f}")
 put("genDebAdj", GC["deb_adj"]); put("genDebPadj", GC["deb_p_adj"], "{:.2f}")
 put("genSeaMargin", GC["sea_margin"]); put("genRatio", GC["ratio"], "{:.1f}")
 
-NS = json.load(open(need(f"{R}/nested_selection_var.json")))
+NS = json.load(open(need(DH.f("nested_selection_var.json"))))
 put("NSmae", NS["mae"], "{:.0f}")
 put("NSrho", signed(NS["rho"], 2)); put("NSrhop", NS["rho_p"], "{:.4f}")
 put("NSpair", NS["pair"] * 100, "{:.1f}")
@@ -126,13 +134,13 @@ put("NSpreok", NS["pre_ok"]); put("NSpostok", NS["post_ok"])
 put("NSside", NS["pre_ok"] + NS["post_ok"])
 put("NSgrid", 36)
 
-JK = json.load(open(need(f"{R}/jackknife.json")))
+JK = json.load(open(need(DH.f("jackknife.json"))))
 put("JKrhomin", signed(JK["rho_min"], 2)); put("JKrhomax", signed(JK["rho_max"], 2))
 put("JKrhomed", signed(JK["rho_med"], 2))
 put("JKpairmin", JK["pair_min"] * 100, "{:.1f}")
 put("JKpairmax", JK["pair_max"] * 100, "{:.1f}")
 
-LK = pd.read_csv(need(f"{R}/leakage_generative.csv"))
+LK = pd.read_csv(need(DH.f("leakage_generative.csv")))
 tight = LK[LK.sigma_u <= 20]
 put("leakShare", LK.data_share.median(), "{:.1f}")
 put("leakLeaky", LK.err_leaky.mean(), "{:.0f}")
@@ -142,7 +150,7 @@ put("leakTightShare", tight.data_share.mean(), "{:.1f}")
 put("leakTightLeaky", tight.err_leaky.mean(), "{:.1f}")
 put("leakTightHonest", tight.err_honest.mean(), "{:.0f}")
 
-uc = json.load(open(need(f"{R}/uncal_compare.json")))
+uc = json.load(open(need(DH.f("uncal_compare.json"))))
 put("UNCALmae", uc["uncal"]["mae"], "{:.0f}")
 put("UNCALspan", uc["uncal"]["span"], "{:.0f}")
 put("UNCALpreok", uc["uncal"]["pre_ok"])
@@ -152,7 +160,7 @@ put("TRUEspan", uc["true_span"], "{:.0f}")
 # ══════════════════════════════════════════════════════════════════════
 # 2. Targets
 # ══════════════════════════════════════════════════════════════════════
-T = pd.read_csv(need(f"{R}/target_predictions_final.csv")).set_index("unit")
+T = pd.read_csv(need(DH.f("target_predictions_final.csv"))).set_index("unit")
 put("NTargets", len(T))
 for u, mac in [("P_source", "P"), ("JE_source", "JE"), ("D_source", "D"),
                ("D_Code", "DCode"), ("D_Frame", "DFrame"),
@@ -171,7 +179,7 @@ put("srcminpost", T.loc[["P_source", "JE_source", "D_source"], "p_post"].min(),
 # ══════════════════════════════════════════════════════════════════════
 # 3. Poems (verse-precise)
 # ══════════════════════════════════════════════════════════════════════
-P = pd.read_csv(need(f"{R}/poem_predictions.csv")).set_index("unit")
+P = pd.read_csv(need(DH.f("poem_predictions.csv"))).set_index("unit")
 for u, mac in [("SongSea_poem", "Sea"), ("SongSea_chapter", "SeaChap"),
                ("SongSea_prose", "SeaProse"), ("SongMoses_poem", "Moses"),
                ("SongMoses_prose", "MosesProse"), ("SongDeborah_poem", "Deb")]:
@@ -190,7 +198,7 @@ put("poemMosesProseFrac", 100 * P.loc["SongMoses_prose"].n_words
 # ══════════════════════════════════════════════════════════════════════
 # 4. Synthetic archaizing
 # ══════════════════════════════════════════════════════════════════════
-A = pd.read_csv(need(f"{R}/archaize_results.csv"))
+A = pd.read_csv(need(DH.f("archaize_results.csv")))
 units = list(A.unit.unique())
 shifts, dens = {}, {}
 for u in units:
@@ -213,7 +221,7 @@ put("arcEccDens", dens["Ecclesiastes"], "{:.1f}")
 put("arcEzraTokens", int(A[(A.unit == "Ezra") & (A.rate == 1.0)].n_sub.iloc[0]))
 
 # feature sensitivity, recomputed from the fitted model (sensitivity.py)
-SS = json.load(open(need(f"{R}/sensitivity.json")))
+SS = json.load(open(need(DH.f("sensitivity.json"))))
 put("sensLexShare", SS["lex_share"], "{:.0f}")
 put("sensLexCount", SS["lex_count"])
 put("sensTopLever", SS["top_lever"], "{:.1f}")
@@ -224,7 +232,7 @@ put("sensMorphShare", 100 - SS["lex_share"], "{:.0f}")
 # ══════════════════════════════════════════════════════════════════════
 # 5. Greek
 # ══════════════════════════════════════════════════════════════════════
-gk = json.load(open(need(f"{G}/greek_metrics.json")))
+gk = json.load(open(need(DH.g("greek_metrics.json"))))
 put("GKfeat", gk["n_feats"])
 put("GKtexts", gk["n_train_texts"])
 put("GKchunks", gk["n_train_chunks"])
@@ -240,7 +248,7 @@ put("GKattshift", gk["att_mean_shift"], "{:+.0f}")
 put("GKattshiftAbs", abs(gk["att_mean_shift"]), "{:.0f}")
 put("GKattmed", gk["att_median_shift"], "{:+.0f}")
 put("GKattearly", gk["att_n_early"])
-GA = pd.read_csv(need(f"{G}/greek_atticizers.csv"))
+GA = pd.read_csv(need(DH.g("greek_atticizers.csv")))
 put("GKattmaxearly", int(GA["shift"].min()))
 put("GKattmaxname", GA.loc[GA["shift"].idxmin(), "author"])
 
@@ -250,7 +258,7 @@ put("GKattshiftW", np.average(GA["shift"], weights=GA.n_chunks), "{:+.0f}")
 put("GKattbign", len(big))
 put("GKattshiftBig", big["shift"].mean(), "{:+.0f}")
 
-RV = json.load(open(need(f"{G}/greek_register_variants.json")))
+RV = json.load(open(need(DH.g("greek_register_variants.json"))))
 vb, vc = RV[1], RV[2]
 put("GKattshiftB", vb["mean_shift"], "{:+.0f}")
 put("GKattshiftC", vc["mean_shift"], "{:+.0f}")
@@ -260,7 +268,7 @@ put("GKattearlyTot", sum(v["n_early"] for v in RV))
 put("GKattTot", sum(v["n_test"] for v in RV))
 
 # ── the Greek measurement under the same genre control ───────────────
-gg = json.load(open(need(f"{G}/greek_genre.json")))
+gg = json.load(open(need(DH.g("greek_genre.json"))))
 put("GKrhoRaw", signed(gg["rho_raw"], 3))
 put("GKrhoGenre", signed(gg["rho_genre"], 3))
 put("GKbetween", 100 * gg["between_genre"], "{:.0f}")
@@ -281,7 +289,7 @@ put("GKntexts", gg["n_texts"])
 # ══════════════════════════════════════════════════════════════════════
 # 6. Genre: the dominant confound, and what survives it
 # ══════════════════════════════════════════════════════════════════════
-gc = json.load(open(need(f"{R}/genre_confound.json")))
+gc = json.load(open(need(DH.f("genre_confound.json"))))
 put("GNrhoRaw", signed(gc["rho_raw"], 3))
 put("GNrhoPartial", signed(gc["rho_partial"], 3))
 put("GNrhoProph", signed(gc["rho_prophecy"], 3))
@@ -291,7 +299,7 @@ put("GNnProph", gc["subsets"]["prophecy only"]["n"])
 put("GNprophLo", gc["subsets"]["prophecy only"]["lo"])
 put("GNprophHi", gc["subsets"]["prophecy only"]["hi"])
 
-gs = json.load(open(need(f"{R}/genre_symmetric.json")))
+gs = json.load(open(need(DH.f("genre_symmetric.json"))))
 put("GNoffNar", gs["off_nar"], "{:+.0f}")
 put("GNoffPro", gs["off_pro"], "{:+.0f}")
 put("GNwinNar", gs["win_nar"], "{:+.0f}")
@@ -308,18 +316,18 @@ put("GNnNar", gs["genres"]["narrative"]["n"])
 put("GNminUncorr", gs["minpost_uncorr"], "{:.2f}")
 put("GNminNar", gs["minpost_nar"], "{:.2f}")
 put("GNminPro", gs["minpost_pro"], "{:.2f}")
-gsc = pd.read_csv(need(f"{R}/genre_symmetric_targets.csv")).set_index("unit")
+gsc = pd.read_csv(need(DH.f("genre_symmetric_targets.csv"))).set_index("unit")
 for u, k in [("JE_source", "JE"), ("D_source", "D"), ("P_source", "P")]:
     put(f"GNadj{k}", int(gsc.loc[u, "nar_adj"]))
 
-if os.path.exists(f"{R}/within_genre_null.json"):
-    wg = json.load(open(f"{R}/within_genre_null.json"))
+if os.path.exists(DH.f("within_genre_null.json")):
+    wg = json.load(open(DH.f("within_genre_null.json")))
     put("GNnullP", wg["p_partial"], "{:.3f}")
     put("GNnullN", wg["n"])
     put("GNnullMed", wg["null_partial_med"], "{:+.3f}")
 
 # ── the signal is lexical, not morphosyntactic ───────────────────────
-rt = pd.read_csv(need(f"{R}/red_team.csv")).set_index("label")
+rt = pd.read_csv(need(DH.f("red_team.csv"))).set_index("label")
 for key, lab in [("A", "A  baseline: everything"),
                  ("B", "B  morphosyntax only, no lexemes"),
                  ("C", "C  lexemes only, no morphosyntax"),
@@ -332,7 +340,7 @@ for key, lab in [("A", "A  baseline: everything"),
     put(f"RT{key}proph", signed(r.rho_proph, 3))
     put(f"RT{key}mae", r.mae, "{:.0f}")
 
-lx = json.load(open(need(f"{R}/lexical_diagnosis.json")))
+lx = json.load(open(need(DH.f("lexical_diagnosis.json"))))
 put("LXnlex", lx["n_lex"])
 put("LXrhoEta", signed(lx["rho_leverage_eta"], 3))
 put("LXetaTop", lx["eta_top50"], "{:.3f}")
@@ -344,7 +352,7 @@ put("LXanokiRank", lx["diagnostic_ranks"][">NKJ"])
 put("LXaniRank", 4)
 
 # ── quantities that had been typed into the prose ────────────────────
-AS = json.load(open(need(f"{R}/anchor_sensitivity.json")))
+AS = json.load(open(need(DH.f("anchor_sensitivity.json"))))
 byl = {a["label"][0]: a for a in AS}
 put("ANCrho", signed(byl["C"]["rho"], 2))
 put("ANCmae", byl["C"]["mae"], "{:.0f}")
@@ -353,14 +361,14 @@ put("ANCn", byl["C"]["n"])
 put("ANCdropTwoRho", signed(byl["B"]["rho"], 2))
 put("ANCcostTwo", byl["A"]["rho"] - byl["B"]["rho"], "{:.2f}")
 
-JKc = pd.read_csv(need(f"{R}/jackknife.csv"))
+JKc = pd.read_csv(need(DH.f("jackknife.csv")))
 col = "rho" if "rho" in JKc.columns else JKc.columns[1]
 drop = (JK["full_rho"] - JKc[col]).abs()
 put("JKcostMin", drop.nlargest(3).min(), "{:.2f}")
 put("JKcostMid", drop.nlargest(2).min(), "{:.2f}")
 put("JKcostMax", drop.max(), "{:.2f}")
 
-QL = open(need(f"{R}/quicklobo.log")).read().split("\n")
+QL = open(need(DH.f("quicklobo.log"))).read().split("\n")
 def _ql(line):
     return dict(p=int(re.search(r"p=\s*(\d+)", line).group(1)),
                 mae=float(re.search(r"MAE\s+([\d.]+)", line).group(1)),
@@ -370,7 +378,7 @@ put("CTYPfeat", q1["p"] - q0["p"])
 put("CTYPrhoBefore", signed(q0["rho"], 3)); put("CTYPrhoAfter", signed(q1["rho"], 3))
 put("CTYPmaeBefore", q0["mae"], "{:.0f}"); put("CTYPmaeAfter", q1["mae"], "{:.0f}")
 
-CL = json.load(open(need(f"{R}/clausetype_leverage.json")))
+CL = json.load(open(need(DH.f("clausetype_leverage.json"))))
 put("CTYPtopName", CL["top_feature"])
 put("CTYPtopRho", CL["top_rho"], "{:.2f}")
 put("CTYPsecName", CL["second_feature"])
@@ -381,7 +389,7 @@ put("CTYPnAll", CL["n_ctyp"])
 put("SELinflate", float(hb["rho"]) - NS["rho"], "{:.2f}")
 put("SELinflatePair", 100 * (float(hb["pair"]) - NS["pair"]), "{:.1f}")
 
-PW = open(need(f"{R}/power.log")).read()
+PW = open(need(DH.f("power.log"))).read()
 _icc = [float(x) for x in re.findall(r"median feature ICC\s*:\s*([\d.]+)", PW)]
 _szs = [int(x) for x in re.findall(r"^\s*(\d+)\s+\d+\s+[\d.]+\s+[\d.]+",
                                    PW, re.M)]
@@ -390,16 +398,16 @@ put("ICClo", min(_icc), "{:.2f}"); put("ICChi", max(_icc), "{:.2f}")
 put("ICCszLo", min(_szs)); put("ICCszHi", max(_szs))
 put("ICCgainLo", min(_gain), "{:.0f}"); put("ICCgainHi", max(_gain), "{:.0f}")
 
-NG = pd.read_csv(need(f"{R}/ngram_features_500.csv"), nrows=1)
+NG = pd.read_csv(need(DH.f("ngram_features_500.csv")), nrows=1)
 put("NGfeat", len([c for c in NG.columns if c not in META_COLS]))
 
-IC2 = pd.read_csv(need(f"{R}/internal_consistency.csv"))
+IC2 = pd.read_csv(need(DH.f("internal_consistency.csv")))
 from scipy import stats as _st
 _r, _p = _st.spearmanr(IC2.n, IC2.sd)
-DISP = json.load(open(need(f"{R}/layers_numbers.json")))
+DISP = json.load(open(need(DH.f("layers_numbers.json"))))
 put("LYsizeRho", signed(0.561, 2)); put("LYsizeP", 0.02, "{:.2f}")
 
-GA2 = pd.read_csv(need(f"{G}/greek_genre_atticizers.csv")).set_index("text")
+GA2 = pd.read_csv(need(DH.g("greek_genre_atticizers.csv"))).set_index("text")
 for tid, mac in [("arrian_anabasis", "Arr"), ("cassius_dio_roman", "Dio"),
                  ("aelius_aristides_sacred", "Aris"),
                  ("philostratus_lives_sophists", "Phil"),
@@ -411,8 +419,8 @@ for tid, mac in [("arrian_anabasis", "Arr"), ("cassius_dio_roman", "Dio"),
         put(f"GKa{mac}", abs(GA2.loc[tid, "shift"]), "{:.0f}")
 
 # ── the block separations under the genre screen ─────────────────────
-BR = pd.read_csv(need(f"{R}/block_robustness.csv"))
-DR = json.load(open(need(f"{R}/disp_robustness.json")))
+BR = pd.read_csv(need(DH.f("block_robustness.csv")))
+DR = json.load(open(need(DH.f("disp_robustness.json"))))
 LVL = {1.0: "Full", 0.75: "Q", 0.5: "H"}          # full / drop 25% / drop 50%
 for fr, tag in LVL.items():
     sub = BR[BR.frac == fr]
@@ -436,7 +444,7 @@ for d, tag in zip(DR, ["Full", "Q", "H"]):
     put(f"DR{tag}pJEgtP", d["p_JE_gt_P"], "{:.3f}")
 put("DRminJEgtD", min(d["p_JE_gt_D"] for d in DR), "{:.3f}")
 
-SCp = pd.read_csv(need(f"{R}/spec_curve.csv"))
+SCp = pd.read_csv(need(DH.f("spec_curve.csv")))
 SCv = SCp[SCp.rho_genre > 0.20]
 gap = SCv.D_Code_pred - SCv.D_Frame_pred
 put("SPcodeEarlier", int((gap > 0).sum()))
@@ -447,10 +455,10 @@ put("SPseaThou", int((SCv[SCv["size"] == 1000].Song_Sea_pred > 586).sum()))
 put("SPseaThouN", int((SCv["size"] == 1000).sum()))
 
 # ── the archaizing detection floor ───────────────────────────────────
-_Rjk = np.loadtxt(need(f"{R}/jackknife_plus_residuals.csv"), delimiter=",",
+_Rjk = np.loadtxt(need(DH.f("jackknife_plus_residuals.csv")), delimiter=",",
                   skiprows=1)
-_P = pd.read_csv(need(f"{R}/poem_predictions.csv")).set_index("unit")
-_G = json.load(open(need(f"{R}/genre_check.json")))
+_P = pd.read_csv(need(DH.f("poem_predictions.csv"))).set_index("unit")
+_G = json.load(open(need(DH.f("genre_check.json"))))
 _sea = float(_P.loc["SongSea_poem", "pred"])
 _poet = abs(_G["poetry_resid"])
 put("DETresid", np.abs(_Rjk).mean(), "{:.0f}")
@@ -469,7 +477,7 @@ put("DETseaAdj", _sea - _poet, "{:.0f}")
 put("DETseaAdjMargin", _sea - _poet - 586, "{:+.0f}")
 
 # ── feature scale and variationist denominator ───────────────────────
-FS = json.load(open(need(f"{R}/feature_scale_test.json")))
+FS = json.load(open(need(DH.f("feature_scale_test.json"))))
 by = {r["scale"]: r for r in FS["scales"]}
 put("FSrawMae", by["raw rate (as published)"]["mae"], "{:.0f}")
 put("FSrawRho", signed(by["raw rate (as published)"]["rho"], 3))
@@ -481,7 +489,7 @@ put("FSshareGenre", signed(FS["share"][1], 3))
 put("FSanokiGenre", signed(FS["anoki_rate"][1], 3))
 put("FSpairBooks", FS["n_books_with_pair"])
 
-VT = json.load(open(need(f"{R}/variationist_test.json")))
+VT = json.load(open(need(DH.f("variationist_test.json"))))
 vby = {r["model"]: r for r in VT["results"]}
 put("VTpairs", VT["n_pairs"]); put("VTstrict", VT["n_strict"])
 _sh = [k for k in vby if k.startswith("shares only")][0]
@@ -491,20 +499,20 @@ put("VTshareRho", signed(vby[_sh]["rho"], 3))
 put("VTshareMae", vby[_sh]["mae"], "{:.0f}")
 put("VTbothGenre", signed(vby["rates + shares"]["rho_genre"], 3))
 put("VTbothMae", vby["rates + shares"]["mae"], "{:.0f}")
-VJ = json.load(open(need(f"{R}/variationist_jk.json")))
+VJ = json.load(open(need(DH.f("variationist_jk.json"))))
 _s, _r = np.array(VJ["shares"]), np.array(VJ["rates"])
 put("VTjkLo", signed(_s.min(), 3)); put("VTjkHi", signed(_s.max(), 3))
 put("VTjkMed", signed(np.median(_s), 3))
 put("VTjkRateMed", signed(np.median(_r), 3))
 put("VTjkWin", int((_s > _r).sum())); put("VTjkN", len(_s))
-SC7 = json.load(open(need(f"{R}/share_control.json")))
+SC7 = json.load(open(need(DH.f("share_control.json"))))
 _r7 = np.array(SC7["random7"])
 put("VTctlSame", signed(0.239, 3))
 put("VTctlRandMed", signed(np.median(_r7), 3))
 put("VTctlRandMax", signed(_r7.max(), 3))
 put("VTctlRandN", len(_r7))
 put("VTctlRandHits", int((_r7 >= 0.554).sum()))
-SP = json.load(open(need(f"{R}/share_provenance.json")))
+SP = json.load(open(need(DH.f("share_provenance.json"))))
 put("VTlitPairs", SP["n_literature"])
 put("VTlitGenre", signed(SP["literature_only"], 3))
 put("VTnonlitGenre", signed(SP["nonliterature_only"], 3))
@@ -513,14 +521,14 @@ put("VTlooHi", signed(SP["loo_max"], 3))
 put("VTsubsets", 2 ** SP["n_pairs"] - 1)
 
 # ── pipeline shape, read from the runner so it cannot drift ──────────
-_rp = open(need(f"{R}/run_pipeline.py")).read()
+_rp = open(need(DH.f("run_pipeline.py"))).read()
 _stages = re.findall(r'\("([^"]+)",\s*\["python3"', _rp)
 _outs = set(re.findall(r'"([A-Za-z0-9_/]+\.(?:csv|json))"', _rp))
 put("NPipeStages", len(_stages))
 put("NPipeOutputs", len(_outs))
 
 # ── directional sensitivity to anchor-date error ─────────────────────
-AB = json.load(open(need(f"{R}/anchor_bias.json")))
+AB = json.load(open(need(DH.f("anchor_bias.json"))))
 put("ABshift", AB["shift"])
 put("ABpass", 100 * AB["passthrough"], "{:.0f}")
 _sc = {r["scenario"]: r for r in AB["scenarios"]}
@@ -536,7 +544,7 @@ put("ABsoftMax", max(abs(_sc[_soft][f"d_{u}"])
 # ══════════════════════════════════════════════════════════════════════
 # 7. Specification curve
 # ══════════════════════════════════════════════════════════════════════
-SC = pd.read_csv(need(f"{R}/spec_curve.csv"))
+SC = pd.read_csv(need(DH.f("spec_curve.csv")))
 SP = SC[SC.rho_genre > 0.20]
 put("SPtotal", len(SC))
 put("SPpass", len(SP))
@@ -558,8 +566,8 @@ for f, k in [(0.5, "Half"), (0.75, "ThreeQ"), (1.0, "All")]:
 # ══════════════════════════════════════════════════════════════════════
 # 8. Internal structure of the sources
 # ══════════════════════════════════════════════════════════════════════
-ly = json.load(open(need(f"{R}/layers_numbers.json")))
-IC = pd.read_csv(need(f"{R}/internal_consistency.csv")).set_index("unit")
+ly = json.load(open(need(DH.f("layers_numbers.json"))))
+IC = pd.read_csv(need(DH.f("internal_consistency.csv"))).set_index("unit")
 put("LYrefMed", ly["ref_median"], "{:.0f}")
 put("LYrefN", ly["n_ref"])
 for u, k in [("JE_source", "JE"), ("D_source", "D"), ("P_source", "P")]:

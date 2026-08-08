@@ -14,12 +14,20 @@ Numbering follows the order the figures are first referenced in the manuscript,
 which is what the submission system expects, and is derived from main.tex rather
 than hard-coded so it cannot fall out of step with the text.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os, re, subprocess, sys
 from PIL import Image
 
-MS = "/home/claude/ms"
-SRC = f"{MS}/figures"
-OUT = f"{MS}/submission"
+MS = DH.PAPER
+SRC = DH.FIGURES
+OUT = os.path.join(MS, "submission")
 DPI = 600
 MIN_W_IN, MAX_W_IN, MAX_H_IN = 2.63, 7.5, 8.75
 

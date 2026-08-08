@@ -21,14 +21,22 @@ S-curve rather than a straight line.
    of its denominator, that bears directly on this paper's central confound.
    Tested here on the one alternant pair the corpus can support.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 feats0 = [c for c in Dd.columns if c not in PT.META]
 k = Dd[feats0].astype(float).std() > 0
 feats0 = list(np.array(feats0)[k.values])
@@ -132,6 +140,6 @@ r3 = one(Bk["share"].values, Bk.date_bce.values, gen,
 json.dump(dict(scales=rows,
                anoki_rate=r1, ani_rate=r2, share=r3,
                n_books_with_pair=int(len(Bk))),
-          open("/home/claude/feature_scale_test.json", "w"), indent=2)
+          open(DH.f("feature_scale_test.json"), "w"), indent=2)
 print(f"\n  ({len(Bk)} of 25 books contain at least one member of the pair)")
 print("\nwrote feature_scale_test.json")

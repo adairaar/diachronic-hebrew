@@ -13,11 +13,19 @@ residuals, and substituting a scalar produced intervals about a third too
 narrow -- in the direction that makes the poems look better evidenced than they
 are.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import pandas as pd
 
-R = "/home/claude"
-P = pd.read_csv(f"{R}/poem_predictions.csv").set_index("unit")
-J = pd.read_csv(f"{R}/jackknife_plus_targets.csv").set_index("unit")
+
+P = pd.read_csv(DH.f("poem_predictions.csv")).set_index("unit")
+J = pd.read_csv(DH.f("jackknife_plus_targets.csv")).set_index("unit")
 
 COLS = ["lo68", "hi68", "lo90", "hi90", "p_post"]
 before = float((P.hi68 - P.lo68).mean())
@@ -29,7 +37,7 @@ for u in hit:
         if c in J.columns:
             P.loc[u, c] = J.loc[u, c]
 
-P.reset_index().to_csv(f"{R}/poem_predictions.csv", index=False)
+P.reset_index().to_csv(DH.f("poem_predictions.csv"), index=False)
 after = float((P.loc[hit].hi68 - P.loc[hit].lo68).mean())
 print(f"{len(hit)}/{len(P)} poem units given jackknife+ intervals from the folds")
 if missing:

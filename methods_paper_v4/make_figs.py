@@ -9,6 +9,14 @@ Where four or more groups appear, identity is carried by direct labels and
 physical separation rather than by hue, and color is reserved for the one
 semantic contrast that matters: which side of the exile a unit falls on.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, os, sys
 import numpy as np, pandas as pd
 import matplotlib as mpl
@@ -16,9 +24,8 @@ mpl.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-R, G = "/home/claude", "/home/claude/greek"
-F = "/home/claude/ms/figures"
-os.makedirs(F, exist_ok=True)
+G = DH.GREEK
+
 
 BLUE, ORANGE, PURPLE = "#2166AC", "#D95F02", "#7570B3"
 INK, MUTED, GRID, SURF = "#1a1a1a", "#5a5a5a", "#dcdcdc", "white"
@@ -47,8 +54,8 @@ def despine(ax, keep=("left", "bottom")):
 # ══════════════════════════════════════════════════════════════════════
 # Fig 1. Leave-one-book-out calibration
 # ══════════════════════════════════════════════════════════════════════
-B = pd.read_csv(need(f"{R}/final_lobo_books.csv"))
-m = json.load(open(need(f"{R}/final_lobo_metrics.json")))
+B = pd.read_csv(need(DH.f("final_lobo_books.csv")))
+m = json.load(open(need(DH.f("final_lobo_metrics.json"))))
 q68, q90 = m["q68"], m["q90"]
 
 fig, ax = plt.subplots(figsize=(3.6, 3.6), dpi=400)
@@ -85,15 +92,15 @@ ax.annotate(f"MAE {m['mae']:.0f} yr   $\\rho$ = {m['rho']:+.2f}\n"
             f"bands: 68% and 90% conformal",
             xy=(0.035, 0.975), xycoords="axes fraction", ha="left", va="top",
             fontsize=5.8, color=MUTED, linespacing=1.4)
-fig.savefig(f"{F}/fig_calibration.pdf", bbox_inches="tight", pad_inches=0.02)
+fig.savefig(DH.fig("fig_calibration.pdf"), bbox_inches="tight", pad_inches=0.02)
 plt.close(fig)
 print("fig_calibration")
 
 # ══════════════════════════════════════════════════════════════════════
 # Fig 2. Undated units
 # ══════════════════════════════════════════════════════════════════════
-T = pd.read_csv(need(f"{R}/target_predictions_final.csv")).set_index("unit")
-P = pd.read_csv(need(f"{R}/poem_predictions.csv")).set_index("unit")
+T = pd.read_csv(need(DH.f("target_predictions_final.csv"))).set_index("unit")
+P = pd.read_csv(need(DH.f("poem_predictions.csv"))).set_index("unit")
 
 NM = {"Song_Deborah": "Song of Deborah", "Song_Sea": "Song of the Sea",
       "D_Song": "Song of Moses", "JE_source": "JE composite",
@@ -171,16 +178,16 @@ ax.legend(handles=[
     loc="lower left", frameon=False, fontsize=6, ncol=4, handletextpad=0.4,
     columnspacing=1.1, borderpad=0.1, bbox_to_anchor=(0.0, -0.115))
 fig.subplots_adjust(left=0.27)
-fig.savefig(f"{F}/fig_targets.pdf", bbox_inches="tight", pad_inches=0.03)
+fig.savefig(DH.fig("fig_targets.pdf"), bbox_inches="tight", pad_inches=0.03)
 plt.close(fig)
 print("fig_targets")
 
 # ══════════════════════════════════════════════════════════════════════
 # Fig 3. What archaizing buys (two panels: Hebrew synthetic, Greek observed)
 # ══════════════════════════════════════════════════════════════════════
-A = pd.read_csv(need(f"{R}/archaize_results.csv"))
-GA = pd.read_csv(need(f"{G}/greek_atticizers.csv")).sort_values("truth")
-gm = json.load(open(need(f"{G}/greek_metrics.json")))
+A = pd.read_csv(need(DH.f("archaize_results.csv")))
+GA = pd.read_csv(need(DH.g("greek_atticizers.csv"))).sort_values("truth")
+gm = json.load(open(need(DH.g("greek_metrics.json"))))
 
 fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.2, 3.3), dpi=400,
                              gridspec_kw={"width_ratios": [1, 1.15], "wspace": 0.62})
@@ -256,14 +263,14 @@ a2.annotate(f"shaded band: the model's own $\\pm${gm['mae']:.0f} yr error "
             fontsize=5.6, color=MUTED)
 a2.annotate("$\\leftarrow$ looks older than it is", xy=(XLO + 15, k + 0.1),
             fontsize=5.8, color=PURPLE, va="top", ha="left")
-fig.savefig(f"{F}/fig_archaize.pdf", bbox_inches="tight", pad_inches=0.03)
+fig.savefig(DH.fig("fig_archaize.pdf"), bbox_inches="tight", pad_inches=0.03)
 plt.close(fig)
 print("fig_archaize")
 
 # ══════════════════════════════════════════════════════════════════════
 # Fig 4. Where the model's leverage lives
 # ══════════════════════════════════════════════════════════════════════
-FAM = pd.read_csv(need(f"{R}/sensitivity_families.csv"))
+FAM = pd.read_csv(need(DH.f("sensitivity_families.csv")))
 fam = [(r.family, r.total, int(r["count"]), r.share) for _, r in FAM.iterrows()]
 fam.sort(key=lambda x: -x[3])
 
@@ -283,7 +290,7 @@ despine(ax, keep=("bottom",))
 ax.tick_params(axis="y", length=0)
 ax.set_title("Where the model's leverage lives", loc="left", fontsize=8.5,
              fontweight="bold", pad=7)
-fig.savefig(f"{F}/fig_leverage.pdf", bbox_inches="tight", pad_inches=0.02)
+fig.savefig(DH.fig("fig_leverage.pdf"), bbox_inches="tight", pad_inches=0.02)
 plt.close(fig)
 print("fig_leverage")
-print("\nfigures ->", F)
+print("\nfigures ->", DH.FIGURES)

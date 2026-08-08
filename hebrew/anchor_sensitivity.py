@@ -6,17 +6,25 @@ Six of the 25 anchors rest on literary or linguistic judgment rather than on a
 datable external event.  Two of those (Jonah, Ecclesiastes) are dated partly by
 their linguistic profile, which is the very thing the model is meant to measure.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, importlib.util, json
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 # anchors that are NOT an external synchronism or datable event
 SOFT = ["Jonah", "Ecclesiastes", "Malachi", "Joel", "Isaiah_3", "Zechariah_2"]
 CIRCULAR = ["Jonah", "Ecclesiastes"]          # dated partly BY linguistic profile
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 feats0 = [c for c in Dd.columns if c not in PT.META]
 
 
@@ -72,4 +80,4 @@ out = []
 out.append(run([], "A  all 25 anchors (as published)"))
 out.append(run(CIRCULAR, "B  drop the 2 linguistically dated"))
 out.append(run(SOFT, "C  drop all 6 non-external anchors"))
-json.dump(out, open("/home/claude/anchor_sensitivity.json", "w"), indent=2)
+json.dump(out, open(DH.f("anchor_sensitivity.json"), "w"), indent=2)

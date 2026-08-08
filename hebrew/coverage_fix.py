@@ -23,6 +23,14 @@ ROUTE 2  INVERSE-DENSITY WEIGHTING of the training books
 All scale factors and weights are computed from TRAINING books only, inside
 each outer fold.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, sys, json
 from scipy import stats
 
@@ -32,9 +40,9 @@ META = {"chunk_id", "unit", "date_bce", "genre", "register", "n_words"}
 def load(target, kind):
     parts = []
     if kind in ("base", "both"):
-        parts.append(pd.read_csv(f"/home/claude/big_features_{target}.csv"))
+        parts.append(pd.read_csv(DH.f(f"big_features_{target}.csv")))
     if kind in ("ngram", "both"):
-        d = pd.read_csv(f"/home/claude/ngram_features_{target}.csv")
+        d = pd.read_csv(DH.f(f"ngram_features_{target}.csv"))
         if parts:
             d = d.drop(columns=[c for c in d.columns if c in META and c != "chunk_id"])
         parts.append(d)
@@ -126,8 +134,8 @@ if __name__ == "__main__":
                 print(f"~{target}w {kind:<5} {mode:<5} w-alpha={alpha:<4} | "
                       f"MAE {m['mae']:6.1f}  rho {m['rho']:+.3f}  pair {m['pair']*100:4.1f}%  "
                       f"cov {m['cov']:.2f}  range [{m['pmax']:.0f},{m['pmin']:.0f}]", flush=True)
-                R.to_csv(f"/home/claude/cov_{target}_{kind}_{mode}_{alpha}.csv", index=False)
-                with open("/home/claude/coverage_fix.jsonl", "a") as fh:
+                R.to_csv(DH.f(f"cov_{target}_{kind}_{mode}_{alpha}.csv"), index=False)
+                with open(DH.f("coverage_fix.jsonl"), "a") as fh:
                     fh.write(json.dumps({k: (float(v) if isinstance(v, (int, float, np.floating)) else v)
                                          for k, v in m.items()})+"\n")
-    pd.DataFrame(res).to_csv("/home/claude/coverage_fix_summary.csv", index=False)
+    pd.DataFrame(res).to_csv(DH.f("coverage_fix_summary.csv"), index=False)

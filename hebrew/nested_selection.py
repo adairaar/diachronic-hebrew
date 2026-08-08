@@ -24,6 +24,14 @@ and cannot inflate either; it is applied always, as a pre-specified correction
 for shrinkage rather than as a tuned setting.  Including it in the grid only
 produces arbitrary ties on a rank criterion.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, itertools
 import numpy as np, pandas as pd
 from scipy import stats
@@ -37,7 +45,7 @@ BW = 90.0
 
 
 def load(size):
-    D = pd.read_csv(f"/home/claude/big_features_{size}.csv")
+    D = pd.read_csv(DH.f(f"big_features_{size}.csv"))
     f = [c for c in D.columns if c not in META]
     Xa = D[f].astype(float)
     keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -134,7 +142,7 @@ for b in BOOKS:
           flush=True)
 
 R = pd.DataFrame(rows)
-R.to_csv("/home/claude/nested_selection_var.csv", index=False)
+R.to_csv(DH.f("nested_selection_var.csv"), index=False)
 t = R.truth.values; p = R.pred.values
 rho, rp = stats.spearmanr(t, p)
 n = len(t); ok = tot = 0
@@ -164,5 +172,5 @@ json.dump(dict(mae=mae, base=base, rho=float(rho), rho_p=float(rp),
                modal_size=int(R["size"].mode()[0]),
                modal_calib=R["calib"].mode()[0],
                n_distinct=int(R.groupby(['size','alpha','calib','lam']).ngroups)),
-          open("/home/claude/nested_selection_var.json", "w"), indent=2)
+          open(DH.f("nested_selection_var.json"), "w"), indent=2)
 print("\nwrote nested_selection.csv, nested_selection.json")

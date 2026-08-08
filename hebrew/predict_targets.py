@@ -10,6 +10,14 @@ the dated corpus under leave-one-book-out, so they reflect the model's actual
 out-of-sample behaviour rather than its fit.  Intervals are conformal on those
 LOBO residuals: distribution-free, with finite-sample marginal coverage.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd
 from scipy import stats
 
@@ -38,8 +46,8 @@ def fit_predict(Xtr, ytr, wtr, Xte, lam):
 
 
 def main():
-    Dd = pd.read_csv("/home/claude/big_features_500.csv")
-    Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+    Dd = pd.read_csv(DH.f("big_features_500.csv"))
+    Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
     feats = [c for c in Dd.columns if c not in META]
     feats = [c for c in feats if c in Dt.columns]
     Xd = Dd[feats].astype(float)
@@ -111,7 +119,7 @@ def main():
                          chunk_sd=float(sub.pred.std()) if len(sub) > 1 else np.nan,
                          p_post=float(np.mean(draws < 586))))
     R = pd.DataFrame(rows).sort_values("pred", ascending=False)
-    R.to_csv("/home/claude/target_predictions_naive.csv", index=False)
+    R.to_csv(DH.f("target_predictions_naive.csv"), index=False)
 
     ORDER = ["Song_Sea","Song_Deborah","D_Song","JE_source","Gen_JE","Exo_JE","Num_JE",
              "P_source","Lev_Priestly","Lev_Holiness","D_source","D_Code","D_Frame",
@@ -137,7 +145,7 @@ if __name__ == "__main__":
     # __main__ guard: several downstream scripts import this module for its
     # helper functions, and an import must not touch any result file.
     import shutil
-    shutil.copy("/home/claude/target_predictions_naive.csv",
-                "/home/claude/target_predictions_final.csv")
+    shutil.copy(DH.f("target_predictions_naive.csv"),
+                DH.f("target_predictions_final.csv"))
     print("wrote target_predictions_naive.csv (provisional final copy made; "
           "run finalize_targets.py to publish)")

@@ -14,11 +14,19 @@ Protocol, fully nested so nothing leaks:
       predictive distribution for i = point_i + those residuals
       P_post(i) = fraction of that distribution later than 586 BCE
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd
 from scipy import stats
 import importlib.util
 
-spec = importlib.util.spec_from_file_location("pl", "/home/claude/period_loo2.py")
+spec = importlib.util.spec_from_file_location("pl", DH.script("period_loo2.py"))
 pl = importlib.util.module_from_spec(spec); spec.loader.exec_module(pl)
 
 BOUND = 586.0   # BCE; post-exilic means date < 586
@@ -103,7 +111,7 @@ if __name__ == "__main__":
     for fam in ("generative", "ridge"):
         R = run(fam)
         out[fam] = report(R, fam)
-        R.to_csv(f"/home/claude/postexilic_calibration_{fam}.csv", index=False)
+        R.to_csv(DH.f(f"postexilic_calibration_{fam}.csv"), index=False)
     print("\n" + "=" * 74)
     print("VERDICT")
     print("=" * 74)

@@ -29,7 +29,7 @@ def fingerprint(paths, extra=""):
             with open(p, "rb") as fh:
                 for blk in iter(lambda: fh.read(1 << 20), b""):
                     h.update(blk)
-        h.update(p.encode())
+        h.update(os.path.basename(p).encode())
     h.update(extra.encode())
     return h.hexdigest()[:16]
 

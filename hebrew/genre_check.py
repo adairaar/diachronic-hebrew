@@ -7,23 +7,31 @@ The corpus contains one securely dated poetic book, so no correction can be
 estimated reliably -- but the robustness of the conclusion to applying one
 anyway can be, and that is the useful quantity.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd
 
-B = pd.read_csv("/home/claude/final_lobo_books.csv")
-D = pd.read_csv("/home/claude/big_features_500.csv")
+B = pd.read_csv(DH.f("final_lobo_books.csv"))
+D = pd.read_csv(DH.f("big_features_500.csv"))
 gen = D.groupby("unit").genre.first()
 B["genre"] = B.book.map(gen)
 G = (B.groupby("genre").resid.agg(n="size", mean="mean", min="min", max="max")
        .sort_values("mean"))
 print("residual (true minus estimated) by genre; negative = placed too early\n")
 print(G.to_string())
-G.to_csv("/home/claude/genre_residuals.csv")
+G.to_csv(DH.f("genre_residuals.csv"))
 
 poetry = float(B.loc[B.genre == "poetry", "resid"].mean())
 print(f"\npoetry residual: {poetry:+.0f} yr  (from {int((B.genre=='poetry').sum())} book)")
 
-P = pd.read_csv("/home/claude/poem_predictions.csv").set_index("unit")
+P = pd.read_csv(DH.f("poem_predictions.csv")).set_index("unit")
 resid = (B.truth - B.pred).values
 EX = 586
 rows = []
@@ -43,7 +51,7 @@ for u, name in [("SongDeborah_poem", "Song of Deborah"),
           f"margin to 586 BCE: {need:+.0f} yr")
 
 R = pd.DataFrame(rows)
-R.to_csv("/home/claude/genre_adjusted_poems.csv", index=False)
+R.to_csv(DH.f("genre_adjusted_poems.csv"), index=False)
 sea = R[R.unit == "Song of the Sea"].iloc[0]
 ratio = sea.margin_to_exile / abs(poetry)
 print(f"\n  A genre correction would have to be {ratio:.1f} times the observed "
@@ -57,5 +65,5 @@ json.dump(dict(poetry_resid=poetry,
                deb_adj=int(R[R.unit == "Song of Deborah"].iloc[0].adjusted),
                deb_p_adj=float(R[R.unit == "Song of Deborah"].iloc[0].p_post_adj),
                sea_margin=int(sea.margin_to_exile), ratio=float(ratio)),
-          open("/home/claude/genre_check.json", "w"), indent=2)
+          open(DH.f("genre_check.json"), "w"), indent=2)
 print("\nwrote genre_residuals.csv, genre_adjusted_poems.csv, genre_check.json")

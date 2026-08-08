@@ -20,12 +20,19 @@ chapter against poem proper against prose remainder -- lives in
 poem_predictions.csv, which the manuscript reads directly.  Keeping the two
 apart means this table has one row per undated unit and no duplicates.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import pandas as pd
 
-R = "/home/claude"
 
-naive = pd.read_csv(f"{R}/target_predictions_naive.csv").set_index("unit")
-jk = pd.read_csv(f"{R}/jackknife_plus_targets.csv").set_index("unit")
+naive = pd.read_csv(DH.f("target_predictions_naive.csv")).set_index("unit")
+jk = pd.read_csv(DH.f("jackknife_plus_targets.csv")).set_index("unit")
 out = naive.copy()
 
 # jackknife+ intervals supersede the symmetric ones wherever available
@@ -39,7 +46,7 @@ for u in out.index:
         n_repl += 1
 
 out = out.reset_index().rename(columns={"index": "unit"})
-out.to_csv(f"{R}/target_predictions_final.csv", index=False)
+out.to_csv(DH.f("target_predictions_final.csv"), index=False)
 
 print(f"{len(naive)} units from the estimator")
 print(f"  {n_repl} given jackknife+ intervals")

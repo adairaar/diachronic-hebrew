@@ -25,18 +25,26 @@ Hypotheses under test, stated in advance:
     D    some variation; the law code and the frame are usually assigned layers
     JE   the most diverse; an early Jacob core with later additions would show
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 EX = 586
 RNG = np.random.default_rng(7)
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META and c in Dt.columns]
 Xa = Dd[feats].astype(float)
 keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -108,7 +116,7 @@ def disp(v):
 pd.concat([
     Dd[["unit", "cpred"]].assign(kind="anchor"),
     Dt[["unit", "cpred"]].assign(kind="target"),
-]).to_csv("/home/claude/chunk_preds.csv", index=False)
+]).to_csv(DH.f("chunk_preds.csv"), index=False)
 
 # ── the reference distribution: dispersion within single dated books ────────
 REF = {b: disp(Dd.cpred[g == b]) for b in books if (g == b).sum() >= 4}
@@ -153,7 +161,7 @@ for u, lab in UNITS:
     print(f"  {lab:<28}{d['n']:>4}{d['median']:>8.0f}{d['sd']:>7.0f}{d['iqr']:>7.0f}"
           f"{pct*100:>11.0f}%{d['pct_post']*100:>14.0f}%")
 R = pd.DataFrame(rows)
-R.to_csv("/home/claude/internal_consistency.csv", index=False)
+R.to_csv(DH.f("internal_consistency.csv"), index=False)
 print("\n  'vs anchors' is the percentile of that unit's dispersion within the")
 print("  reference distribution of single dated books.  50% means it looks like")
 print("  an ordinary book; 90% means it is more varied than nine in ten of them.")
@@ -203,5 +211,5 @@ json.dump(dict(ref_median_sd=float(np.median(ref_sd)),
                p_JE_gt_P=float(np.mean(BS["JE_source"] - BS["P_source"] > 0)),
                p_JE_gt_D=float(np.mean(BS["JE_source"] - BS["D_source"] > 0)),
                p_D_gt_P=float(np.mean(BS["D_source"] - BS["P_source"] > 0))),
-          open("/home/claude/internal_consistency.json", "w"), indent=2)
+          open(DH.f("internal_consistency.json"), "w"), indent=2)
 print("\nwrote internal_consistency.csv, internal_consistency.json")

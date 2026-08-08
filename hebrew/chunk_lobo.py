@@ -9,6 +9,14 @@ Compares directly against the book-level result this replaces:
   book-level LOO MAE  156.2 yr (generative) / 120.9 yr (ridge)
   constant predictor  137.3 yr
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, sys
 from scipy import stats
 
@@ -17,8 +25,8 @@ META = {"chunk_id", "unit", "date_bce", "sigma", "genre", "register", "n_words",
 
 
 def load(target, min_icc=0.0):
-    D = pd.read_csv(f"/home/claude/chunk_features_{target}.csv")
-    diag = pd.read_csv(f"/home/claude/chunk_diag_{target}.csv")
+    D = pd.read_csv(DH.f(f"chunk_features_{target}.csv"))
+    diag = pd.read_csv(DH.f(f"chunk_diag_{target}.csv"))
     keep = diag[(diag.usable) & (diag.icc.fillna(0) >= min_icc)].feature.tolist()
     keep = [f for f in keep if f in D.columns]
     X = D[keep].copy()

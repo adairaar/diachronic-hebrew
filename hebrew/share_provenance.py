@@ -8,11 +8,19 @@ the investigator, and how much the result moves as pairs are added or dropped.
 
 Both answers are unflattering, and they are computed here rather than asserted.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-exec(open("/home/claude/variationist_test.py").read().split('print(f"  {\'model\'')[0])
+exec(open(DH.script("variationist_test.py")).read().split('print(f"  {\'model\'')[0])
 
 # Provenance, checked pair by pair against the CBH/LBH literature.
 LITERATURE = {">NKJ", ">L"}      # 'anoki/'ani (Rooker, Polzin); 'el/le (Polzin)
@@ -64,5 +72,5 @@ json.dump(dict(n_pairs=len(allc), n_literature=len(lit), full=float(full),
                literature_only=float(L), nonliterature_only=float(N),
                loo={k: float(v) for k, v in loo.items()},
                loo_min=float(min(loo.values())), loo_max=float(max(loo.values()))),
-          open("/home/claude/share_provenance.json", "w"), indent=2)
+          open(DH.f("share_provenance.json"), "w"), indent=2)
 print("\nwrote share_provenance.json")

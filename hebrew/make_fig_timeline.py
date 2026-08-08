@@ -8,6 +8,14 @@ model families, ordered by the generative point estimate.
 Replaces fig1_corpus_timeline and fig_s12_corpus_timeline, both of which
 plotted HB-VI MAP estimates produced under the prior-leakage design.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
@@ -21,9 +29,9 @@ mpl.rcParams.update({"font.family": "DejaVu Sans", "font.size": 7,
                      "xtick.color": MUTED, "ytick.color": MUTED, "text.color": INK,
                      "xtick.major.width": 0.6, "xtick.major.size": 2.5})
 
-B = "/mnt/user-data/uploads/Diachronic Hebrew"
+
 import json
-man = json.load(open(f"{B}/hebrew/corpus_manifest_v2.json"))
+man = json.load(open(DH.f(f"corpus_manifest_v2.json")))
 NM = {"Isaiah_1":"Isaiah 1–39","Isaiah_2":"Isaiah 40–55","Isaiah_3":"Isaiah 56–66",
       "Zechariah_1":"Zechariah 1–8","Zechariah_2":"Zechariah 9–14","Daniel":"Daniel (Heb.)",
       "Jer_oracle":"Jeremiah oracle","Jer_DTR":"Jeremiah Dtr","Song_Sea":"Song of the Sea",
@@ -36,8 +44,8 @@ nm = lambda i: NM.get(i, i.replace("_", " "))
 dated = [(t["id"], t["date_bce"], t["date_sigma"], k)
          for k in ("training", "holdouts") for t in man[k]]
 dated.sort(key=lambda r: -r[1])
-g = pd.read_csv("/home/claude/targets_generative.csv").set_index("id")
-r = pd.read_csv("/home/claude/targets_ridge.csv").set_index("id")
+g = pd.read_csv(DH.f("targets_generative.csv")).set_index("id")
+r = pd.read_csv(DH.f("targets_ridge.csv")).set_index("id")
 tg = g.join(r, lsuffix="_g", rsuffix="_r").sort_values("point_g", ascending=False)
 
 fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.5, 5.0), dpi=300,
@@ -104,6 +112,6 @@ a2.legend(handles=[Line2D([], [], color=BLUE, lw=2.1, marker="o", ms=3.4,
           loc="upper right", frameon=False, fontsize=5.9, handletextpad=0.4,
           borderpad=0.1, labelspacing=0.3)
 
-fig.savefig("/home/claude/paper/figures/fig2_timeline.png", dpi=300,
+fig.savefig(DH.fig("fig2_timeline.png"), dpi=300,
             facecolor="white", bbox_inches="tight", pad_inches=0.05)
 print("wrote fig2_timeline.png", f"({n1} dated, {n2} targets)")

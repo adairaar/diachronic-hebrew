@@ -11,13 +11,21 @@ the fitted coefficient vector on the standardised scale, and the minimum-norm
 coordinated shift achieving a displacement D is D / ||beta||, measured in
 standard deviations of the joint feature space.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, importlib.util
 import numpy as np, pandas as pd
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META]
 Xa = Dd[feats].astype(float)
 keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -67,12 +75,12 @@ T = pd.DataFrame(dict(feature=feats, yr_per_sd=lev))
 T["family"] = [family(f) for f in feats]
 T["abs"] = T.yr_per_sd.abs()
 T = T.sort_values("abs", ascending=False)
-T.to_csv("/home/claude/sensitivity_features.csv", index=False)
+T.to_csv(DH.f("sensitivity_features.csv"), index=False)
 
 fam = (T.groupby("family")["abs"].agg(total="sum", count="size")
          .sort_values("total", ascending=False))
 fam["share"] = 100 * fam.total / fam.total.sum()
-fam.to_csv("/home/claude/sensitivity_families.csv")
+fam.to_csv(DH.f("sensitivity_families.csv"))
 
 norm = float(np.linalg.norm(lev))
 print(f"lambda = {blam:.0e} | ||beta|| = {norm:.2f} yr per unit shift in feature space\n")
@@ -82,7 +90,7 @@ for _, r in T.head(12).iterrows():
 print("\nby family:")
 print(fam.to_string())
 
-P = pd.read_csv("/home/claude/poem_predictions.csv").set_index("unit")
+P = pd.read_csv(DH.f("poem_predictions.csv")).set_index("unit")
 gap = float(P.loc["SongSea_poem"].pred - P.loc["SongSea_prose"].pred)
 print(f"\nSong of the Sea minus its prose frame: {gap:.0f} yr")
 print(f"  minimum-norm coordinated shift to achieve that: {gap/norm:.2f} SD "
@@ -95,5 +103,5 @@ out = dict(n_feats=len(feats), lam=float(blam), norm=norm,
            families={k: dict(total=float(v.total), count=int(v["count"]),
                              share=float(v.share)) for k, v in fam.iterrows()},
            sea_gap=gap, sea_gap_sd=gap / norm)
-json.dump(out, open("/home/claude/sensitivity.json", "w"), indent=2)
+json.dump(out, open(DH.f("sensitivity.json"), "w"), indent=2)
 print("\nwrote sensitivity.json, sensitivity_features.csv, sensitivity_families.csv")

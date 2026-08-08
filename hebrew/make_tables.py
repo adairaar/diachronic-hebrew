@@ -7,11 +7,18 @@ Writes:
   tab_corpus.tex   — Table 1, rebuilt training corpus
   tab_targets.tex  — new results table, conformal date ranges
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, pandas as pd, numpy as np
 
-BASE = "/mnt/user-data/uploads/Diachronic Hebrew"
-man = json.load(open(f"{BASE}/hebrew/corpus_manifest_v2.json"))
-fm = pd.read_csv(f"{BASE}/hebrew/data/feature_matrix_v2.csv")
+man = json.load(open(DH.f("corpus_manifest_v2.json")))
+fm = pd.read_csv(DH.f("feature_matrix_v2.csv"))
 words = dict(zip(fm["id"], fm["n_words"]))
 
 REG = {"SBH": "S", "Transitional": "T", "LBH": "L"}
@@ -82,11 +89,11 @@ L.append(r"\hline")
 L.append(r"\end{tabular}")
 L.append(r"\label{tab:corpus}")
 L.append(r"\end{table}")
-open("/home/claude/tab_corpus.tex", "w").write("\n".join(L) + "\n")
+open(DH.tab("tab_corpus.tex"), "w").write("\n".join(L) + "\n")
 
 # ── Table: target date ranges ─────────────────────────────────────────────
-g = pd.read_csv("/home/claude/targets_generative.csv").set_index("id")
-r = pd.read_csv("/home/claude/targets_ridge.csv").set_index("id")
+g = pd.read_csv(DH.f("targets_generative.csv")).set_index("id")
+r = pd.read_csv(DH.f("targets_ridge.csv")).set_index("id")
 order = ["Song_Sea", "Song_Deborah", "D_Song", "Gen_JE", "Exo_JE", "Num_JE",
          "JE_source", "Lev_Holiness", "Lev_Priestly", "P_source",
          "D_Code", "D_Frame", "D_source", "Jer_DTR",
@@ -134,7 +141,7 @@ T.append(r"\hline")
 T.append(r"\end{tabular}")
 T.append(r"\label{tab:targets}")
 T.append(r"\end{table}")
-open("/home/claude/tab_targets.tex", "w").write("\n".join(T) + "\n")
+open(DH.tab("tab_targets.tex"), "w").write("\n".join(T) + "\n")
 
 print("=== Table 1 corpus summary ===")
 print(f"  training units       : {len(rows)}  (of which HB-VI holdouts: {n_hold})")

@@ -19,10 +19,18 @@ Usage:
     python3 run_pipeline.py                run everything and diff
     python3 run_pipeline.py --from 4       resume at stage 4
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import argparse, hashlib, json, os, subprocess, sys, time
 
-R = "/home/claude"
-SNAP = f"{R}/.pipeline_snapshot.json"
+
+SNAP = DH.f(".pipeline_snapshot.json")
 
 # (label, command, [outputs it is responsible for])
 STAGES = [
@@ -98,7 +106,7 @@ STAGES = [
     ("share pair provenance and subset sensitivity",
      ["python3", "share_provenance.py"], ["share_provenance.json"]),
     ("greek genre control",
-     ["python3", "greek/greek_genre.py"], ["greek/greek_genre.json"]),
+     ["python3", os.path.join(DH.GREEK, "greek_genre.py")], ["greek/greek_genre.json"]),
 ]
 
 # Outputs that are expected to differ run to run, with the reason.  Anything not
@@ -108,8 +116,13 @@ EXPECTED_DRIFT = {
 }
 
 
+def resolve(name):
+    """An output's absolute path, wherever the layout puts it."""
+    return DH.g(name.split("/", 1)[1]) if name.startswith("greek/") else DH.f(name)
+
+
 def digest(path):
-    p = os.path.join(R, path)
+    p = resolve(path)
     if not os.path.exists(p):
         return None
     h = hashlib.sha256()
@@ -152,10 +165,11 @@ def main():
             continue
         t = time.time()
         print(f"[{i:>2}/{len(STAGES)}] {label:<40} ", end="", flush=True)
-        log = os.path.join(R, "pipeline_logs", f"{i:02d}_{cmd[1].replace('/','_')}.log")
+        log = os.path.join(DH.RESULTS, "pipeline_logs",
+                           f"{i:02d}_{os.path.basename(cmd[1])}.log")
         os.makedirs(os.path.dirname(log), exist_ok=True)
         with open(log, "w") as fh:
-            rc = subprocess.run(cmd, cwd=R, stdout=fh, stderr=subprocess.STDOUT).returncode
+            rc = subprocess.run(cmd, cwd=DH.HEBREW, stdout=fh, stderr=subprocess.STDOUT).returncode
         dt = time.time() - t
         if rc != 0:
             print(f"FAILED after {dt/60:.1f} min -- see {log}")

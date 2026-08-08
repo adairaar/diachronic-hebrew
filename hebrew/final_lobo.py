@@ -11,15 +11,23 @@ pipeline (weights, lambda selection, variance matching) on shuffled dates.
 The lambda sweep uses one eigendecomposition of the dual Gram matrix per fit,
 so all lambdas cost what one costs.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, importlib.util, json, sys, time, os
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 NPERM = int(sys.argv[1]) if len(sys.argv) > 1 else 200
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META]
 Xa = Dd[feats].astype(float)
 keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -113,7 +121,7 @@ for i, b in enumerate(books):
                      chunk_sd=round(float(sd[i] * M["S"])),
                      p_post=round(float(np.mean(draws < 586)), 2)))
 R = pd.DataFrame(rows).sort_values("truth", ascending=False)
-R.to_csv("/home/claude/final_lobo_books.csv", index=False)
+R.to_csv(DH.f("final_lobo_books.csv"), index=False)
 print(R.to_string(index=False))
 
 pre = R[R.truth > 586]; post = R[R.truth < 586]
@@ -123,13 +131,13 @@ print(f"post-exilic books placed post-exilic: {n_post_ok}/{len(post)}")
 print(f"side accuracy overall              : {((R.pred>586)==(R.truth>586)).sum()}/{len(R)}")
 
 # ---- book-level permutation null through the ENTIRE pipeline ----
-CKPT = "/home/claude/final_lobo_null.csv"
+CKPT = DH.f("final_lobo_null.csv")
 # A checkpoint written against a different feature matrix must not be resumed;
 # see ckpt_guard.py for what went wrong when that was not enforced.
 import importlib.util as _ilu
-_g = _ilu.spec_from_file_location("ckpt_guard", "/home/claude/ckpt_guard.py")
+_g = _ilu.spec_from_file_location("ckpt_guard", DH.script("ckpt_guard.py"))
 _G = _ilu.module_from_spec(_g); _g.loader.exec_module(_G)
-_RESUMABLE = _G.check(CKPT, ["/home/claude/big_features_500.csv"],
+_RESUMABLE = _G.check(CKPT, [DH.f("big_features_500.csv")],
                       extra="seed=0")
 rng = np.random.default_rng(0)
 nulls = []
@@ -165,7 +173,7 @@ print(f"\nbook-level permutation null ({NPERM} draws, full pipeline re-run):")
 print(f"  rho   observed {M['rho']:+.3f}  null median {np.median(N[:,0]):+.3f}  p = {p_rho:.4f}")
 print(f"  pair  observed {M['pair']*100:.1f}%  null median {np.median(N[:,1])*100:.1f}%  p = {p_pair:.4f}")
 print(f"  MAE   observed {M['mae']:.1f}   null median {np.median(N[:,2]):.1f}   p = {p_mae:.4f}")
-np.savetxt("/home/claude/final_lobo_null.csv", N, delimiter=",",
+np.savetxt(DH.f("final_lobo_null.csv"), N, delimiter=",",
            header="rho,pair,mae", comments="")
 
 json.dump(dict(n_feats=len(feats), n_chunks=int(len(Dd)), n_books=len(books),
@@ -177,5 +185,5 @@ json.dump(dict(n_feats=len(feats), n_chunks=int(len(Dd)), n_books=len(books),
                null_rho_med=float(np.median(N[:, 0])),
                null_pair_med=float(np.median(N[:, 1])),
                null_mae_med=float(np.median(N[:, 2]))),
-          open("/home/claude/final_lobo_metrics.json", "w"), indent=2)
+          open(DH.f("final_lobo_metrics.json"), "w"), indent=2)
 print("\nwrote final_lobo_books.csv, final_lobo_metrics.json, final_lobo_null.csv")

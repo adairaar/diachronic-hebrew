@@ -6,14 +6,22 @@ is entitled to ask whether stopping elsewhere would have said something
 different, and the honest answer is a table rather than an assurance.  Both
 nulls are recomputed here on every prefix of their own draw sequence.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd
 
-R = "/home/claude"
-GC = json.load(open(f"{R}/genre_confound.json"))
 
-W = np.loadtxt(f"{R}/within_genre_null.csv", delimiter=",", skiprows=1, ndmin=2)
-F = np.loadtxt(f"{R}/final_lobo_null.csv", delimiter=",", skiprows=1, ndmin=2)
+GC = json.load(open(DH.f("genre_confound.json")))
+
+W = np.loadtxt(DH.f("within_genre_null.csv"), delimiter=",", skiprows=1, ndmin=2)
+F = np.loadtxt(DH.f("final_lobo_null.csv"), delimiter=",", skiprows=1, ndmin=2)
 OBS_W = GC["rho_partial"]
 OBS_F = GC["rho_raw"]
 
@@ -28,8 +36,8 @@ for k in (100, 200, 300, 500, 750, 1000):
                          p=float((np.sum(F[:k, 0] >= OBS_F) + 1) / (k + 1))))
 
 D = pd.DataFrame(rows)
-D.to_csv(f"{R}/null_stability.csv", index=False)
-json.dump(D.to_dict("records"), open(f"{R}/null_stability.json", "w"), indent=2)
+D.to_csv(DH.f("null_stability.csv"), index=False)
+json.dump(D.to_dict("records"), open(DH.f("null_stability.json"), "w"), indent=2)
 
 for t, sub in D.groupby("test", sort=False):
     print(f"{t:<14} " + "  ".join(f"{int(r.draws)}={r.p:.4f}"

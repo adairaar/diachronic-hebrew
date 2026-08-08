@@ -2,11 +2,19 @@
 Chunk-level features for the UNDATED targets, using the same 634-feature
 extractor as the dated corpus.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os, json, argparse, collections
 import numpy as np, pandas as pd
 import importlib.util
 
-spec = importlib.util.spec_from_file_location("big", "/home/claude/chunk_extract_big.py")
+spec = importlib.util.spec_from_file_location("big", DH.script("chunk_extract_big.py"))
 big = importlib.util.module_from_spec(spec); spec.loader.exec_module(big)
 
 B = "Chronica"  # placeholder to keep linters quiet
@@ -107,7 +115,7 @@ def main(target):
                              genre=None, register=None, n_words=len(ch), **fe))
         print(f"  {uid:<15} {len(words):6d} w -> {len(chunks):3d} chunks")
     D = pd.DataFrame(rows)
-    out = f"/home/claude/target_chunks_{target}.csv"
+    out = DH.f(f"target_chunks_{target}.csv")
     D.to_csv(out, index=False)
     print(f"\n{len(D)} chunks from {D.unit.nunique()} targets -> {out}")
 

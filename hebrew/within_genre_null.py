@@ -23,24 +23,32 @@ entitled to report.
 Singleton genres take no part: a genre with one book has no within-genre
 ordering to destroy, and it contributes nothing to the statistic either.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, os, sys, time
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 NPERM = int(sys.argv[1]) if len(sys.argv) > 1 else 500
-CKPT = "/home/claude/within_genre_null.csv"
+CKPT = DH.f("within_genre_null.csv")
 # A checkpoint written against a different feature matrix must not be resumed;
 # see ckpt_guard.py for what went wrong when that was not enforced.
 import importlib.util as _ilu
-_g = _ilu.spec_from_file_location("ckpt_guard", "/home/claude/ckpt_guard.py")
+_g = _ilu.spec_from_file_location("ckpt_guard", DH.script("ckpt_guard.py"))
 _G = _ilu.module_from_spec(_g); _g.loader.exec_module(_G)
-_RESUMABLE = _G.check(CKPT, ["/home/claude/big_features_500.csv"],
+_RESUMABLE = _G.check(CKPT, [DH.f("big_features_500.csv")],
                       extra="seed=11")
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META]
 Xa = Dd[feats].astype(float)
 keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -159,5 +167,5 @@ json.dump(dict(n=len(N), obs_partial=o_par, obs_raw=o_raw, obs_prophecy=o_pro,
                null_partial_med=float(np.median(N[:, 0])),
                null_raw_med=float(np.median(N[:, 1])),
                null_prophecy_med=float(np.median(N[:, 2]))),
-          open("/home/claude/within_genre_null.json", "w"), indent=2)
+          open(DH.f("within_genre_null.json"), "w"), indent=2)
 print("\nwrote within_genre_null.json")

@@ -10,6 +10,14 @@ Three questions, in order:
   3. SIGNAL    -- of the features that survive 1 and 2, how many correlate
                   with date?
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, sys
 from scipy import stats
 
@@ -37,7 +45,7 @@ def icc1(x, groups):
 
 
 def run(target):
-    D = pd.read_csv(f"/home/claude/chunk_features_{target}.csv")
+    D = pd.read_csv(DH.f(f"chunk_features_{target}.csv"))
     feats = [c for c in D.columns if c not in META]
     print("=" * 78)
     print(f"CHUNK SIZE ~{target} WORDS   |   {len(D)} chunks, {D.unit.nunique()} units, "
@@ -87,7 +95,7 @@ def run(target):
         for _, r in good.head(20).iterrows():
             print(f"   {r.feature:<24}{r.icc:7.2f}{r.rho_unit:10.2f}"
                   f"{r.rho_chunk:11.2f}{r.frac_zero*100:7.0f}%")
-    R.to_csv(f"/home/claude/chunk_diag_{target}.csv", index=False)
+    R.to_csv(DH.f(f"chunk_diag_{target}.csv"), index=False)
     return R
 
 

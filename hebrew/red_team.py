@@ -34,19 +34,27 @@ Four attacks, each with a decisive test.
 The strictest combination, morphosyntax only on externally anchored books, is
 run last.  If anything survives that, it is the real result.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, time
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 EX = 586
 SRC = ["JE_source", "D_source", "P_source"]
 SOFT = ["Jonah", "Ecclesiastes", "Malachi", "Joel", "Isaiah_3", "Zechariah_2"]
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
 ALL = [c for c in Dd.columns if c not in PT.META and c in Dt.columns]
 LEXF = [c for c in ALL if c.startswith("lex_")]
 MORF = [c for c in ALL if not c.startswith("lex_")]
@@ -168,13 +176,13 @@ for fe, dr, lab in VARIANTS:
           f"{r['JE_source_pred']:>6.0f}{r['D_source_pred']:>6.0f}"
           f"{r['P_source_pred']:>6.0f}", flush=True)
 R = pd.DataFrame(rows)
-R.to_csv("/home/claude/red_team.csv", index=False)
+R.to_csv(DH.f("red_team.csv"), index=False)
 
 print()
 print("=" * 96)
 print("ATTACK 4: IS IT BOOK LENGTH?")
 print("=" * 96)
-B = pd.read_csv("/home/claude/final_lobo_books.csv")
+B = pd.read_csv(DH.f("final_lobo_books.csv"))
 for col in ("n_chunks", "n_words"):
     r1, p1 = stats.spearmanr(B[col], B.resid.abs())
     r2, p2 = stats.spearmanr(B[col], B.truth)
@@ -196,5 +204,5 @@ print(f"\n  P(post-exilic) for the three sources by variant:")
 for _, r in R.iterrows():
     print(f"    {r.label:<36} " + "  ".join(
         f"{u.split('_')[0]} {r[f'{u}_ppost']:.2f}" for u in SRC))
-json.dump(R.to_dict("records"), open("/home/claude/red_team.json", "w"), indent=2)
+json.dump(R.to_dict("records"), open(DH.f("red_team.json"), "w"), indent=2)
 print(f"\n{(time.time()-t0)/60:.1f} min.  wrote red_team.csv, red_team.json")

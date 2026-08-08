@@ -20,12 +20,20 @@ Two tests:
   1. Across the 250 lexemes, does leverage correlate with genre discriminability?
   2. Where do the recognised CBH/LBH diagnostic lexemes actually rank?
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd
 from scipy import stats
 
-F = pd.read_csv("/home/claude/sensitivity_features.csv")
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+F = pd.read_csv(DH.f("sensitivity_features.csv"))
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 META = {"chunk_id", "unit", "date_bce", "genre", "register", "n_words"}
 feats = [c for c in Dd.columns if c not in META]
 bg = Dd.groupby("unit").genre.first()
@@ -163,5 +171,5 @@ json.dump(dict(n_lex=len(L), rho_leverage_eta=float(rho_le), p=float(p_le),
                diagnostic_ranks={k: rk for k, _, rk, _ in present},
                median_diagnostic_rank=int(np.median([r for _, _, r, _ in present]))
                if present else None),
-          open("/home/claude/lexical_diagnosis.json", "w"), indent=2)
+          open(DH.f("lexical_diagnosis.json"), "w"), indent=2)
 print("\nwrote lexical_diagnosis.json")

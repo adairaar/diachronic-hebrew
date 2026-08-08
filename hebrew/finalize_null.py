@@ -8,12 +8,20 @@ remaining draws would have bought precision on a number whose interpretation
 does not change across it.  Stating the stopping point explicitly matters more
 than the extra draws would have.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np
 
-N = np.loadtxt("/home/claude/within_genre_null.csv", delimiter=",",
+N = np.loadtxt(DH.f("within_genre_null.csv"), delimiter=",",
                skiprows=1, ndmin=2)
-GC = json.load(open("/home/claude/genre_confound.json"))
+GC = json.load(open(DH.f("genre_confound.json")))
 OBS = [("genre-controlled rho", GC["rho_partial"], 0),
        ("raw rho", GC["rho_raw"], 1),
        ("rho within prophecy", GC["rho_prophecy"], 2)]
@@ -31,7 +39,7 @@ for name, obs, col in OBS:
     print(f"  {name:<24}{obs:>+10.3f}{np.median(N[:, col]):>+14.3f}"
           f"{p:>9.4f}{se:>8.4f}")
 out["stopped_early"] = True
-json.dump(out, open("/home/claude/within_genre_null.json", "w"), indent=2)
+json.dump(out, open(DH.f("within_genre_null.json"), "w"), indent=2)
 print("\n  Raw rho barely moves under this null, which is the point: a shuffle")
 print("  within genre leaves the genre structure it scores intact, so it is")
 print("  the wrong statistic for a dating claim.")

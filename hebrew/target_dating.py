@@ -10,11 +10,19 @@ stay inside one period" becomes a statement that means something.
 Predictive distribution for a target = point prediction + the empirical set of
 signed LOO residuals. Period probabilities are read off that distribution.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd
 from scipy import stats
 import json
 
-MATRIX = "/mnt/user-data/uploads/Diachronic Hebrew/hebrew/data/feature_matrix_v2.csv"
+MATRIX = DH.f("feature_matrix_v2.csv")
 PERIODS = ["Pre-exilic", "Exilic", "Persian", "Hellenistic"]
 BOUND = [586, 539, 332]
 def to_period(d):
@@ -158,7 +166,7 @@ def main():
           f"({merged['agree_period'].sum()}/{len(merged)})")
     print(f"  median |point difference| between families: {merged['point_gap'].median():.0f} yr")
 
-    for fam in FAM: out[fam].to_csv(f"/home/claude/targets_{fam}.csv", index=False)
+    for fam in FAM: out[fam].to_csv(DH.f(f"targets_{fam}.csv"), index=False)
     print("\nwrote targets_generative.csv, targets_ridge.csv")
 
 

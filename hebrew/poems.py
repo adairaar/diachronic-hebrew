@@ -9,12 +9,20 @@ prose contamination pushes a poem's estimate later.
 Also splits the Song of Moses so the archaic divine-council section (32:8-9,
 Elyon apportioning the nations) sits in its own block.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, collections, importlib.util
 from scipy import stats
 
-spec = importlib.util.spec_from_file_location("big", "/home/claude/chunk_extract_big.py")
+spec = importlib.util.spec_from_file_location("big", DH.script("chunk_extract_big.py"))
 big = importlib.util.module_from_spec(spec); spec.loader.exec_module(big)
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 UNITS = {
@@ -62,10 +70,10 @@ def main():
                          register=None, n_words=len(w), **fe))
         print(f"  {uid:<20} {len(w):4d} words")
     P = pd.DataFrame(rows)
-    P.to_csv("/home/claude/poem_chunks.csv", index=False)
+    P.to_csv(DH.f("poem_chunks.csv"), index=False)
 
     # ── fit the recommended model on the dated corpus, predict the poems ──────
-    Dd = pd.read_csv("/home/claude/big_features_500.csv")
+    Dd = pd.read_csv(DH.f("big_features_500.csv"))
     feats = [c for c in Dd.columns if c not in PT.META and c in P.columns]
     Xd_all = Dd[feats].astype(float)
     keep = (Xd_all.std() > 0) & (Xd_all.isna().mean() < 0.2)
@@ -121,7 +129,7 @@ def main():
                         lo68=p_-q68, hi68=p_+q68, p_post=pp))
         print(f"{uid:<22}{P.n_words[i]:7d}{p_:7.0f}"
               f"{f'  {p_+q68:.0f} - {p_-q68:.0f} BCE':>20}{pp:16.2f}")
-    pd.DataFrame(out).to_csv("/home/claude/poem_predictions.csv", index=False)
+    pd.DataFrame(out).to_csv(DH.f("poem_predictions.csv"), index=False)
 
 
 if __name__ == "__main__":

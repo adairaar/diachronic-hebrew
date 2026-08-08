@@ -7,6 +7,14 @@ Regularisation and dimensionality reduction are used instead, since neither
 incurs a selection penalty.  Lambda / n_components are chosen by an INNER
 leave-one-book-out on the training books only.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, sys
 from scipy import stats
 
@@ -14,7 +22,7 @@ META = {"chunk_id", "unit", "date_bce", "genre", "register", "n_words"}
 
 
 def load(target):
-    D = pd.read_csv(f"/home/claude/big_features_{target}.csv")
+    D = pd.read_csv(DH.f(f"big_features_{target}.csv"))
     feats = [c for c in D.columns if c not in META]
     X = D[feats].astype(float)
     keep = (X.std() > 0) & (X.isna().mean() < 0.2)
@@ -118,4 +126,4 @@ if __name__ == "__main__":
     print(f"{'unit':<15}{'true':>7}{'pred':>8}{'err':>7}")
     for _, r in B.iterrows():
         print(f"{r.unit:<15}{r.truth:7.0f}{r.pred:8.0f}{r.err:7.0f}")
-    B.to_csv("/home/claude/big_lobo_best.csv", index=False)
+    B.to_csv(DH.f("big_lobo_best.csv"), index=False)

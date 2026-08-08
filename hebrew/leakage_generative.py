@@ -11,15 +11,21 @@ For each dated unit:
   4. Report the likelihood-only MAP, the leaky posterior MAP, the implied
      likelihood width, and the share of posterior precision the data supplies.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, json
 from scipy import stats
 import importlib.util
 
-spec = importlib.util.spec_from_file_location("pl", "/home/claude/period_loo2.py")
+spec = importlib.util.spec_from_file_location("pl", DH.script("period_loo2.py"))
 pl = importlib.util.module_from_spec(spec); spec.loader.exec_module(pl)
 GRID = pl.GRID
-B = "/mnt/user-data/uploads/Diachronic Hebrew"
-
 
 def loglik_grid(Xtr, dtr, xte, alpha=0.05):
     """Per-feature OLS inverted to a log-likelihood over the date grid."""
@@ -51,7 +57,7 @@ def main():
     dated, feats, X = pl.load()
     d = dated["date_bce"].values.astype(float)
     ids = dated["id"].values
-    man = json.load(open(f"{B}/hebrew/corpus_manifest_v2.json"))
+    man = json.load(open(DH.f(f"corpus_manifest_v2.json")))
     sig = {t["id"]: t["date_sigma"] for k in ("training", "holdouts") for t in man[k]}
     role = {t["id"]: ("holdout" if k == "holdouts" or t.get("hbvi_holdout") else "training")
             for k in ("training", "holdouts") for t in man[k]}
@@ -92,7 +98,7 @@ def main():
     print(f"  units with sigma_u <= 20 yr (n={len(tight)}):")
     print(f"    leaky MAE {tight.err_leaky.mean():.1f} yr vs honest MAE "
           f"{tight.err_honest.mean():.1f} yr; median data share {tight.data_share.median():.1f}%")
-    R.to_csv("/home/claude/leakage_generative.csv", index=False)
+    R.to_csv(DH.f("leakage_generative.csv"), index=False)
 
     # ── LaTeX table ──
     NM = {"Isaiah_1":"Isaiah 1--39","Isaiah_2":"Isaiah 40--55","Isaiah_3":"Isaiah 56--66",
@@ -122,7 +128,7 @@ def main():
                  f"{r['data_share']:.1f} & {r['lik_map']:.0f} & {r['err_leaky']:.0f} & "
                  f"{r['err_honest']:.0f} " + r"\\")
     L += [r"\hline", r"\end{tabular}", r"\label{tab:leakage}", r"\end{table}"]
-    open("/home/claude/paper/tab_leakage.tex", "w").write("\n".join(L) + "\n")
+    open(DH.tab("tab_leakage.tex"), "w").write("\n".join(L) + "\n")
     print("\nwrote tab_leakage.tex (regenerated from the generative family)")
 
 

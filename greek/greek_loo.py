@@ -5,17 +5,25 @@ Same two model families, same in-fold screening/standardisation/fitting,
 same agnostic prior, same permutation null, same conformal calibration.
 Dates are CE (negative = BCE), so time increases with the label.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd
 from scipy import stats
 import json, sys
 
 RNG = np.random.default_rng(20260806)
-G = "/mnt/user-data/uploads/Diachronic Hebrew/greek"
+
 GRID = np.linspace(-600.0, 550.0, 461)
 
 
 def load():
-    d = pd.read_csv(f"{G}/data/features/feature_matrix.csv")
+    d = pd.read_csv(DH.g("data/features/feature_matrix.csv"))
     meta = {"id","author","date_ce","date_sigma","genre","holdout","word_count",
             "register","work","quote_heavy","notes","tlg_ref","first1k_hint"}
     feats = [c for c in d.columns if c not in meta]
@@ -149,7 +157,7 @@ def main(alpha=0.05, nperm=500):
     out = pd.DataFrame(dict(id=df["id"], date_ce=dates, holdout=df["holdout"],
                             genre=df["genre"], word_count=df["word_count"],
                             loo_generative=res["generative"][0], loo_ridge=res["ridge"][0]))
-    out.to_csv("/home/claude/greek_loo_results.csv", index=False)
+    out.to_csv(DH.f("greek_loo_results.csv"), index=False)
     print("\nwrote greek_loo_results.csv")
 
 

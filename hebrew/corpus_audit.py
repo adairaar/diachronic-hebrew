@@ -7,15 +7,23 @@ hand.  That is exactly the failure mode this pipeline is meant to exclude, so
 they are computed here from the feature matrix and written to the same files the
 manuscript reads.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd
 
-R = "/home/claude"
+
 META = {"chunk_id", "unit", "date_bce", "genre", "register", "n_words"}
 TARGET = 500
 BAND = (400, 700)
 
-D = pd.read_csv(f"{R}/big_features_{TARGET}.csv")
+D = pd.read_csv(DH.f(f"big_features_{TARGET}.csv"))
 w = D.n_words.values
 out = dict(min=int(w.min()), med=int(np.median(w)), max=int(w.max()),
            mean=float(w.mean()),
@@ -24,7 +32,7 @@ out = dict(min=int(w.min()), med=int(np.median(w)), max=int(w.max()),
            single=sorted(D.groupby("unit").size()[
                lambda x: x == 1].index.tolist()),
            n_chunks=len(D), n_units=int(D.unit.nunique()))
-json.dump(out, open(f"{R}/chunk_sizes.json", "w"), indent=2)
+json.dump(out, open(DH.f("chunk_sizes.json"), "w"), indent=2)
 print(f"passage lengths: min {out['min']}, median {out['med']}, max {out['max']}")
 print(f"  {out['pct_in_band']:.0f}% within {BAND[0]}-{BAND[1]} words; "
       f"{out['n_single']} units of a single passage")
@@ -48,7 +56,7 @@ for c in live:
 # "used" is kept as an alias for "live" because the manuscript macro reads it
 fc = dict(extracted=len(feats), dead=len(feats) - len(live), live=len(live),
           used=len(live), **fam)
-json.dump(fc, open(f"{R}/feature_counts.json", "w"), indent=2)
+json.dump(fc, open(DH.f("feature_counts.json"), "w"), indent=2)
 print(f"\nfeatures: {fc['extracted']} extracted, {fc['dead']} structurally "
       f"constant, {fc['live']} used")
 for k, v in sorted(fam.items(), key=lambda kv: -kv[1]):

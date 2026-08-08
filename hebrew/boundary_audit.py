@@ -11,11 +11,20 @@ clause_len, sent_len, cl_per_sent and ph_per_clause.
 This measures how much that matters.  Chunks are cut at verse boundaries, so the
 question is how often a phrase, clause or sentence spans a verse boundary.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os, json, collections
 import numpy as np, pandas as pd
 from tf.fabric import Fabric
 
-TF_PATH = os.path.expanduser("~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
+TF_PATH = os.environ.get("BHSA_TF") or os.path.expanduser(
+    "~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
 api = Fabric(locations=[TF_PATH], silent="deep").load(
     "book chapter verse language typ rela otype", silent="deep")
 F, L, T = api.F, api.L, api.T
@@ -83,7 +92,7 @@ for uid in list(RANGED) + WHOLE:
         rows.append(r)
 
 D = pd.DataFrame(rows)
-D.to_csv("/home/claude/boundary_audit.csv", index=False)
+D.to_csv(DH.f("boundary_audit.csv"), index=False)
 
 print(f"{len(D)} chunks from {D.unit.nunique()} units\n")
 print(f"{'level':<10}{'objects':>10}{'partial':>10}{'% partial':>11}"
@@ -109,5 +118,5 @@ print("\nchunks with the most partial clauses:")
 for _, r in worst.iterrows():
     print(f"  {r.unit:<14} chunk {int(r.chunk):>3}  n={int(r.n):>4}  "
           f"{int(r.clause_partial)}/{int(r.clause_overlap)} clauses partial")
-json.dump(out, open("/home/claude/boundary_audit.json", "w"), indent=2)
+json.dump(out, open(DH.f("boundary_audit.json"), "w"), indent=2)
 print("\nwrote boundary_audit.csv, boundary_audit.json")

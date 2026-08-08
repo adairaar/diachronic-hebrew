@@ -11,12 +11,20 @@ n before comparison.  The machinery -- feature screen, leave-one-book-out
 chunk-level prediction, calibration -- is imported from block_robustness rather
 than duplicated, so the two analyses cannot drift apart.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np
 
 # block_robustness defines the screen, the estimator and run(); executing its
 # preamble gives them here without rerunning its own analysis section
-_src = open("/home/claude/block_robustness.py").read().split('print("=" * 86)')[0]
+_src = open(DH.script("block_robustness.py")).read().split('print("=" * 86)')[0]
 exec(_src)
 
 RNG2 = np.random.default_rng(31)
@@ -51,7 +59,7 @@ for frac, lab in [(1.0, "all features"), (0.75, "drop top 25%"),
                     p_JE_gt_D=p_d, p_JE_gt_P=p_p,
                     **{u.split("_")[0]: float(sds[u].mean()) for u in SRC}))
 
-json.dump(out, open("/home/claude/disp_robustness.json", "w"), indent=2)
+json.dump(out, open(DH.f("disp_robustness.json"), "w"), indent=2)
 print("=" * 78)
 print("VERDICT")
 print("=" * 78)

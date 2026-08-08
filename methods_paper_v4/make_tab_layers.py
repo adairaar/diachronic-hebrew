@@ -9,12 +9,19 @@ the blocks themselves sit a century apart, and dispersion alone would miss that.
 Both are generated from the result files, like every other table in this
 manuscript, so neither can drift from the analysis.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os, sys, json
 import numpy as np, pandas as pd
 from scipy import stats
 
-R, T = "/home/claude", "/home/claude/ms/tables"
-os.makedirs(T, exist_ok=True)
+
 RNG = np.random.default_rng(3)
 EX = 586
 
@@ -24,9 +31,9 @@ def need(p):
     return p
 
 
-C = pd.read_csv(need(f"{R}/internal_consistency.csv")).set_index("unit")
-M = json.load(open(need(f"{R}/internal_consistency_matched.json")))
-P = pd.read_csv(need(f"{R}/chunk_preds.csv"))
+C = pd.read_csv(need(DH.f("internal_consistency.csv"))).set_index("unit")
+M = json.load(open(need(DH.f("internal_consistency_matched.json"))))
+P = pd.read_csv(need(DH.f("chunk_preds.csv")))
 Tg, An = P[P.kind == "target"], P[P.kind == "anchor"]
 ref = np.array([An.cpred[An.unit == b].std(ddof=1)
                 for b in An.unit.unique() if (An.unit == b).sum() >= 4])
@@ -51,7 +58,7 @@ for u, lab, ind in ROWS:
     body.append(f"{nm} & {int(r['n'])} & {r['median']:.0f} & {r['iqr']:.0f} & "
                 f"{r['sd']:.0f} & {100*r['pctile']:.0f}\\% & "
                 f"{100*r['pct_post']:.0f}\\% \\\\\n")
-open(f"{T}/tab_layers.tex", "w").write(
+open(DH.tab("tab_layers.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf Internal structure of the Pentateuchal sources.}  "
     "Dispersion of the estimated dates of the individual $\\sim$500-word "
@@ -85,7 +92,7 @@ for a, b, la, lb in PAIRS:
     out.append(dict(a=a, b=b, gap=gap, lo=float(lo), hi=float(hi), p=pu))
     body.append(f"{la} & {lb} & {gap:+.0f} & {lo:+.0f} to {hi:+.0f} & "
                 f"{pu:.3f} \\\\\n")
-open(f"{T}/tab_blocks.tex", "w").write(
+open(DH.tab("tab_blocks.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf Separation between blocks within a source.}  Difference in "
     "median passage date between the conventionally distinguished blocks of each "
@@ -102,6 +109,6 @@ json.dump(dict(blocks=out, ref_median=float(np.median(ref)), n_ref=len(ref),
                sd39=M["sd39"], order=M["order"],
                p_JE_gt_D=M["p_JE_gt_D"], p_JE_gt_P=M["p_JE_gt_P"],
                p_D_gt_P=M["p_D_gt_P"]),
-          open(f"{R}/layers_numbers.json", "w"), indent=2)
+          open(DH.f("layers_numbers.json"), "w"), indent=2)
 print(f"wrote tab_layers.tex ({len(ROWS)} units), tab_blocks.tex "
       f"({len(PAIRS)} comparisons), layers_numbers.json")

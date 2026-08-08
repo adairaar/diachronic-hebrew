@@ -11,6 +11,14 @@ Panel C  Permutation nulls for pairwise ordering accuracy, both languages,
 Two model families are distinguished by hue AND marker shape, so identity
 never depends on colour alone.  Palette validated (CVD dE 21.1 protan).
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
@@ -26,7 +34,7 @@ mpl.rcParams.update({
     "xtick.major.size": 2.5, "ytick.major.size": 2.5,
 })
 
-d = np.load("/home/claude/nulls.npz", allow_pickle=True)
+d = np.load(DH.f("nulls.npz"), allow_pickle=True)
 fig = plt.figure(figsize=(7.5, 2.95), dpi=300)
 gs = fig.add_gridspec(1, 3, width_ratios=[1, 1, 1.05], wspace=0.34,
                       left=0.065, right=0.985, top=0.87, bottom=0.17)
@@ -113,7 +121,7 @@ axC.tick_params(axis="y", length=0)
 axC.annotate("chance", xy=(0.5, len(rows) - 0.45), ha="center", va="center",
              fontsize=6.0, color=MUTED)
 
-fig.savefig("/home/claude/paper/figures/fig1_ordering.png", dpi=300,
+fig.savefig(DH.fig("fig1_ordering.png"), dpi=300,
             facecolor="white", bbox_inches="tight", pad_inches=0.04)
 print("wrote fig1_ordering.png")
 for lab, null, obs, _ in rows:

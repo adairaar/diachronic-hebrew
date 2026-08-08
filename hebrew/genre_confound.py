@@ -13,15 +13,23 @@ chronological, it should survive there.  If it is the narrative/prophecy
 contrast, it should vanish there, because the narrative books happen to be
 uniformly post-exilic and so "narrative" and "late" are the same axis.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-B = pd.read_csv("/home/claude/final_lobo_books.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+B = pd.read_csv(DH.f("final_lobo_books.csv"))
 gen = Dd.groupby("unit").genre.first()
 B["genre"] = B.book.map(gen)
 t, p = B.truth.values.astype(float), B.pred.values.astype(float)
@@ -103,5 +111,5 @@ json.dump(dict(subsets=out, rho_raw=float(rho_raw), rho_partial=float(rho_par),
                rho_partial_all=float(rho_par_all),
                between_genre_share=float(ss_bet / ss_tot),
                rho_prophecy=float(rho_p), p_prophecy=float(pv_p)),
-          open("/home/claude/genre_confound.json", "w"), indent=2)
+          open(DH.f("genre_confound.json"), "w"), indent=2)
 print("\nwrote genre_confound.json")

@@ -10,12 +10,21 @@ N-gram feature extraction, appended to the 634-feature base.
 Vocabularies are chosen ONCE from the whole corpus by raw frequency, with no
 reference to date, so vocabulary selection cannot leak the label.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os, re, json, argparse, collections
 import numpy as np, pandas as pd
 from tf.fabric import Fabric
 
-TF_PATH = os.path.expanduser("~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
-HB = "/mnt/user-data/uploads/Diachronic Hebrew/hebrew"
+TF_PATH = os.environ.get("BHSA_TF") or os.path.expanduser(
+    "~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
+
 DIACRITICS = re.compile(r"[֑-ׇ]")
 
 BHSA_NAME = {"Numbers":"Numeri","Deuteronomy":"Deuteronomium","Lamentations":"Threni",
@@ -72,7 +81,7 @@ def main(targets, k_char3, k_char4, k_postri, k_lexbi):
     print(f"  char3 {len(V3)}  char4 {len(V4)}  postri {len(Vpt)}  "
           f"lexbi {len(Vlb)}  relatri {len(Vrt)}  funbi {len(Vfb)}")
 
-    man = json.load(open(os.path.join(HB, "corpus_manifest_v2.json")))
+    man = json.load(open(DH.f("corpus_manifest_v2.json")))
     units = []
     for grp in ("training", "holdouts"):
         for t in man[grp]:
@@ -129,7 +138,7 @@ def main(targets, k_char3, k_char4, k_postri, k_lexbi):
                 rows.append(dict(chunk_id=f"{uid}_c{i:03d}", unit=uid, date_bce=date,
                                  genre=genre, n_words=n, **f))
         D = pd.DataFrame(rows)
-        out = f"/home/claude/ngram_features_{target}.csv"
+        out = DH.f(f"ngram_features_{target}.csv")
         D.to_csv(out, index=False)
         print(f"  ~{target}w: {len(D)} chunks x "
               f"{len([c for c in D.columns if c not in ('chunk_id','unit','date_bce','genre','n_words')])}"

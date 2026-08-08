@@ -13,6 +13,14 @@ decomposed once and every lambda is then O(n^2), so the lambda grid is nearly
 free.  Standardisation and weights are recomputed inside every inner fold, so
 no quantity derived from a held-out book touches its own prediction.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, sys, json, itertools
 from scipy import stats
 
@@ -25,9 +33,9 @@ BW = [60.0, 120.0, 200.0]
 def load(target, kind):
     parts = []
     if kind in ("base", "both"):
-        parts.append(pd.read_csv(f"/home/claude/big_features_{target}.csv"))
+        parts.append(pd.read_csv(DH.f(f"big_features_{target}.csv")))
     if kind in ("ngram", "both"):
-        d = pd.read_csv(f"/home/claude/ngram_features_{target}.csv")
+        d = pd.read_csv(DH.f(f"ngram_features_{target}.csv"))
         if parts:
             d = d.drop(columns=[c for c in d.columns if c in META and c != "chunk_id"])
         parts.append(d)
@@ -137,8 +145,8 @@ if __name__ == "__main__":
                   f"range [{m['pmax']:.0f},{m['pmin']:.0f}]  side {m['side']*100:.0f}%  "
                   f"pre {m['pre_ok']}/{m['pre_n']}  post {m['post_ok']}/{m['post_n']}", flush=True)
             print(f"  modal hyperparams: alpha={m['alpha_mode']}, bw={m['bw_mode']:.0f}", flush=True)
-            R.to_csv(f"/home/claude/tuned_{target}_{kind}_{int(vm)}.csv", index=False)
-            with open("/home/claude/tuned.jsonl", "a") as fh:
+            R.to_csv(DH.f(f"tuned_{target}_{kind}_{int(vm)}.csv"), index=False)
+            with open(DH.f("tuned.jsonl"), "a") as fh:
                 fh.write(json.dumps({k: (float(v) if isinstance(v, (int, float, np.floating)) else v)
                                      for k, v in m.items()}) + "\n")
-    pd.DataFrame(out).to_csv("/home/claude/tuned_summary.csv", index=False)
+    pd.DataFrame(out).to_csv(DH.f("tuned_summary.csv"), index=False)

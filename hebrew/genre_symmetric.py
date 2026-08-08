@@ -21,18 +21,26 @@ Third, and separately from any offset: refit with a whole genre removed from the
 training set and see where the sources land.  That asks the question without
 needing to label the targets at all.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 EX = 586
 SRC = ["JE_source", "D_source", "P_source"]
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META and c in Dt.columns]
 Xa = Dd[feats].astype(float)
 keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -177,7 +185,7 @@ for u in UNITS:
                      pro_adj=round(b), p_post_pro=round(pb, 2)))
     print(f"  {u:<15}{base:>12.0f}{a:>12.0f}{pa:>9.2f}{b:>12.0f}{pb:>9.2f}")
 C = pd.DataFrame(rows)
-C.to_csv("/home/claude/genre_symmetric_targets.csv", index=False)
+C.to_csv(DH.f("genre_symmetric_targets.csv"), index=False)
 worst = C[C.unit.isin(SRC)]
 print(f"\n  Under the narrative correction, the least post-exilic of the three")
 print(f"  sources is {worst.loc[worst.p_post_nar.idxmin(),'unit']} at "
@@ -221,5 +229,5 @@ json.dump(dict(genres=G, off_nar=off_nar, off_pro=off_pro, off_poe=off_poe,
                minpost_nar=float(worst.p_post_nar.min()),
                minpost_pro=float(worst.p_post_pro.min()),
                variants=out),
-          open("/home/claude/genre_symmetric.json", "w"), indent=2)
+          open(DH.f("genre_symmetric.json"), "w"), indent=2)
 print("\nwrote genre_symmetric_targets.csv, genre_symmetric.json")

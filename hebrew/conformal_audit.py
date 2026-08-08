@@ -15,14 +15,22 @@ Four questions.
    including the book being scored.
 4. What is the empirical coverage, and how coarse is it at n = 25?
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, importlib.util
 import numpy as np, pandas as pd
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META]
 Xa = Dd[feats].astype(float)
 keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -127,5 +135,5 @@ out = dict(n=n, rows=rows, delta_mae=float(d),
            q68_nested=rows["calibration nested"]["q68"],
            q90_nested=rows["calibration nested"]["q90"],
            mae_nested=rows["calibration nested"]["mae"])
-json.dump(out, open("/home/claude/conformal_audit.json", "w"), indent=2)
+json.dump(out, open(DH.f("conformal_audit.json"), "w"), indent=2)
 print("\nwrote conformal_audit.json")

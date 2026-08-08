@@ -1,12 +1,19 @@
 """
 Generate every LaTeX table from result files.  No table is hand-maintained.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, os, sys
 import numpy as np, pandas as pd
 
-R, G = "/home/claude", "/home/claude/greek"
-T = "/home/claude/ms/tables"
-os.makedirs(T, exist_ok=True)
+G = DH.GREEK
+
 
 
 def need(p):
@@ -61,14 +68,14 @@ ANCHOR = {
     "Daniel": ("Antiochene persecution, 167 BCE", "H"),
 }
 
-B = pd.read_csv(need(f"{R}/final_lobo_books.csv")).sort_values("truth", ascending=False)
+B = pd.read_csv(need(DH.f("final_lobo_books.csv"))).sort_values("truth", ascending=False)
 rows = ["\\textbf{Unit} & \\textbf{Date} & \\textbf{Words} & \\textbf{Pass.} & "
         "\\textbf{Type} & \\textbf{Basis of the date} \\\\\n\\midrule\n"]
 for _, r in B.iterrows():
     a, kind = ANCHOR.get(r.book, ("---", "L"))
     rows.append(f"{esc(r.book)} & {int(r.truth)} & {int(r.n_words):,} & "
                 f"{int(r.n_chunks)} & {kind} & {a} \\\\\n")
-open(f"{T}/tab_corpus.tex", "w").write(wrap(
+open(DH.tab("tab_corpus.tex"), "w").write(wrap(
     "".join(rows),
     "\\textbf{The training corpus.}  Dates are BCE; ``Pass.'' is the number of "
     "$\\sim$500-word passages.  Type~S dates rest on an explicit synchronism, a "
@@ -81,7 +88,7 @@ open(f"{T}/tab_corpus.tex", "w").write(wrap(
     "tab:corpus", "llrrcp{4.6cm}"))
 
 # ── Table 2: prior leakage ──────────────────────────────────────────────
-L = pd.read_csv(need(f"{R}/leakage_generative.csv")).sort_values("sigma_u")
+L = pd.read_csv(need(DH.f("leakage_generative.csv"))).sort_values("sigma_u")
 # data_share is already expressed as a percentage in the source file
 rows = ["\\textbf{Unit} & \\textbf{Prior $\\sigma$} & \\textbf{Data share} & "
         "\\textbf{Leaky err.} & \\textbf{Honest err.} \\\\\n\\midrule\n"]
@@ -95,7 +102,7 @@ rows.append("\\midrule\n\\textbf{Median, all} & "
 rows.append(f"\\textbf{{Mean, $\\sigma \\leq 20$ ({len(tight)} units)}} & "
             f"{tight.sigma_u.mean():.0f} & {tight.data_share.mean():.1f}\\% & "
             f"{tight.err_leaky.mean():.1f} & {tight.err_honest.mean():.1f} \\\\\n")
-open(f"{T}/tab_leakage.tex", "w").write(wrap(
+open(DH.tab("tab_leakage.tex"), "w").write(wrap(
     "".join(rows),
     "\\textbf{Prior leakage inflates reported holdout accuracy.}  ``Prior "
     "$\\sigma$'' is the standard deviation of the scholarly prior in years; "
@@ -111,7 +118,7 @@ rows = ["\\textbf{Unit} & \\textbf{True} & \\textbf{Est.} & \\textbf{Err.} & "
 for _, r in B.iterrows():
     rows.append(f"{esc(r.book)} & {int(r.truth)} & {int(r.pred)} & "
                 f"{int(r.resid):+d} & {int(r.chunk_sd)} & {r.p_post:.2f} \\\\\n")
-open(f"{T}/tab_lobo.tex", "w").write(wrap(
+open(DH.tab("tab_lobo.tex"), "w").write(wrap(
     "".join(rows),
     "\\textbf{Leave-one-book-out performance.}  Dates BCE; error is true minus "
     "estimated, so a positive error means the model placed the book too late. "
@@ -132,7 +139,7 @@ ORDER = ["Song_Deborah", "Song_Sea", "D_Song", "JE_source", "Gen_JE", "Exo_JE",
          "Num_JE", "D_source", "D_Code", "D_Frame", "P_source", "Lev_Priestly",
          "Lev_Holiness", "Jer_DTR", "Genesis", "Exodus", "Leviticus", "Numbers",
          "Deuteronomy"]
-TG = pd.read_csv(need(f"{R}/target_predictions_final.csv")).set_index("unit")
+TG = pd.read_csv(need(DH.f("target_predictions_final.csv"))).set_index("unit")
 GRP = {"Song_Deborah": "Archaic poems", "JE_source": "Documentary sources",
        "Gen_JE": "Sub-strata", "Genesis": "Pentateuch as received"}
 rows = ["\\textbf{Unit} & \\textbf{Words} & \\textbf{Pass.} & \\textbf{Est.} & "
@@ -146,7 +153,7 @@ for u in ORDER:
                 f"{int(r.n_chunks)} & {int(round(r.pred))} & "
                 f"{int(round(r.hi68))}--{int(round(r.lo68))} & "
                 f"{r.p_post:.2f} \\\\\n")
-open(f"{T}/tab_targets.tex", "w").write(wrap(
+open(DH.tab("tab_targets.tex"), "w").write(wrap(
     "".join(rows),
     "\\textbf{Undated units.}  Dates BCE; intervals are 68\\% conformal, "
     "calibrated on leave-one-book-out residuals.  No unit here contributed to "
@@ -155,7 +162,7 @@ open(f"{T}/tab_targets.tex", "w").write(wrap(
     "tab:targets", "lrrrcr"))
 
 # ── Table 5: synthetic archaizing ───────────────────────────────────────
-A = pd.read_csv(need(f"{R}/archaize_results.csv"))
+A = pd.read_csv(need(DH.f("archaize_results.csv")))
 rows = ["\\textbf{Book} & \\textbf{True} & \\textbf{$r=0$} & \\textbf{$r=1$} & "
         "\\textbf{Shift} & \\textbf{Swaps} & \\textbf{per 1k w} \\\\\n\\midrule\n"]
 sh = []
@@ -168,7 +175,7 @@ for u in A.unit.unique():
                 f"{b-a:+.0f} & {ns} & {1000*ns/nw:.1f} \\\\\n")
 rows.append("\\midrule\n\\multicolumn{4}{l}{\\textbf{Mean apparent shift}} & "
             f"\\textbf{{{np.mean(sh):+.0f}}} & & \\\\\n")
-open(f"{T}/tab_archaize.tex", "w").write(wrap(
+open(DH.tab("tab_archaize.tex"), "w").write(wrap(
     "".join(rows),
     "\\textbf{What total lexical archaizing buys.}  Each securely dated late "
     "book had its Late Biblical Hebrew forms replaced by Classical counterparts "
@@ -179,9 +186,9 @@ open(f"{T}/tab_archaize.tex", "w").write(wrap(
     "tab:archaize", "lrrrrrr"))
 
 # ── Table 6: Greek Atticizers ───────────────────────────────────────────
-GA = pd.read_csv(need(f"{G}/greek_atticizers.csv")).sort_values("truth")
+GA = pd.read_csv(need(DH.g("greek_atticizers.csv"))).sort_values("truth")
 MAN = {e["id"]: e for e in
-       json.load(open(need(f"{G}/corpus_manifest.json"), encoding="utf-8"))}
+       json.load(open(need(DH.g("corpus_manifest.json")), encoding="utf-8"))}
 rows = ["\\textbf{Author} & \\textbf{Work} & \\textbf{True} & \\textbf{Est.} & "
         "\\textbf{Shift} & \\textbf{Pass.} \\\\\n\\midrule\n"]
 for _, r in GA.iterrows():
@@ -190,7 +197,7 @@ for _, r in GA.iterrows():
                 f"{int(r.pred):+d} & {int(r['shift']):+d} & {int(r.n_chunks)} \\\\\n")
 rows.append("\\midrule\n\\multicolumn{4}{l}{\\textbf{Mean displacement}} & "
             f"\\textbf{{{GA['shift'].mean():+.0f}}} & \\\\\n")
-open(f"{T}/tab_greek.tex", "w").write(wrap(
+open(DH.tab("tab_greek.tex"), "w").write(wrap(
     "".join(rows),
     "\\textbf{Second Sophistic Atticizers under a model trained only on "
     "non-archaizing Greek.}  Dates CE (negative = BCE).  A negative shift means "
@@ -198,11 +205,11 @@ open(f"{T}/tab_greek.tex", "w").write(wrap(
     "worked.  These 14 texts were excluded from training entirely.",
     "tab:greek", "llrrrr"))
 
-print("wrote:", ", ".join(sorted(os.listdir(T))))
+print("wrote:", ", ".join(sorted(os.listdir(DH.TABLES))))
 
 # ── Table: robustness of the headline statistics ────────────────────────
-AS = json.load(open(need(f"{R}/anchor_sensitivity.json")))
-JK = json.load(open(need(f"{R}/jackknife.json")))
+AS = json.load(open(need(DH.f("anchor_sensitivity.json"))))
+JK = json.load(open(need(DH.f("jackknife.json"))))
 rows = ["\\textbf{Fit} & \\textbf{Units} & \\textbf{MAE} & \\textbf{Baseline} & "
         "\\textbf{$\\rho$} & \\textbf{Pairwise} \\\\\n\\midrule\n"]
 rows.append(f"Full corpus & 25 & {JK['full_mae']:.0f} & 137 & "
@@ -222,7 +229,7 @@ for i, v in enumerate(AS):
     if i == 0: continue
     rows.append(f"{LBL[i]} & {v['n']} & {v['mae']:.0f} & {v['base']:.0f} & "
                 f"{v['rho']:+.2f} & {100*v['pair']:.1f}\\% \\\\\n")
-open(f"{T}/tab_anchors.tex", "w").write(wrap(
+open(DH.tab("tab_anchors.tex"), "w").write(wrap(
     "".join(rows),
     "\\textbf{Robustness of the headline statistics.}  MAE and baseline are in "
     "years, the baseline being the constant predictor on the same subset.  The "

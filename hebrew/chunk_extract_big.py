@@ -13,12 +13,21 @@ Feature families (all computed per chunk, rates per 1000 words unless noted):
 Everything is derived from BHSA node features, so nothing here depends on the
 hand-picked 64-feature set the earlier work used.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os, json, argparse, collections
 import numpy as np, pandas as pd
 from tf.fabric import Fabric
 
-TF_PATH = os.path.expanduser("~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
-HB = "/mnt/user-data/uploads/Diachronic Hebrew/hebrew"
+TF_PATH = os.environ.get("BHSA_TF") or os.path.expanduser(
+    "~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
+
 BHSA_NAME = {"Numbers":"Numeri","Deuteronomy":"Deuteronomium","Lamentations":"Threni",
              "Ezekiel":"Ezechiel","Obadiah":"Obadia","Jonah":"Jona","Malachi":"Maleachi",
              "Zephaniah":"Zephania","Habakkuk":"Habakuk","Micah":"Micha","Isaiah":"Jesaia",
@@ -165,7 +174,7 @@ def main(target, k_lex):
     print(f"vocab: {len(top_lex)} lex, {len(top_pos)} pos, {len(top_typ)} typ, "
           f"{len(top_fun)} fun, {len(top_rela)} rela, {len(top_ctyp)} ctyp")
 
-    man = json.load(open(os.path.join(HB, "corpus_manifest_v2.json")))
+    man = json.load(open(DH.f("corpus_manifest_v2.json")))
     rows = []
     for grp in ("training", "holdouts"):
         for t in man[grp]:
@@ -213,7 +222,7 @@ def main(target, k_lex):
     # than a superset of it.
     ctyp_cols = [c for c in D.columns
                  if c.startswith("ctyp_") or c.startswith("cb_")]
-    base = f"/home/claude/big_features_{target}"
+    base = DH.f(f"big_features_{target}")
 
     D.drop(columns=ctyp_cols).to_csv(f"{base}.csv", index=False)
     D.to_csv(f"{base}_ctyp.csv", index=False)

@@ -4,12 +4,19 @@ Supporting-information tables, generated from the same specs the pipeline used.
 S1 is emitted from the TARGETS dict in target_chunks.py rather than retyped, so
 the appendix cannot drift from the partition that was actually analysed.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os, sys, json, re, ast
 import numpy as np, pandas as pd
 
-R, G = "/home/claude", "/home/claude/greek"
-T = "/home/claude/ms/tables"
-os.makedirs(T, exist_ok=True)
+G = DH.GREEK
+
 
 
 def need(p):
@@ -33,7 +40,7 @@ def tt(s):
 
 
 # ── S1: source partitions, read out of the pipeline source ──────────────
-src = open(need(f"{R}/target_chunks.py")).read()
+src = open(need(DH.f("target_chunks.py"))).read()
 m = re.search(r"TARGETS\s*=\s*(\{.*?\n\})", src, re.S)
 if not m: sys.exit("could not locate TARGETS in target_chunks.py")
 TARGETS = ast.literal_eval(m.group(1))
@@ -66,7 +73,7 @@ body = ["\\textbf{Unit} & \\textbf{Chapters} \\\\\n\\midrule\n"]
 for name, chapters, note in rows:
     body.append(f"{esc(name)} & {esc(chapters)}"
                 + (f" \\newline \\textit{{{note}}}" if note else "") + " \\\\\n")
-open(f"{T}/tab_s1_partitions.tex", "w").write(
+open(DH.tab("tab_s1_partitions.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf S1 Appendix. Source partitions.}  Chapter specification of "
     "every undated unit.  The five Pentateuchal books as received are omitted "
@@ -76,7 +83,7 @@ open(f"{T}/tab_s1_partitions.tex", "w").write(
     + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 # ── S2: power analysis ──────────────────────────────────────────────────
-pw = open(need(f"{R}/power.log")).read()
+pw = open(need(DH.f("power.log"))).read()
 blocks = re.findall(r"chunk\s+chunks\s+ICC\s+DEFF\s+n_eff\s+gain vs n=25\n((?:.+\n)+)", pw)
 body = ["\\textbf{Passage size} & \\textbf{Passages} & \\textbf{Median ICC} & "
         "\\textbf{Design effect} & \\textbf{$n_{\\mathrm{eff}}$} & "
@@ -86,7 +93,7 @@ if blocks:
         p = line.split()
         if len(p) >= 6:
             body.append(" & ".join(esc(x) for x in p[:6]) + " \\\\\n")
-open(f"{T}/tab_s2_power.tex", "w").write(
+open(DH.tab("tab_s2_power.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf S2 Table. Effective sample size by passage size.}  "
     "Passages within a book are correlated, so the raw passage count overstates "
@@ -96,7 +103,7 @@ open(f"{T}/tab_s2_power.tex", "w").write(
     + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 # ── S3: configuration sweep ─────────────────────────────────────────────
-SW = pd.read_csv(need(f"{R}/sweep_summary.csv"))
+SW = pd.read_csv(need(DH.f("sweep_summary.csv")))
 cols = [c for c in ["target", "kind", "p", "calib", "mae", "rho", "pair", "cov"]
         if c in SW.columns]
 SW = SW[cols].sort_values(["target", "kind"])
@@ -112,7 +119,7 @@ for _, r in SW.iterrows():
         elif c == "pair": cells.append(f"{100*v:.1f}")
         else: cells.append(esc(v))
     body.append(" & ".join(cells) + " \\\\\n")
-open(f"{T}/tab_s3_sweep.tex", "w").write(
+open(DH.tab("tab_s3_sweep.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf S3 Table. Configuration search.}  Out-of-sample metrics for "
     "each combination of passage size, feature set and calibration under "
@@ -123,7 +130,7 @@ open(f"{T}/tab_s3_sweep.tex", "w").write(
     + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 # ── S6: Greek register variants ─────────────────────────────────────────
-V = json.load(open(need(f"{G}/greek_register_variants.json")))
+V = json.load(open(need(DH.g("greek_register_variants.json"))))
 body = ["\\textbf{Training set} & \\textbf{Texts} & \\textbf{Tested} & "
         "\\textbf{MAE} & \\textbf{$\\rho$} & \\textbf{Mean shift} & "
         "\\textbf{Too early} \\\\\n\\midrule\n"]
@@ -131,7 +138,7 @@ for v in V:
     body.append(f"{esc(v['variant'])} & {v['n_train']} & {v['n_test']} & "
                 f"{v['mae']:.0f} & {v['rho']:+.2f} & {v['mean_shift']:+.0f} & "
                 f"{v['n_early']}/{v['n_test']} \\\\\n")
-open(f"{T}/tab_s6_registers.tex", "w").write(
+open(DH.tab("tab_s6_registers.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf S6 Table. Register sensitivity of the Greek archaizing "
     "measurement.}  The displacement of the Atticizers depends on which texts "
@@ -145,8 +152,8 @@ open(f"{T}/tab_s6_registers.tex", "w").write(
     + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 # ── S4: feature leverage ────────────────────────────────────────────────
-FF = pd.read_csv(need(f"{R}/sensitivity_features.csv"))
-FAM = pd.read_csv(need(f"{R}/sensitivity_families.csv"))
+FF = pd.read_csv(need(DH.f("sensitivity_features.csv")))
+FAM = pd.read_csv(need(DH.f("sensitivity_families.csv")))
 FF = FF.sort_values("abs", ascending=False).reset_index(drop=True)
 
 fam_body = ["\\textbf{Family} & \\textbf{Features} & \\textbf{Total $|$leverage$|$} "
@@ -188,10 +195,10 @@ for i in range(nr):
             cells += ["", ""]
     lt.append(" & ".join(cells) + " \\\\\n")
 lt.append("\\end{longtable}\n\\endgroup\n")
-open(f"{T}/tab_s4_leverage.tex", "w").write(fam_tab + "\n" + "".join(lt))
+open(DH.tab("tab_s4_leverage.tex"), "w").write(fam_tab + "\n" + "".join(lt))
 
 # ── S5: the Greek corpus ────────────────────────────────────────────────
-MAN = json.load(open(need(f"{G}/corpus_manifest.json")))
+MAN = json.load(open(need(DH.g("corpus_manifest.json"))))
 MAN = sorted(MAN, key=lambda t: t["date_ce"])
 REG = {"ancient_Attic": "ancient Attic", "Atticizing": "Atticizing",
        "Koine": "Koine", "LXX": "LXX"}
@@ -222,10 +229,10 @@ for t in MAN:
               f"{esc(REG.get(t['register'], t['register']))} & "
               f"{ntok} \\\\\n")
 lt.append("\\end{longtable}\n\\endgroup\n")
-open(f"{T}/tab_s5_greek.tex", "w").write("".join(lt))
+open(DH.tab("tab_s5_greek.tex"), "w").write("".join(lt))
 
 # ── S7: p-values as a function of where a permutation run is stopped ────
-NS = pd.read_csv(need(f"{R}/null_stability.csv"))
+NS = pd.read_csv(need(DH.f("null_stability.csv")))
 NAME = {"within-genre": "Within-genre shuffle, genre-controlled $\\rho$",
         "free shuffle": "Free shuffle, raw $\\rho$"}
 body = ["\\textbf{Null} & \\textbf{Draws} & \\textbf{$p$} \\\\\n\\midrule\n"]
@@ -236,7 +243,7 @@ for t, sub in NS.groupby("test", sort=False):
         body.append(f"{lab} & {int(r.draws)} & {r.p:.4f} \\\\\n")
         first = False
     body.append("\\addlinespace\n")
-open(f"{T}/tab_s7_stopping.tex", "w").write(
+open(DH.tab("tab_s7_stopping.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf Sensitivity of each permutation $p$-value to the stopping "
     "point.}  Permutation runs are expensive, and a run stopped after its "
@@ -251,7 +258,7 @@ open(f"{T}/tab_s7_stopping.tex", "w").write(
     + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 # ── S9: the full specification grid ─────────────────────────────────────
-SC = pd.read_csv(need(f"{R}/spec_curve.csv")).sort_values("rho_genre",
+SC = pd.read_csv(need(DH.f("spec_curve.csv"))).sort_values("rho_genre",
                                                           ascending=False)
 body = ["\\textbf{Words} & \\textbf{Keep} & \\textbf{Wt} & \\textbf{Cal} & "
         "\\textbf{$\\rho$} & \\textbf{$\\rho|$g} & \\textbf{MAE} & "
@@ -264,7 +271,7 @@ for _, r in SC.iterrows():
         f"{r.rho_raw:+.2f} & {r.rho_genre:+.2f} & {r.mae:.0f} & "
         f"{r.JE_source_pred:.0f} & {r.D_source_pred:.0f} & "
         f"{r.P_source_pred:.0f} \\\\\n")
-open(f"{T}/tab_s9_speccurve.tex", "w").write(
+open(DH.tab("tab_s9_speccurve.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\scriptsize\n"
     "\\caption{{\\bf Every analytic specification.}  All "
     f"{len(SC)} combinations of passage size, feature screen (share of features "
@@ -280,7 +287,7 @@ open(f"{T}/tab_s9_speccurve.tex", "w").write(
     + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 # ── S10: the red-team ablations ─────────────────────────────────────────
-RT = pd.read_csv(need(f"{R}/red_team.csv"))
+RT = pd.read_csv(need(DH.f("red_team.csv")))
 body = ["\\textbf{Variant} & \\textbf{Features} & \\textbf{Books} & "
         "\\textbf{MAE} & \\textbf{$\\rho$} & \\textbf{$\\rho|$genre} & "
         "\\textbf{$\\rho$ proph} \\\\\n\\midrule\n"]
@@ -293,7 +300,7 @@ for _, r in RT.iterrows():
     body.append(f"{NAMES[r.label[0]]} & {int(r.n_feats)} & {int(r.n_books)} & "
                 f"{r.mae:.0f} & {r.rho_raw:+.3f} & {r.rho_genre:+.3f} & "
                 f"{r.rho_proph:+.3f} \\\\\n")
-open(f"{T}/tab_s10_redteam.tex", "w").write(
+open(DH.tab("tab_s10_redteam.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf Ablations designed to break the result.}  Each variant "
     "removes something the result might depend on and refits from scratch.  "
@@ -306,8 +313,8 @@ open(f"{T}/tab_s10_redteam.tex", "w").write(
     + "".join(body) + "\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 # ── S11: block separations under the genre screen ───────────────────────
-BR = pd.read_csv(need(f"{R}/block_robustness.csv"))
-DRj = json.load(open(need(f"{R}/disp_robustness.json")))
+BR = pd.read_csv(need(DH.f("block_robustness.csv")))
+DRj = json.load(open(need(DH.f("disp_robustness.json"))))
 LAB = {1.0: "All features", 0.75: "Drop top 25\\%", 0.5: "Drop top 50\\%"}
 body = ["\\textbf{Feature set} & \\textbf{$p$ feats} & "
         "\\textbf{$\\rho|$genre} & \\textbf{Comparison} & \\textbf{Gap} & "
@@ -322,7 +329,7 @@ for fr in (1.0, 0.75, 0.5):
                     f"{r.lo:+.0f} to {r.hi:+.0f} & {r.p:.3f} \\\\\n")
         first = False
     body.append("\\addlinespace\n")
-open(f"{T}/tab_s11_blocks.tex", "w").write(
+open(DH.tab("tab_s11_blocks.tex"), "w").write(
     "\\begin{table}[!ht]\n\\centering\n\\footnotesize\n"
     "\\caption{{\\bf Block separations under the genre screen.}  Difference in "
     "median passage estimate between the conventionally distinguished blocks of "

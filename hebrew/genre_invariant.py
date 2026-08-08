@@ -30,19 +30,27 @@ genre-controlled ordering: rho after centring truth and prediction within genre,
 and rho within prophecy alone -- 17 books over 410 years in a single register,
 the best-controlled comparison this corpus permits.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, sys
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 EX = 586
 SRC = ["JE_source", "D_source", "P_source"]
 KEEP_FRACS = [1.00, 0.75, 0.50, 0.30, 0.15]
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META and c in Dt.columns]
 Xa = Dd[feats].astype(float)
 keep = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -178,7 +186,7 @@ for frac in KEEP_FRACS:
           f"{M['rho_prophecy']:>+11.3f}{100*M['between_genre']:>11.0f}%"
           + "".join(f"{float(tgt[u]):>8.0f}" for u in SRC), flush=True)
     if frac == 0.50:
-        json.dump(selnames, open("/home/claude/genre_invariant_features.json", "w"))
+        json.dump(selnames, open(DH.f("genre_invariant_features.json"), "w"))
 
 print()
 print("  rho raw    ordering on all 25 anchors, the number the paper reports")
@@ -191,5 +199,5 @@ for k, v in OUT.items():
     print(f"    kept {float(k)*100:>3.0f}%  " +
           "  ".join(f"{u.split('_')[0]} {v['p_post'][u]:.2f}" for u in SRC))
 
-json.dump(OUT, open("/home/claude/genre_invariant.json", "w"), indent=2)
+json.dump(OUT, open(DH.f("genre_invariant.json"), "w"), indent=2)
 print("\nwrote genre_invariant.json, genre_invariant_features.json")

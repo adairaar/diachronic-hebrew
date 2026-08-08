@@ -1,4 +1,12 @@
 """Figure: undated units under the recommended model."""
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
@@ -11,7 +19,7 @@ mpl.rcParams.update({"font.family": "DejaVu Sans", "font.size": 7.5,
                      "xtick.color": MUTED, "ytick.color": MUTED, "text.color": INK,
                      "xtick.major.width": 0.6, "xtick.major.size": 2.5})
 
-R = pd.read_csv("/home/claude/target_predictions_final.csv").set_index("unit")
+R = pd.read_csv(DH.f("target_predictions_final.csv")).set_index("unit")
 NM = {"Song_Sea": "Song of the Sea", "Song_Deborah": "Song of Deborah",
       "D_Song": "Song of Moses", "JE_source": "JE source", "P_source": "P source",
       "D_source": "D source", "Gen_JE": "Genesis JE", "Exo_JE": "Exodus JE",
@@ -83,6 +91,6 @@ ax.legend(handles=[Line2D([], [], color=MUTED, lw=2.6, label="68% conformal"),
           loc="lower left", frameon=False, fontsize=6.2, ncol=2,
           handletextpad=0.4, borderpad=0.1, bbox_to_anchor=(0.0, -0.13))
 fig.subplots_adjust(left=0.30)
-fig.savefig("/home/claude/fig_targets.png", dpi=300, facecolor="white",
+fig.savefig(DH.f("fig_targets.png"), dpi=300, facecolor="white",
             bbox_inches="tight", pad_inches=0.05)
 print("wrote fig_targets.png")

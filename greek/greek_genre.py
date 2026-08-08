@@ -22,15 +22,23 @@ leave-one-text-out predictions already exist:
      non-Atticizing ones?  That is the comparison that separates archaizing
      from genre, and it is the one the archaizing claim actually needs.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd
 from scipy import stats
 
 RNG = np.random.default_rng(19)
-G = "/home/claude/greek"
+G = DH.GREEK
 
-MAN = pd.DataFrame(json.load(open(f"{G}/corpus_manifest.json")))
-L = pd.read_csv(f"{G}/greek_loto_texts.csv")
+MAN = pd.DataFrame(json.load(open(DH.g("corpus_manifest.json"))))
+L = pd.read_csv(DH.g("greek_loto_texts.csv"))
 L = L.merge(MAN[["id", "genre", "n_tokens"]], left_on="text", right_on="id",
             how="left")
 L["genre"] = L.genre.str.replace("prose_", "", regex=False)
@@ -42,7 +50,7 @@ L["genre"] = L.genre.str.replace("prose_", "", regex=False)
 # where a negative value means the model dates the text EARLIER than it was
 # written, which is the archaizing direction.
 L["shift"] = -L.resid
-A = pd.read_csv(f"{G}/greek_atticizers.csv").merge(
+A = pd.read_csv(DH.g("greek_atticizers.csv")).merge(
     MAN[["id", "genre"]], left_on="text", right_on="id", how="left")
 A["genre"] = A.genre.str.replace("prose_", "", regex=False)
 
@@ -139,6 +147,6 @@ json.dump(dict(n_texts=len(L), rho_raw=float(rho_raw), rho_genre=float(rho_par),
                p_ge_zero=pval, n_genres=len(W),
                n_negative=int((W["diff"] < 0).sum()),
                by_genre=W.to_dict("records")),
-          open(f"{G}/greek_genre.json", "w"), indent=2)
-A.to_csv(f"{G}/greek_genre_atticizers.csv", index=False)
+          open(DH.g("greek_genre.json"), "w"), indent=2)
+A.to_csv(DH.g("greek_genre_atticizers.csv"), index=False)
 print("\nwrote greek_genre.json, greek_genre_atticizers.csv")

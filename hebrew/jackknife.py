@@ -5,14 +5,22 @@ Drop each anchored unit in turn, re-run the entire pipeline on the remaining 24,
 and record rho and pairwise accuracy.  This is the influence diagnostic a referee
 would run, and it says how much any single unit is carrying.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os
 import numpy as np, pandas as pd, importlib.util, json
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 feats0 = [c for c in Dd.columns if c not in PT.META]
 ALL = list(pd.unique(Dd.unit.values))
 
@@ -59,7 +67,7 @@ print(f"full corpus:  rho {full[0]:+.3f}  pair {100*full[1]:.1f}%  MAE {full[2]:
 # Checkpoint after each dropped book.  A full pass is 25 leave-one-out fits of
 # a model that is itself leave-one-book-out, and in this environment a process
 # that long is not guaranteed to survive; resuming beats restarting.
-CKPT = "/home/claude/.jackknife_partial.csv"
+CKPT = DH.f(".jackknife_partial.csv")
 rows, done = [], set()
 if os.path.exists(CKPT):
     prev = pd.read_csv(CKPT)
@@ -78,7 +86,7 @@ for b in ALL:
     print(f"  without {b:<14} rho {r:+.3f} ({r-full[0]:+.3f})  "
           f"pair {100*pr:4.1f}%  MAE {m:5.1f}", flush=True)
 J = pd.DataFrame(rows).sort_values("rho")
-J.to_csv("/home/claude/jackknife.csv", index=False, float_format="%.12g")
+J.to_csv(DH.f("jackknife.csv"), index=False, float_format="%.12g")
 os.path.exists(CKPT) and os.remove(CKPT)
 print(f"\nrho across all 25 leave-one-out fits: "
       f"min {J.rho.min():+.3f} ({J.iloc[0].dropped}), "
@@ -90,4 +98,4 @@ json.dump(dict(full_rho=full[0], full_pair=full[1], full_mae=full[2],
                rho_max=float(J.rho.max()), rho_min_book=J.iloc[0].dropped,
                pair_min=float(J.pair.min()), pair_med=float(J.pair.median()),
                pair_max=float(J.pair.max())),
-          open("/home/claude/jackknife.json", "w"), indent=2)
+          open(DH.f("jackknife.json"), "w"), indent=2)

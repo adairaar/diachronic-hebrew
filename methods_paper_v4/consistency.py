@@ -12,11 +12,19 @@ things that matter.  These are the checks that can be made to fail loudly.
   6. Macro hygiene  macros used but undefined; signed macros beside direction words
   7. Duplicates     the same quantity quoted from two different macros
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, os, re, sys
 from collections import defaultdict
 
-MS = "/home/claude/ms/main.tex"
-NUM = "/home/claude/ms/numbers.tex"
+MS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "main.tex")
+NUM = os.path.join(os.path.dirname(os.path.abspath(__file__)), "numbers.tex")
 src = open(MS).read()
 nums = open(NUM).read()
 
@@ -26,7 +34,7 @@ def expand(text, depth=0):
     if depth > 3:
         return text
     def sub(m):
-        f = os.path.join("/home/claude/ms", m.group(1))
+        f = os.path.join(os.path.dirname(MS), m.group(1))
         if not f.endswith(".tex"):
             f += ".tex"
         return expand(open(f).read(), depth + 1) if os.path.exists(f) else ""

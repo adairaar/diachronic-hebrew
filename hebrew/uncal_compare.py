@@ -1,9 +1,17 @@
 """Uncalibrated vs variance-matched: the trade-off, computed rather than asserted."""
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, importlib.util, json
 from scipy import stats
-pt = importlib.util.spec_from_file_location("pt","/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt",DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
 feats=[c for c in Dd.columns if c not in PT.META]
 Xa=Dd[feats].astype(float); keep=(Xa.std()>0)&(Xa.isna().mean()<.2)
 feats=list(np.array(feats)[keep.values]); med=Dd[feats].astype(float).median()
@@ -43,4 +51,4 @@ for name,cal in [("uncal",p),("var",t.mean()+ (t.std()/p.std())*(p-p.mean()))]:
                    post_ok=int((cal[post]<586).sum()), n_post=int(post.sum()))
     print(name, out[name])
 out["true_span"]=float(t.max()-t.min())
-json.dump(out,open("/home/claude/uncal_compare.json","w"),indent=2)
+json.dump(out,open(DH.f("uncal_compare.json"),"w"),indent=2)

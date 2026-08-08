@@ -5,12 +5,20 @@ Both families are pre-specified and BOTH are reported, whatever they show.
 Every step (screening, standardisation, fitting) happens inside the fold.
 The permutation null re-runs the entire pipeline on shuffled dates.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd
 from scipy import stats
 import sys, json
 
 RNG = np.random.default_rng(20260806)
-MATRIX = "/mnt/user-data/uploads/Diachronic Hebrew/hebrew/data/feature_matrix_v2.csv"
+MATRIX = DH.f("feature_matrix_v2.csv")
 
 PERIODS = ["Pre-exilic", "Exilic", "Persian", "Hellenistic"]
 def to_period(d):
@@ -182,8 +190,8 @@ def main(alpha=0.05, nperm=2000):
                             n_words=dated["n_words"].values))
     out["pred_generative"] = [PERIODS[to_period(v)] for v in out["loo_generative"]]
     out["pred_ridge"]      = [PERIODS[to_period(v)] for v in out["loo_ridge"]]
-    out.to_csv("/home/claude/loo_period_results.csv", index=False)
-    json.dump(summary, open("/home/claude/loo_period_significance.json","w"), indent=2)
+    out.to_csv(DH.f("loo_period_results.csv"), index=False)
+    json.dump(summary, open(DH.f("loo_period_significance.json"),"w"), indent=2)
     print("\nwrote loo_period_results.csv, loo_period_significance.json")
 
 

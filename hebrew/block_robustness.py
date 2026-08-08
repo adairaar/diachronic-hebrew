@@ -23,11 +23,19 @@ Screening ranks features by eta-squared for genre across the anchor books and
 drops the most genre-diagnostic, which is the same screen the specification
 curve uses.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 RNG = np.random.default_rng(11)
@@ -36,8 +44,8 @@ PAIRS = [("D_Code", "D_Frame", "Deuteronomic law code vs frame"),
          ("Lev_Holiness", "Lev_Priestly", "Holiness Code vs Leviticus 1-16"),
          ("Gen_JE", "Exo_JE", "Genesis JE vs Exodus JE")]
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
 feats0 = [c for c in Dd.columns if c not in PT.META and c in Dt.columns]
 Xa = Dd[feats0].astype(float)
 keep0 = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -138,7 +146,7 @@ for frac, lab in [(1.0, "all features"), (0.75, "drop top 25% genre-diagnostic")
         print(f"  {name:<34}{gap:>+7.0f}{f'{lo:+.0f} to {hi:+.0f}':>18}{pu:>9.3f}")
 
 R = pd.DataFrame(rows)
-R.to_csv("/home/claude/block_robustness.csv", index=False)
+R.to_csv(DH.f("block_robustness.csv"), index=False)
 print()
 print("=" * 86)
 print("VERDICT")
@@ -150,6 +158,6 @@ for a, b, name in PAIRS:
     sig = int((sub.p < 0.05).sum())
     print(f"  {name:<34} direction {'holds' if stable else 'REVERSES'}"
           f"   significant in {sig}/{len(sub)}")
-json.dump(R.to_dict("records"), open("/home/claude/block_robustness.json", "w"),
+json.dump(R.to_dict("records"), open(DH.f("block_robustness.json"), "w"),
           indent=2)
 print("\nwrote block_robustness.csv/.json")

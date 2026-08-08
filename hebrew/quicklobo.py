@@ -17,10 +17,18 @@ The two matrices compared here are both produced by the current extractor:
 Everything else in the two files is numerically identical, column for column, so
 this isolates the clause-type family and nothing else.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import sys, numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 
@@ -65,5 +73,5 @@ def run(path, label):
           f"post {int((cal[post]<586).sum())}/{int(post.sum())}", flush=True)
 
 
-run("/home/claude/big_features_500.csv", "without clause-type feats")
-run("/home/claude/big_features_500_ctyp.csv", "WITH clause-type feats")
+run(DH.f("big_features_500.csv"), "without clause-type feats")
+run(DH.f("big_features_500_ctyp.csv"), "WITH clause-type feats")

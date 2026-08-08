@@ -8,14 +8,22 @@ with its word-collection function patched to return the chunk.
 
 Output: chunk_features_<TARGET>.csv, one row per chunk.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import os, sys, json, importlib.util, argparse
 import numpy as np, pandas as pd
 
-TF_PATH = os.path.expanduser("~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
-HB = "/mnt/user-data/uploads/Diachronic Hebrew/hebrew"
+TF_PATH = os.environ.get("BHSA_TF") or os.path.expanduser(
+    "~/text-fabric-data/github/ETCBC/bhsa/tf/2021")
 
 spec = importlib.util.spec_from_file_location(
-    "ex", os.path.join(HB, "hierarchical_bayes", "00_extract_features.py"))
+    "ex", os.path.join(DH.HEBREW, "hierarchical_bayes", "00_extract_features.py"))
 ex = importlib.util.module_from_spec(spec); spec.loader.exec_module(ex)
 ORIG_WFR = ex.words_for_ranges       # keep the real one; the patch below is scoped
 
@@ -48,7 +56,7 @@ BHSA_NAME = {"Numbers": "Numeri", "Deuteronomy": "Deuteronomium",
 
 
 def unit_specs():
-    man = json.load(open(os.path.join(HB, "corpus_manifest_v2.json")))
+    man = json.load(open(DH.f("corpus_manifest_v2.json")))
     out = {}
     for k in ("training", "holdouts"):
         for t in man[k]:
@@ -115,7 +123,7 @@ def main(target):
         ex.words_for_ranges = ORIG_WFR
         print(f"  {uid:<15} {len(words):6d} words -> {len(chunks):3d} chunks")
     D = pd.DataFrame(rows)
-    out = f"/home/claude/chunk_features_{target}.csv"
+    out = DH.f(f"chunk_features_{target}.csv")
     D.to_csv(out, index=False)
     print(f"\n{len(D)} chunks from {D.unit.nunique()} units -> {out}")
     return D

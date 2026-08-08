@@ -15,11 +15,19 @@ big_features_500_ctyp.csv is the same extraction with that fixed; it is used
 here and nowhere else in the pipeline, because the reported model does not
 include the family.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd
 from scipy import stats
 
-R = "/home/claude"
+
 GLOSS = {"ctyp_xYq0": "fronted yiqtol", "ctyp_ZIm0": "imperative",
          "ctyp_Voct": "vocative", "ctyp_InfC": "infinitive construct",
          "ctyp_WQt0": "weqatal", "ctyp_Way0": "wayyiqtol",
@@ -27,7 +35,7 @@ GLOSS = {"ctyp_xYq0": "fronted yiqtol", "ctyp_ZIm0": "imperative",
          "ctyp_xQt0": "fronted qatal", "ctyp_xYqX": "fronted yiqtol, object",
          "ctyp_WxY0": "waw + fronted yiqtol"}
 
-D = pd.read_csv(f"{R}/big_features_500_ctyp.csv")
+D = pd.read_csv(DH.f("big_features_500_ctyp.csv"))
 ct = [c for c in D.columns if c.startswith("ctyp_")]
 B = D.groupby("unit").agg({**{c: "mean" for c in ct}, "date_bce": "first"})
 r = {c: stats.spearmanr(B[c], B.date_bce)[0] for c in ct if B[c].std() > 0}
@@ -46,7 +54,7 @@ out = dict(top_feature=GLOSS.get(top[0][0], top[0][0]),
            n_ctyp=len(r),
            weqatal_rho=abs(float(r.get("ctyp_WQt0", np.nan))),
            all_top=[{"f": GLOSS.get(k, k), "rho": float(v)} for k, v in top[:6]])
-json.dump(out, open(f"{R}/clausetype_leverage.json", "w"), indent=2)
+json.dump(out, open(DH.f("clausetype_leverage.json"), "w"), indent=2)
 print(f"\n{out['n_above_half']} of {out['n_ctyp']} exceed |rho| = 0.5, led by "
       f"{out['top_feature']} at {out['top_rho']:.2f}")
 print("wrote clausetype_leverage.json")

@@ -31,11 +31,19 @@ toward the present:
     late      only the post-exilic anchors, the case argued for the Persian
               period specifically
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 SHIFT = 50          # years toward the present
@@ -43,8 +51,8 @@ EX = 586
 SOFT = ["Jonah", "Ecclesiastes", "Malachi", "Joel", "Isaiah_3", "Zechariah_2"]
 SRC = ["JE_source", "D_source", "P_source"]
 
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
 feats = [c for c in Dd.columns if c not in PT.META and c in Dt.columns]
 k = Dd[feats].astype(float).std() > 0
 feats = list(np.array(feats)[k.values])
@@ -148,5 +156,5 @@ print("  earlier.  The reverse error would be the dangerous one, and a century")
 print("  of critical revision has not been running in that direction.")
 json.dump(dict(shift=SHIFT, baseline=base, scenarios=rows,
                passthrough=float(abs(mean_all) / SHIFT)),
-          open("/home/claude/anchor_bias.json", "w"), indent=2)
+          open(DH.f("anchor_bias.json"), "w"), indent=2)
 print("\nwrote anchor_bias.json")

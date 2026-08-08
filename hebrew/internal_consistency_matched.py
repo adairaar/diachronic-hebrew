@@ -20,6 +20,14 @@ matchings, because no single n serves both comparisons.
 Sampling is without replacement within a draw, so each subsample is a genuine
 set of distinct passages rather than a bootstrap resample.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
@@ -28,17 +36,17 @@ RNG = np.random.default_rng(23)
 B = 4000
 EX = 586
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 # reuse the chunk-level predictions already computed
 import subprocess, os
-Dd = pd.read_csv("/home/claude/big_features_500.csv")
-Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
-C = pd.read_csv("/home/claude/internal_consistency.csv")
-if not os.path.exists("/home/claude/chunk_preds.csv"):
+Dd = pd.read_csv(DH.f("big_features_500.csv"))
+Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
+C = pd.read_csv(DH.f("internal_consistency.csv"))
+if not os.path.exists(DH.f("chunk_preds.csv")):
     raise SystemExit("run internal_consistency.py first (it caches chunk_preds.csv)")
-P = pd.read_csv("/home/claude/chunk_preds.csv")
+P = pd.read_csv(DH.f("chunk_preds.csv"))
 anc = P[P.kind == "anchor"]; tgt = P[P.kind == "target"]
 
 
@@ -108,7 +116,7 @@ for u, lab in UNITS:
     m = float(d.mean()); pc = float(np.mean(ref_sd <= m))
     rows.append(dict(unit=u, label=lab.strip(), n=len(v), sd12=m, pctile=pc))
     print(f"  {lab:<28}{len(v):>5}{m:>10.0f} yr{pc*100:>21.0f}%")
-pd.DataFrame(rows).to_csv("/home/claude/internal_consistency_matched.csv",
+pd.DataFrame(rows).to_csv(DH.f("internal_consistency_matched.csv"),
                           index=False)
 
 print()
@@ -127,5 +135,5 @@ json.dump(dict(n_matched=N1,
                p_D_gt_P=float(np.mean(S["D_source"] - S["P_source"] > 0)),
                ref_median_sd12=float(np.median(ref_sd)),
                units=rows, order=[x.split("_")[0] for x in o]),
-          open("/home/claude/internal_consistency_matched.json", "w"), indent=2)
+          open(DH.f("internal_consistency_matched.json"), "w"), indent=2)
 print("\nwrote internal_consistency_matched.csv/.json")

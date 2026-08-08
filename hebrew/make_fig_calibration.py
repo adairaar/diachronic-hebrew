@@ -8,6 +8,14 @@ Panel A  Every dated unit: true date against the model's P(post-exilic),
 Panel B  Reliability diagram: predicted probability against observed
          frequency, with the corpus base rate for comparison.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import numpy as np, pandas as pd, matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
@@ -21,8 +29,8 @@ mpl.rcParams.update({"font.family": "DejaVu Sans", "font.size": 7.5,
                      "xtick.major.width": 0.6, "ytick.major.width": 0.6,
                      "xtick.major.size": 2.5, "ytick.major.size": 2.5})
 
-G = pd.read_csv("/home/claude/postexilic_calibration_generative.csv")
-R = pd.read_csv("/home/claude/postexilic_calibration_ridge.csv")
+G = pd.read_csv(DH.f("postexilic_calibration_generative.csv"))
+R = pd.read_csv(DH.f("postexilic_calibration_ridge.csv"))
 
 fig, (axA, axB) = plt.subplots(1, 2, figsize=(7.5, 3.05), dpi=300,
                                gridspec_kw=dict(wspace=0.30, width_ratios=[1.45, 1]))
@@ -96,7 +104,7 @@ def skill(D):
 axB.annotate(f"Brier skill\n{skill(G):+.2f} / {skill(R):+.2f}", xy=(0.97, 0.06),
              ha="right", va="bottom", fontsize=6.2, color=INK, linespacing=1.2)
 
-fig.savefig("/home/claude/paper/figures/fig3_calibration.png", dpi=300,
+fig.savefig(DH.fig("fig3_calibration.png"), dpi=300,
             facecolor="white", bbox_inches="tight", pad_inches=0.04)
 print("wrote fig3_calibration.png")
 for D, nm in [(G, "generative"), (R, "ridge")]:

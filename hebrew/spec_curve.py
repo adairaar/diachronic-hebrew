@@ -25,11 +25,19 @@ data.
 Intervals are jackknife+, computed per specification from that specification's
 own leave-one-out residuals and target predictions.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json, itertools, time, sys
 import numpy as np, pandas as pd, importlib.util
 from scipy import stats
 
-pt = importlib.util.spec_from_file_location("pt", "/home/claude/predict_targets.py")
+pt = importlib.util.spec_from_file_location("pt", DH.script("predict_targets.py"))
 PT = importlib.util.module_from_spec(pt); pt.loader.exec_module(PT)
 
 EX = 586
@@ -49,8 +57,8 @@ CACHE = {}
 
 def load(size):
     if size in CACHE: return CACHE[size]
-    Dd = pd.read_csv(f"/home/claude/big_features_{size}.csv")
-    Dt = pd.read_csv("/home/claude/target_chunks_500.csv")
+    Dd = pd.read_csv(DH.f(f"big_features_{size}.csv"))
+    Dt = pd.read_csv(DH.f("target_chunks_500.csv"))
     fe = [c for c in Dd.columns if c not in PT.META and c in Dt.columns]
     Xa = Dd[fe].astype(float)
     k = (Xa.std() > 0) & (Xa.isna().mean() < 0.2)
@@ -179,8 +187,8 @@ print(f"{len(GRID)} specifications\n", flush=True)
 # completed specification is checkpointed and a relaunch picks up where it left.
 rows, t0 = [], time.time()
 import os
-if os.path.exists("/home/claude/spec_curve.csv"):
-    prev = pd.read_csv("/home/claude/spec_curve.csv")
+if os.path.exists(DH.f("spec_curve.csv")):
+    prev = pd.read_csv(DH.f("spec_curve.csv"))
     rows = prev.to_dict("records")
     print(f"resuming with {len(rows)} specifications already done\n", flush=True)
 DONE = {(r["size"], r["frac"], r["alpha"], r["calib"]) for r in rows}
@@ -196,10 +204,10 @@ for i, (s, f, a, c) in enumerate(GRID):
           f"  D {r.get('D_source_pred', float('nan')):>4.0f}"
           f"  P {r.get('P_source_pred', float('nan')):>4.0f}"
           f"   ({(time.time()-t0)/60:.1f} min)", flush=True)
-    pd.DataFrame(rows).to_csv("/home/claude/spec_curve.csv", index=False)
+    pd.DataFrame(rows).to_csv(DH.f("spec_curve.csv"), index=False)
 
 D = pd.DataFrame(rows)
-D.to_csv("/home/claude/spec_curve.csv", index=False)
+D.to_csv(DH.f("spec_curve.csv"), index=False)
 passing = D[D.rho_genre > 0.2]
 print(f"\n{'='*78}\nSUMMARY\n{'='*78}")
 print(f"  {len(D)} specifications, {len(passing)} with genre-controlled rho > 0.20")
@@ -217,5 +225,5 @@ json.dump(dict(n_spec=len(D), n_pass=int(len(passing)),
                                pass_ppost_lo=float(passing[f"{u}_ppost"].min()),
                                pass_ppost_hi=float(passing[f"{u}_ppost"].max()))
                        for u in SRC}),
-          open("/home/claude/spec_curve.json", "w"), indent=2)
+          open(DH.f("spec_curve.json"), "w"), indent=2)
 print("\nwrote spec_curve.csv, spec_curve.json")

@@ -17,17 +17,25 @@ Bug fixes are listed separately from specification choices.  A corpus that
 contained 29% Aramaic SHOULD change the answer when the Aramaic is removed;
 that is the fix working, not the estimator wobbling.
 """
+import importlib.util as _ilu, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.exists(_os.path.join(_d, "hebrew", "dh_paths.py")) \
+        and _os.path.dirname(_d) != _d:
+    _d = _os.path.dirname(_d)
+_p = _ilu.spec_from_file_location(
+    "dh_paths", _os.path.join(_d, "hebrew", "dh_paths.py"))
+DH = _ilu.module_from_spec(_p); _p.loader.exec_module(DH)
 import json
 import numpy as np, pandas as pd
 
 SRC = ["JE_source", "D_source", "P_source"]
-J = pd.read_csv("/home/claude/jackknife_plus_targets.csv").set_index("unit")
+J = pd.read_csv(DH.f("jackknife_plus_targets.csv")).set_index("unit")
 
 # ── every specification run in this project, with its point estimates ────────
 # Sources: target_predictions_final.csv, genre_symmetric.json, nested_selection,
 # anchor_sensitivity, jackknife_plus.  Only specifications actually executed.
-GS = json.load(open("/home/claude/genre_symmetric.json"))
-GC = pd.read_csv("/home/claude/genre_symmetric_targets.csv").set_index("unit")
+GS = json.load(open(DH.f("genre_symmetric.json")))
+GC = pd.read_csv(DH.f("genre_symmetric_targets.csv")).set_index("unit")
 
 SPECS = [
     ("reported model (jackknife+)", "spec", {u: float(J.loc[u, "pred"]) for u in SRC}),
@@ -105,7 +113,7 @@ print()
 print("=" * 78)
 print("4.  HOW STRONG IS THE SIGNAL, IN PLAIN TERMS")
 print("=" * 78)
-M = json.load(open("/home/claude/final_lobo_metrics.json"))
+M = json.load(open(DH.f("final_lobo_metrics.json")))
 print(f"  anchor books                      {M['n_books']}")
 print(f"  date range spanned                {760-167} yr")
 print(f"  MAE, this model                   {M['mae']:.0f} yr")
@@ -126,5 +134,5 @@ json.dump(dict(half68={u: float(half[u]) for u in SRC},
                n_specs=len(SPECS),
                mae=M["mae"], mae_baseline=M["mae_baseline"],
                improvement=float(1 - M["mae"] / M["mae_baseline"]), S=M["S"]),
-          open("/home/claude/stability_ledger.json", "w"), indent=2)
+          open(DH.f("stability_ledger.json"), "w"), indent=2)
 print("\nwrote stability_ledger.json")
