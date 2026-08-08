@@ -1,0 +1,15 @@
+text,author,truth,pred,shift,n_chunks,lo68,hi68,id,genre,genre_base,adj
+dionysius_roman_antiquities,Dionysius of Halicarnassus,-20,-71,-51,500,-280,137,dionysius_roman_antiquities,history,-17.466666666666665,-33.53333333333333
+dionysius_thucydides,Dionysius of Halicarnassus,-20,-11,9,108,-219,197,dionysius_thucydides,philosophy,5.6,3.4000000000000004
+strabo_geography,Strabo,-20,18,38,268,-190,226,strabo_geography,science,-29.0,67.0
+plutarch_lives,Plutarch,100,94,-6,419,-115,302,plutarch_lives,history,-17.466666666666665,11.466666666666665
+plutarch_moralia,Plutarch,100,161,61,225,-47,369,plutarch_moralia,philosophy,5.6,55.4
+dio_chrysostom_orations,Dio Chrysostom,100,-174,-274,308,-382,34,dio_chrysostom_orations,oratory,-47.833333333333336,-226.16666666666666
+arrian_anabasis,Arrian,145,-296,-441,140,-505,-88,arrian_anabasis,history,-17.466666666666665,-423.53333333333336
+pausanias_description,Pausanias,160,18,-142,223,-191,226,pausanias_description,history,-17.466666666666665,-124.53333333333333
+lucian_true_history,Lucian,165,-60,-225,446,-268,148,lucian_true_history,narrative,72.375,-297.375
+aelius_aristides_sacred,Aelius Aristides,170,-256,-426,540,-464,-48,aelius_aristides_sacred,narrative,72.375,-498.375
+maximus_tyrius_orations,Maximus of Tyre,180,-33,-213,19,-242,175,maximus_tyrius_orations,philosophy,5.6,-218.6
+philostratus_lives_sophists,Philostratus,220,-70,-290,42,-278,138,philostratus_lives_sophists,history,-17.466666666666665,-272.53333333333336
+cassius_dio_roman,Cassius Dio,220,-219,-439,262,-427,-11,cassius_dio_roman,history,-17.466666666666665,-421.53333333333336
+libanius_orations,Libanius,360,-131,-491,216,-340,77,libanius_orations,oratory,-47.833333333333336,-443.1666666666667

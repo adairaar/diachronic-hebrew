@@ -59,7 +59,7 @@ def f(name):
 def g(name):
     """Absolute path of a Greek-side file."""
     name = os.path.basename(name)
-    for d in (GREEK, os.path.join(GREEK, "results")):
+    for d in (GREEK, os.path.join(GREEK, "v4"), os.path.join(GREEK, "results")):
         p = os.path.join(d, name)
         if os.path.exists(p):
             return p
