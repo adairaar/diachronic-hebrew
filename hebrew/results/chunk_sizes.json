@@ -2,10 +2,13 @@
   "min": 312,
   "med": 508,
   "max": 757,
+  "mean": 514.2953736654804,
   "pct_in_band": 96.44128113879003,
   "n_single": 2,
   "single": [
-    "Obadiah",
-    "Nahum"
-  ]
+    "Nahum",
+    "Obadiah"
+  ],
+  "n_chunks": 281,
+  "n_units": 25
 }

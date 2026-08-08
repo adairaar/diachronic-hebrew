@@ -1,0 +1,85 @@
+==============================================================================
+POWER ANALYSIS  |  chunk ~300w
+==============================================================================
+  chunks                       : 470
+  books                        : 25   (mean 18.8 chunks/book)
+  candidate features           : 579
+  median feature ICC           : 0.094
+  design effect  1+(m-1)*ICC   : 2.68
+  EFFECTIVE SAMPLE SIZE        : 175.3
+     (book-level analysis had n = 25)
+     -> chunking buys a factor of 7.01 in effective n
+
+  screening against a BOOK-level permutation null (400 draws)
+    alpha  retained  null mean  null p95  est FDP  BH q=.10
+    0.001       228      116.3       207     0.51       367
+    0.010       287      171.6       272     0.60
+    0.050       350      237.5       333     0.68
+    0.100       392      279.3       369     0.71
+
+  minimum |rho| detectable at 80% power, n_eff = 175:
+    alpha=0.001  |rho| >= 0.30
+    alpha=0.01   |rho| >= 0.25
+    alpha=0.05   |rho| >= 0.21
+
+  observed |rho| distribution: max 0.57
+
+==============================================================================
+POWER ANALYSIS  |  chunk ~500w
+==============================================================================
+  chunks                       : 285
+  books                        : 25   (mean 11.4 chunks/book)
+  candidate features           : 579
+  median feature ICC           : 0.133
+  design effect  1+(m-1)*ICC   : 2.38
+  EFFECTIVE SAMPLE SIZE        : 119.6
+     (book-level analysis had n = 25)
+     -> chunking buys a factor of 4.79 in effective n
+
+  screening against a BOOK-level permutation null (400 draws)
+    alpha  retained  null mean  null p95  est FDP  BH q=.10
+    0.001       214      100.0       193     0.47       345
+    0.010       280      154.8       256     0.55
+    0.050       341      222.2       322     0.65
+    0.100       377      265.1       361     0.70
+
+  minimum |rho| detectable at 80% power, n_eff = 120:
+    alpha=0.001  |rho| >= 0.36
+    alpha=0.01   |rho| >= 0.31
+    alpha=0.05   |rho| >= 0.25
+
+  observed |rho| distribution: max 0.60
+
+==============================================================================
+POWER ANALYSIS  |  chunk ~1000w
+==============================================================================
+  chunks                       : 145
+  books                        : 25   (mean 5.8 chunks/book)
+  candidate features           : 579
+  median feature ICC           : 0.200
+  design effect  1+(m-1)*ICC   : 1.96
+  EFFECTIVE SAMPLE SIZE        : 74.0
+     (book-level analysis had n = 25)
+     -> chunking buys a factor of 2.96 in effective n
+
+  screening against a BOOK-level permutation null (400 draws)
+    alpha  retained  null mean  null p95  est FDP  BH q=.10
+    0.001       188       71.9       166     0.38       332
+    0.010       257      124.1       233     0.48
+    0.050       328      192.0       302     0.59
+    0.100       356      236.3       341     0.66
+
+  minimum |rho| detectable at 80% power, n_eff = 74:
+    alpha=0.001  |rho| >= 0.45
+    alpha=0.01   |rho| >= 0.38
+    alpha=0.05   |rho| >= 0.32
+
+  observed |rho| distribution: max 0.66
+
+==============================================================================
+SUMMARY: effective n by chunk size
+==============================================================================
+    chunk   chunks     ICC   DEFF   n_eff  gain vs n=25
+      300      470    0.09   2.68   175.3         7.01x
+      500      285    0.13   2.38   119.6         4.79x
+     1000      145    0.20   1.96    74.0         2.96x

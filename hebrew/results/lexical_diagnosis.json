@@ -1,0 +1,14 @@
+{
+  "n_lex": 250,
+  "rho_leverage_eta": 0.12389996639946237,
+  "p": 0.050375833590492206,
+  "eta_top50": 0.11432535768631677,
+  "eta_bot50": 0.07175906532089592,
+  "diagnostics_present": 2,
+  "diagnostics_total": 19,
+  "diagnostic_ranks": {
+    ">NKJ": 32,
+    "<T/": 50
+  },
+  "median_diagnostic_rank": 41
+}

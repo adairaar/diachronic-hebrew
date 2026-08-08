@@ -1,0 +1,85 @@
+{
+  "n_pairs": 7,
+  "n_strict": 3,
+  "pairs": [
+    {
+      "label": "1cs pronoun 'anoki/'ani",
+      "a": ">NKJ",
+      "b": ">NJ",
+      "strict": true
+    },
+    {
+      "label": "preposition 'el/le",
+      "a": ">L",
+      "b": "L",
+      "strict": true
+    },
+    {
+      "label": "negation lo'/'eyn",
+      "a": "L>",
+      "b": ">JN/",
+      "strict": true
+    },
+    {
+      "label": "complementiser ki/'asher",
+      "a": "KJ",
+      "b": ">CR",
+      "strict": false
+    },
+    {
+      "label": "'stand' 'amad/qum",
+      "a": "<MD[",
+      "b": "QWM[",
+      "strict": false
+    },
+    {
+      "label": "'say' 'amar/dibber",
+      "a": ">MR[",
+      "b": "DBR[",
+      "strict": false
+    },
+    {
+      "label": "'man' 'ish/'adam",
+      "a": ">JC/",
+      "b": ">DM/",
+      "strict": false
+    }
+  ],
+  "results": [
+    {
+      "model": "rates only (as published)",
+      "n_feats": 578,
+      "mae": 117.68484639695245,
+      "rho": 0.6649985184015873,
+      "rho_genre": 0.40406909121005397
+    },
+    {
+      "model": "shares only (7 pairs)",
+      "n_feats": 7,
+      "mae": 125.40739098729104,
+      "rho": 0.5756646120500133,
+      "rho_genre": 0.5543940957721161
+    },
+    {
+      "model": "strict-variable shares only (3 pairs)",
+      "n_feats": 3,
+      "mae": 222.86551572466269,
+      "rho": -0.29688121464251527,
+      "rho_genre": -0.07459737068493305
+    },
+    {
+      "model": "rates + shares",
+      "n_feats": 585,
+      "mae": 114.68906746971287,
+      "rho": 0.6942630739305512,
+      "rho_genre": 0.4328908026110509
+    },
+    {
+      "model": "log rates + shares",
+      "n_feats": 585,
+      "mae": 109.2834577740209,
+      "rho": 0.7177517303419564,
+      "rho_genre": 0.38202895896223293
+    }
+  ]
+}

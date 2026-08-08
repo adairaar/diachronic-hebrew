@@ -1,0 +1,103 @@
+{
+  "n_matched": 39,
+  "sd39": {
+    "JE_source": 117.66975950607342,
+    "D_source": 76.30754236150241,
+    "P_source": 96.31355257445901
+  },
+  "ci39": {
+    "JE_source": [
+      95.11608558707235,
+      136.87251407077582
+    ],
+    "D_source": [
+      76.3075423615024,
+      76.30754236150241
+    ],
+    "P_source": [
+      79.08046914713132,
+      112.40600495206706
+    ]
+  },
+  "p_JE_gt_P": 0.9355,
+  "p_JE_gt_D": 1.0,
+  "p_D_gt_P": 0.01225,
+  "ref_median_sd12": 94.66818376602401,
+  "units": [
+    {
+      "unit": "JE_source",
+      "label": "JE composite",
+      "n": 74,
+      "sd12": 115.17690837886788,
+      "pctile": 0.8
+    },
+    {
+      "unit": "Gen_JE",
+      "label": "Genesis JE",
+      "n": 44,
+      "sd12": 102.64617131224935,
+      "pctile": 0.6
+    },
+    {
+      "unit": "Exo_JE",
+      "label": "Exodus JE",
+      "n": 23,
+      "sd12": 115.92992113998658,
+      "pctile": 0.8
+    },
+    {
+      "unit": "D_source",
+      "label": "D source",
+      "n": 39,
+      "sd12": 75.21177298594439,
+      "pctile": 0.0
+    },
+    {
+      "unit": "D_Code",
+      "label": "law code, Deut 12-26",
+      "n": 14,
+      "sd12": 68.51076482899265,
+      "pctile": 0.0
+    },
+    {
+      "unit": "D_Frame",
+      "label": "frame, Deut 1-11 + 27-34",
+      "n": 23,
+      "sd12": 57.6655135623074,
+      "pctile": 0.0
+    },
+    {
+      "unit": "P_source",
+      "label": "P source",
+      "n": 106,
+      "sd12": 96.0019648095257,
+      "pctile": 0.6
+    },
+    {
+      "unit": "Lev_Priestly",
+      "label": "Leviticus 1-16",
+      "n": 21,
+      "sd12": 96.78888640712965,
+      "pctile": 0.6
+    },
+    {
+      "unit": "Lev_Holiness",
+      "label": "Holiness Code, Lev 17-26",
+      "n": 12,
+      "sd12": 63.06345707399434,
+      "pctile": 0.0
+    },
+    {
+      "unit": "Jer_DTR",
+      "label": "Jeremiah Dtr prose",
+      "n": 30,
+      "sd12": 87.71407869608036,
+      "pctile": 0.4
+    }
+  ],
+  "order": [
+    "JE",
+    "P",
+    "D"
+  ]
+}

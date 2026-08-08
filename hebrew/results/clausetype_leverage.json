@@ -1,0 +1,35 @@
+{
+  "top_feature": "fronted yiqtol",
+  "top_rho": 0.6176361456376063,
+  "second_feature": "infinitive construct",
+  "second_rho": 0.54678511646222,
+  "n_above_half": 4,
+  "n_ctyp": 14,
+  "weqatal_rho": 0.2938007351131506,
+  "all_top": [
+    {
+      "f": "fronted yiqtol",
+      "rho": 0.6176361456376063
+    },
+    {
+      "f": "imperative",
+      "rho": 0.5594920945208491
+    },
+    {
+      "f": "vocative",
+      "rho": 0.5591070345796785
+    },
+    {
+      "f": "infinitive construct",
+      "rho": -0.54678511646222
+    },
+    {
+      "f": "fronted yiqtol, object",
+      "rho": 0.4767042071691749
+    },
+    {
+      "f": "waw + fronted yiqtol",
+      "rho": 0.4016175186409123
+    }
+  ]
+}

@@ -1,11 +1,12 @@
 {
-  "extracted": 634,
+  "extracted": 596,
+  "dead": 18,
+  "live": 578,
   "used": 578,
-  "dead": 56,
   "n_lexical": 250,
   "n_POS/bigram": 207,
   "n_verb": 57,
   "n_agreement": 19,
-  "n_phrase": 40,
-  "n_structural": 5
+  "n_phrase": 42,
+  "n_structural": 3
 }

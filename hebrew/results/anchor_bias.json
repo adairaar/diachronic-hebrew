@@ -1,0 +1,38 @@
+{
+  "shift": 50,
+  "baseline": {
+    "JE_source": 418.44331211558557,
+    "D_source": 371.5273171486003,
+    "P_source": 339.54805702787576
+  },
+  "scenarios": [
+    {
+      "scenario": "all anchors 50 yr later",
+      "JE_source": 368.4433121155857,
+      "D_source": 321.52731714860045,
+      "P_source": 289.54805702787587,
+      "d_JE_source": -49.999999999999886,
+      "d_D_source": -49.99999999999983,
+      "d_P_source": -49.999999999999886
+    },
+    {
+      "scenario": "the 6 non-synchronism anchors 50 yr later",
+      "JE_source": 412.6149285537889,
+      "D_source": 357.7353066350394,
+      "P_source": 315.6019834702347,
+      "d_JE_source": -5.82838356179667,
+      "d_D_source": -13.792010513560854,
+      "d_P_source": -23.946073557641057
+    },
+    {
+      "scenario": "post-exilic anchors 50 yr later",
+      "JE_source": 364.30913215127134,
+      "D_source": 317.42120226174006,
+      "P_source": 275.771787602647,
+      "d_JE_source": -54.13417996431423,
+      "d_D_source": -54.10611488686021,
+      "d_P_source": -63.77626942522875
+    }
+  ],
+  "passthrough": 0.9999999999999973
+}

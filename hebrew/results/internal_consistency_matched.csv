@@ -1,0 +1,11 @@
+unit,label,n,sd12,pctile
+JE_source,JE composite,74,115.17690837886788,0.8
+Gen_JE,Genesis JE,44,102.64617131224935,0.6
+Exo_JE,Exodus JE,23,115.92992113998658,0.8
+D_source,D source,39,75.21177298594439,0.0
+D_Code,"law code, Deut 12-26",14,68.51076482899265,0.0
+D_Frame,"frame, Deut 1-11 + 27-34",23,57.6655135623074,0.0
+P_source,P source,106,96.0019648095257,0.6
+Lev_Priestly,Leviticus 1-16,21,96.78888640712965,0.6
+Lev_Holiness,"Holiness Code, Lev 17-26",12,63.06345707399434,0.0
+Jer_DTR,Jeremiah Dtr prose,30,87.71407869608036,0.4
